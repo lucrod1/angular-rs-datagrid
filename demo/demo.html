@@ -1,0 +1,73 @@
+<!doctype html>
+<html ng-app="rs">
+
+<head>
+  <meta charset="utf-8">
+  <title>AngularJS directive demo</title>
+  <!-- TODO: Include Angular from Bower components -->
+  <script src="../bower_components/angular/angular.js"></script>
+  <script src="../bower_components/angular-sanitize/angular-sanitize.js"></script>
+  <script src="../bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+  <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.css">
+  <link rel="stylesheet" href="../dist/directive.css">
+  <link rel="stylesheet" href="demo.css">
+</head>
+
+<body>
+  <div class="container" ng-controller="demoController">
+    <h1 class="text-muted">Demo</h1>
+    <div class="usage row">
+      <h4>Simple usage</h4>
+      <p>This is a simple usage of the directive</p>
+      <i>Example collection.json</i>
+      <pre style="height: 140px;">{
+    "content": [
+      {
+        "id": 1,
+        "firstName": "Lucas",
+        "lastName": "Rodrigues",
+        "username": "lucrod1",
+        "address": {
+          "country": "BR",
+          "state": "SP",
+          "city": "Ribeirão Preto"
+      },
+      {
+        "id": 2,
+        "firstName": "John",
+        "lastName": "lucker",
+        "username": "john1",
+        "address": {
+          "country": "US",
+          "state": "AZ",
+          "city": "Arizona"
+      }
+    ],
+    "totalElements": 2,
+    "last": true,
+    "totalPages": 1,
+    "sort": [{
+      "direction": "ASC",
+      "property": "id",
+      "ignoreCase": true,
+      "nullHandling": "NULLS_LAST",
+      "ascending": true
+    }],
+    "first": true,
+    "numberOfElements": 2,
+    "size": 10,
+    "number": 0
+  }</pre>
+      <i>template.html</i>
+      <pre>&lt;rs-datagrid config="config" collection="collection"&gt;&lt;/rs-datagrid&gt;</pre>
+      <h4>Results</h4>
+      <rs-datagrid collection="collection" config="config"></rs-datagrid>
+    </div>
+  </div>
+  <script src="../dist/directive.js"></script>
+  <script src="demo.js"></script>
+  <script src="demo.controller.js"></script>
+</body>
+
+</html>

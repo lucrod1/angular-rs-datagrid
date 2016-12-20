@@ -1,0 +1,24 @@
+{
+  "name": "rs.datagrid",
+  "version": "0.0.1",
+  "authors": [
+    "Lucas Rodrigues"
+  ],
+  "description": "Angular directive for data grid pagination with bootstrap",
+  "main": "dist/directive.js, dist/directive.js",
+  "license": "MIT",
+  "private": false,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "angular": "~1.4.7",
+    "angular-sanitize": "~1.4.14",
+    "angular-mocks": "~1.4.14",
+    "angular-bootstrap": "0.13.4"
+  }
+}

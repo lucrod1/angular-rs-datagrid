@@ -1,0 +1,58 @@
+<div>
+  <!-- pagination size -->
+  <div ng-if="hasPagination" class="pagination_header">
+    <span ng-bind="pagination.labelSize"></span>
+    <select class="pagination_select" ng-change="changePaginationSize()" ng-model="pagination.defaultSize" ng-options="size for size in pagination.avaliableSizes">
+    </select>
+  </div>
+  <!-- pagination search -->
+  <div ng-if="hasSearch" class="pagination_search">
+    <span ng-bind="search.label"></span>
+    <input type="text" name="search" ng-model-options="{debounce: 1000}" ng-keyup="keyup(pagination.search)" ng-model="pagination.search" id="search">
+  </div>
+  <!--  -->
+  <br style="clear: both;" />
+  <!-- table -->
+  <table ng-class="getClassTable()">
+    <thead>
+      <tr>
+        <th ng-class="getClass($index)" ng-repeat="collumn in collumns track by $index">
+          {{collumn.title}}
+          <i ng-if="hasSortCollumn($index)" class="icon-sort-rs"></i>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="row in collection.content track by $index">
+        <td ng-class="getClass($index)" ng-repeat="collumn in collumns track by $index">
+          <!-- print html text-->
+          <span ng-if="isHtml($index)" ng-bind-html="getContentCell(row, $index)"></span>
+          <!-- print static text -->
+          <span ng-if="!isHtml($index)" ng-bind="getContentCell(row, $index)"></span>
+          <!-- print action href -->
+          <a ng-click="clickLink(row, $index)" ng-if="showLink($index)" ng-bind="row.textLink"></a>
+          <!-- render buttons -->
+          <div class="actions pull-right" ng-if="$last">
+            <button tooltip="{{button.tooltip}}" ng-if="isVisibleButton(button, row, $index)" type="button" ng-class="button.classButton" ng-click="button.callbackButton(row)" ng-repeat="button in buttons track by $index">
+              <span ng-class="button.classIcon"></span> {{button.text}}
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- pages -->
+  <div class="pagination_page">
+    <ul>
+      <li class="prev" ng-class="{'disabled': currentPage == 0}">
+        <a href="#">← Anterior</a>
+      </li>
+      <li class="active">
+        <a>1</a>
+      </li>
+      <li class="next" ng-class="{'disabled': currentPage == collection.content.length}">
+        <a href="#">Próxima → </a>
+      </li>
+    </ul>
+  </div>
+</div>
