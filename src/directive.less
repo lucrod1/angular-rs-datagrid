@@ -40,13 +40,26 @@
     float: right;
     li {
       display: inline;
-      margin-left: 10px;
+      margin-left: 5px;
+      a{
+        cursor: pointer;
+        padding: 4px 12px;
+        line-height: 18px;
+        text-decoration: none;
+      }
     }
     li.disabled {
       a {
         color: #999;
         background-color: transparent;
         cursor: default;
+      }
+    }
+    li.active{
+      a{
+        cursor: default;
+        color: #999;
+        background-color: #f5f5f5;
       }
     }
   }

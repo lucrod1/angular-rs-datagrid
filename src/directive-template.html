@@ -43,15 +43,16 @@
   </table>
   <!-- pages -->
   <div class="pagination_page">
+  {{currentPage}}
     <ul>
-      <li class="prev" ng-class="{'disabled': currentPage == 0}">
-        <a href="#">← Anterior</a>
+      <li class="prev" ng-class="{'disabled': collection.first}">
+        <a ng-click="prevPage()">← Anterior</a>
       </li>
-      <li class="active">
-        <a>1</a>
+      <li ng-class="{'active' : currentPage == page.index}" ng-repeat="page in avaliablesPages">
+        <a ng-click="goToPage(page.index)">{{page.label}}</a>
       </li>
-      <li class="next" ng-class="{'disabled': currentPage == collection.content.length}">
-        <a href="#">Próxima → </a>
+      <li class="next" ng-class="{'disabled': collection.last}">
+        <a  ng-click="nextPage()" >Próxima → </a>
       </li>
     </ul>
   </div>

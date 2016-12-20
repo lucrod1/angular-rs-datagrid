@@ -52,7 +52,7 @@ app.controller('demoController', function($scope, $http) {
         sort: sort,
         search: search
       }
-      $http({
+      return $http({
         url: "http://localhost:8080/acoes",
         method: 'GET',
         params: params,

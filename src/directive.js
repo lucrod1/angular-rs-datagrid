@@ -22,6 +22,7 @@ angular.module('rs.datagrid', [])
         scope.hasSearch = false;
         scope.currentPage = 0;
         scope.currentSort = 'id,asc';
+        scope.avaliablesPages = [];
 
         if (scope.config.pagination) {
           scope.hasPagination = true;
@@ -39,8 +40,71 @@ angular.module('rs.datagrid', [])
           scope.search = scope.config.search;
         }
 
-        scope.changePaginationSize = function() {
+        function makePagination() {
+          scope.avaliablesPages = [];
+          var totalPages = scope.collection.totalPages;
+          var start = angular.copy(scope.currentPage);
+
+          if (start - 2 >= 1) {
+            start = start - 2;
+          } else {
+            start = 0;
+          }
+
+          //reajustando o start quando pagina for ultima ou penultima
+          if (scope.currentPage === totalPages - 2){
+            start--;
+          }else if(scope.currentPage === totalPages-1){
+            start = start - 2;
+          }
+
+          var count = 0;
+
+          while (count < 5) {
+            var index = start + count;
+            var label = start + count + 1;
+            if (label <= totalPages) {
+              scope.avaliablesPages.push({
+                index: index,
+                label: label
+              });
+            }
+            count++;
+          }
+        }
+
+        scope.$watchCollection('collection', function(dados) {
+          if (dados) {
+            console.log('watch collection');
+            makePagination();
+          }
+        });
+
+        scope.prevPage = function() {
+          if (scope.currentPage !== 0) {
+            scope.currentPage = scope.currentPage - 1;
+            refresh();
+          }
+        };
+
+        scope.nextPage = function() {
+          if (scope.currentPage !== scope.collection.totalPages-1) {
+            scope.currentPage = scope.currentPage + 1;
+            refresh();
+          }
+        };
+
+        scope.goToPage = function(page) {
+          scope.currentPage = page;
+          refresh();
+        };
+
+        function refresh() {
           scope.config.lazyData(scope.currentPage, scope.pagination.defaultSize, scope.currentSort, scope.pagination.search);
+        }
+
+        scope.changePaginationSize = function() {
+          refresh();
         };
 
         scope.hasSortCollumn = function(indexCollumn) {
