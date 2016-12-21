@@ -19,10 +19,98 @@ angular.module('rs.datagrid', [])
         scope.collumns = scope.config.collumns;
         scope.buttons = scope.config.buttons;
         scope.hasPagination = false;
+        scope.messageLoading = scope.config.messageLoading;
         scope.hasSearch = false;
         scope.currentPage = 0;
-        scope.currentSort = 'id,asc';
         scope.avaliablesPages = [];
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        // VARIABLES AND METHODS FOR SORT IN TABLE
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        scope.hasSort = false;
+        if (angular.isDefined(scope.config.sort)) {
+          scope.hasSort = scope.config.sort;
+        }
+
+        if (!scope.config.defaultSort) {
+          scope.config.defaultSort = scope.collumns[0].index + ',' + 'asc';
+        }
+
+        var directionSortAsc = getDirectionSortAsc();
+        var collumSort = getCollumnSort();
+
+        function getCurrentSort() {
+          if (directionSortAsc) {
+            return collumSort + ',asc';
+          } else {
+            return collumSort + ',desc';
+          }
+        }
+
+        function getCollumnSort() {
+          return scope.config.defaultSort.split(',')[0];
+        }
+
+        function getDirectionSortAsc() {
+          if (scope.config.defaultSort.split(',')[1] === 'asc') {
+            return true;
+          } else {
+            return false;
+          }
+        }
+
+        scope.getCursorCollumn = function(collumn) {
+          if (angular.isDefined(collumn.sort)) {
+            if (collumn.sort) {
+              return 'pointer';
+            } else {
+              return 'default';
+            }
+          } else if (angular.isDefined(scope.config.sort)) {
+            if (scope.config.sort) {
+              return 'pointer';
+            } else {
+              return 'default';
+            }
+          }
+        };
+
+        scope.sortCollumn = function(collumn) {
+          var ordernar = hasSortCollumn(collumn);
+
+          if (ordernar) {
+            var col = collumn.sortCollumn || collumn.index;
+            if (collumSort !== col) {
+              directionSortAsc = true;
+            } else {
+              directionSortAsc = !directionSortAsc;
+            }
+            collumSort = col;
+            refresh(0);
+          }
+        };
+
+        scope.hasSortCollumnDirection = function(collumn, direction) {
+          var col = collumn.sortCollumn || collumn.index;
+          if (direction === 'all' && collumSort !== col) {
+            return hasSortCollumn(collumn);
+          } else if (directionSortAsc && direction === 'asc' && collumSort === col) {
+            return hasSortCollumn(collumn);
+          } else if (!directionSortAsc && direction === 'desc'  && collumSort === col) {
+            return hasSortCollumn(collumn);
+          }
+        };
+
+        function hasSortCollumn(collumn) {
+          if (angular.isDefined(collumn.sort)) {
+            return collumn.sort;
+          } else {
+            return scope.hasSort;
+          }
+        }
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        // FIM SORT
+        ///////////////////////////////////////////////////////////////////////////////////////////////
 
         if (scope.config.pagination) {
           scope.hasPagination = true;
@@ -31,7 +119,10 @@ angular.module('rs.datagrid', [])
           if (!angular.isDefined(scope.config.lazyData)) {
             throw new Exception('Missing property', 'function "lazyData" property is required for grid with pagination and this property is missing in config:');
           } else {
-            scope.config.lazyData(scope.currentPage, scope.pagination.defaultSize, scope.currentSort);
+            scope.showInfoProgress = true;
+            scope.config.lazyData(scope.currentPage, scope.pagination.defaultSize, getCurrentSort()).then(function() {
+              scope.showInfoProgress = false;
+            });
           }
         }
 
@@ -52,10 +143,12 @@ angular.module('rs.datagrid', [])
           }
 
           //reajustando o start quando pagina for ultima ou penultima
-          if (scope.currentPage === totalPages - 2){
-            start--;
-          }else if(scope.currentPage === totalPages-1){
-            start = start - 2;
+          if (totalPages > 2) {
+            if (scope.currentPage === totalPages - 2) {
+              start--;
+            } else if (scope.currentPage === totalPages - 1) {
+              start = start - 2;
+            }
           }
 
           var count = 0;
@@ -82,42 +175,35 @@ angular.module('rs.datagrid', [])
 
         scope.prevPage = function() {
           if (scope.currentPage !== 0) {
-            scope.currentPage = scope.currentPage - 1;
-            refresh();
+            refresh(scope.currentPage - 1);
           }
         };
 
         scope.nextPage = function() {
-          if (scope.currentPage !== scope.collection.totalPages-1) {
-            scope.currentPage = scope.currentPage + 1;
-            refresh();
+          if (scope.currentPage !== scope.collection.totalPages - 1) {
+            refresh(scope.currentPage + 1);
           }
         };
 
         scope.goToPage = function(page) {
-          scope.currentPage = page;
-          refresh();
+          refresh(page);
         };
 
-        function refresh() {
-          scope.config.lazyData(scope.currentPage, scope.pagination.defaultSize, scope.currentSort, scope.pagination.search);
+        function refresh(page) {
+          scope.showProgress = true;
+          scope.config.lazyData(page, scope.pagination.defaultSize, getCurrentSort(), scope.pagination.search).then(function() {
+            scope.showProgress = false;
+            scope.currentPage = page;
+          });
         }
 
         scope.changePaginationSize = function() {
-          refresh();
-        };
-
-        scope.hasSortCollumn = function(indexCollumn) {
-          if (angular.isDefined(scope.collumns[indexCollumn].sort)) {
-            return scope.collumns[indexCollumn].sort;
-          } else if (angular.isDefined(scope.config.sort)) {
-            return scope.config.sort;
-          }
+          refresh(0);
         };
 
         scope.$watch('pagination.search', function(newValue, oldValue) {
           if (newValue !== oldValue) {
-            scope.config.lazyData(scope.currentPage, scope.pagination.defaultSize, scope.currentSort, scope.pagination.search);
+            refresh(0);
           }
         });
 
@@ -166,14 +252,16 @@ angular.module('rs.datagrid', [])
 
             if (isVisible) {
               return true;
+            } else {
+              return false;
             }
           }
-          return false;
+          return true;
         };
 
         angular.isUndefinedOrNull = function(val) {
-          return angular.isUndefined(val) || val === null
-        }
+          return angular.isUndefined(val) || val === null;
+        };
 
         function getValueObjectEvalByIndex(currentObject, indexCollumn) {
           var index = scope.collumns[indexCollumn].index;

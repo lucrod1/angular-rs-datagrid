@@ -2,10 +2,12 @@ app.controller('demoController', function($scope, $http) {
 
   $scope.config = {
     classTable: 'table table-bordered table-striped',
+    messageLoading: 'Loading...',
     sort: true,
+    defaultSort: 'id,asc',
     pagination: {
       labelSize: 'Registros por página: ',
-      defaultSize: 25,
+      defaultSize: 10,
       avaliableSizes: [10, 25, 50, 100, 500]
     },
     search: {
@@ -14,7 +16,6 @@ app.controller('demoController', function($scope, $http) {
     collumns: [{
       title: "ID",
       index: 'id',
-      sortName: '',
       sort: false,
       render: function(obj) {
         return obj.id;
@@ -27,7 +28,8 @@ app.controller('demoController', function($scope, $http) {
       }
     }, {
       title: "Unidade",
-      index: 'unidade.nome'
+      index: 'unidade.sigla',
+      sortCollumn: 'id'
     }, {
       title: "Categoria",
       index: 'categoria.nome'
@@ -61,12 +63,12 @@ app.controller('demoController', function($scope, $http) {
       });
     },
     buttons: [{
-      text: '',
+      text: 'Editar',
       tooltip: 'Excluir',
       classIcon: 'glyphicon glyphicon-remove',
       classButton: 'btn btn-xs btn-secondary',
       isVisible: function(obj) {
-        if (obj.id === 1) {
+        if (obj.id === 66000000073961) {
           return true;
         } else {
           return false;
