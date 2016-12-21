@@ -252,7 +252,7 @@ angular.module('rs.datagrid', [])
 
             switch (action.type) {
               case 'href':
-                renderHref(isRenderFunction);
+                renderHref(isRenderFunction, currentObject,indexCollumn);
                 break;
             }
           } else {
@@ -267,7 +267,7 @@ angular.module('rs.datagrid', [])
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // VARIABLES AND METHODS ACTION HREF
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        function renderHref(isRenderFunction) {
+        function renderHref(isRenderFunction, currentObject,indexCollumn) {
           if (isRenderFunction) {
             currentObject.textLink = scope.config.collumns[indexCollumn].render(currentObject);
           } else {
