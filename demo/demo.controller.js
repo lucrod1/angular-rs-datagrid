@@ -73,7 +73,7 @@ app.controller('demoController', function($scope, $http) {
         search: search
       }
       return $http({
-        url: "http://localhost:8080/urls",
+        url: "http://localhost:8080/acoes",
         method: 'GET',
         params: params,
       }).then(function(result) {
