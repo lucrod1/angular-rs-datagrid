@@ -237,10 +237,12 @@ angular.module('rs.datagrid', [])
 
         function getValueObjectEvalByIndex(currentObject, indexCollumn) {
           var index = scope.collumns[indexCollumn].index;
-          var item = eval("currentObject." + index);
-          if (!angular.isUndefinedOrNull(item)) {
-            return item;
-          }
+          try {
+            var item = eval("currentObject." + index);
+            if (!angular.isUndefinedOrNull(item)) {
+              return item;
+            }
+          } catch (error) {}
         }
 
         scope.getContentCell = function(currentObject, indexCollumn) {

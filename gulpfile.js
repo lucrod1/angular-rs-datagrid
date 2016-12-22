@@ -157,7 +157,7 @@ function handleError(err) {
 };
 
 gulp.task('build', ['scripts']);
-gulp.task('serve', ['build', 'clean', 'images', 'connect', 'watch', 'open']);
+gulp.task('serve', ['clean', 'build', 'images', 'connect', 'watch', 'open']);
 gulp.task('default', ['build', 'test']);
 gulp.task('test', ['build', 'jshint-test', 'karma']);
 gulp.task('serve-test', ['build', 'watch', 'jshint-test', 'karma-serve']);
