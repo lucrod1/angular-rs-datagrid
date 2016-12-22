@@ -14,6 +14,24 @@ app.controller('demoController', function($scope, $http) {
       label: 'Filtrar por: ',
     },
     collumns: [{
+      index: 'destaque',
+      sort: false,
+      class:'text-center',
+      // render: function(obj){
+      //   return obj.destaque;
+      // },
+      action:{
+        type: 'checkbox',
+        checkInHeader: true,
+        callbackHeader: function (checked){
+          console.log('checked: '+checked);
+        },
+        callback: function(obj, checked){
+          console.log('checked: '+checked+', obj:'+obj.id);
+        }
+      }
+    },
+    {
       title: "ID",
       index: 'id',
       sort: false,
@@ -28,7 +46,7 @@ app.controller('demoController', function($scope, $http) {
       }
     }, {
       title: "Unidade",
-      index: 'unidade.sigla',
+      index: 'unidade.nome',
       sortCollumn: 'id'
     }, {
       title: "Categoria",

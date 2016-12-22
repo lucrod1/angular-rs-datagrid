@@ -80,7 +80,7 @@ angular.module('rs.datagrid', [])
         }
 
         if (!scope.config.defaultSort) {
-          var col = collumn[0].sortCollumn || collumn[0].index;
+          var col = scope.collumns[0].sortCollumn || scope.collumns[0].index;
           scope.config.defaultSort = col + ',' + 'asc';
         }
 
@@ -168,7 +168,7 @@ angular.module('rs.datagrid', [])
 
         scope.$watchCollection('collection', function(dados) {
           if (dados) {
-            console.log('watch collection');
+            // console.log('watch collection');
             makePagination();
           }
         });
@@ -252,7 +252,11 @@ angular.module('rs.datagrid', [])
 
             switch (action.type) {
               case 'href':
-                renderHref(isRenderFunction, currentObject,indexCollumn);
+                renderHref(isRenderFunction, currentObject, indexCollumn);
+                break;
+
+              case 'checkbox':
+                renderLabelCheckbox(isRenderFunction, currentObject, indexCollumn);
                 break;
             }
           } else {
@@ -267,19 +271,11 @@ angular.module('rs.datagrid', [])
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // VARIABLES AND METHODS ACTION HREF
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        function renderHref(isRenderFunction, currentObject,indexCollumn) {
+        function renderHref(isRenderFunction, currentObject, indexCollumn) {
           if (isRenderFunction) {
             currentObject.textLink = scope.config.collumns[indexCollumn].render(currentObject);
           } else {
             currentObject.textLink = getValueObjectEvalByIndex(currentObject, indexCollumn);
-          }
-        }
-
-        function getLabelHref(currentObject, indexCollumn) {
-          if (scope.collumns[indexCollumn].editable && scope.collumns[indexCollumn].editable.staticText) {
-            return scope.collumns[indexCollumn].editable.staticText;
-          } else {
-            return currentObject[scope.collumns[indexCollumn].index];
           }
         }
 
@@ -298,6 +294,57 @@ angular.module('rs.datagrid', [])
           }
         };
 
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        // VARIABLES AND METHODS ACTION CHECKBOX
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        function renderLabelCheckbox(isRenderFunction, currentObject, indexCollumn) {
+          if (isRenderFunction) {
+            currentObject.textCheckbox = scope.config.collumns[indexCollumn].render(currentObject);
+          }
+        }
+
+        scope.showCheckbox = function(indexCollumn) {
+          if (angular.isDefined(scope.collumns[indexCollumn].action)) {
+            return scope.collumns[indexCollumn].action.type === 'checkbox';
+          }
+          return false;
+        };
+
+        scope.clickCheckbox = function(row, indexCollumn, checked) {
+          var collumn = scope.collumns[indexCollumn];
+          var count = 0;
+          angular.forEach(scope.collection.content, function(row) {
+            if (row[collumn.index]) {
+              count++;
+            }
+          });
+
+          if (count === scope.collection.content.length) {
+            collumn.checkboxHeader = true;
+          } else {
+            collumn.checkboxHeader = false;
+          }
+
+          if (angular.isFunction(collumn.action.callback)) {
+            collumn.action.callback(row, checked);
+          }
+          // else {
+          //   throw new Exception('Missing property', 'function "callback" property is missing, in collum with title:' + collumn.title + ' ');
+          // }
+        };
+
+        scope.clickCheckboxHeader = function(collumn, checked) {
+          angular.forEach(scope.collection.content, function(row) {
+            row[collumn.index] = checked;
+          });
+
+          if (angular.isFunction(collumn.action.callbackHeader)) {
+            collumn.action.callbackHeader(checked);
+          }
+          // else {
+          //   throw new Exception('Missing property', 'function "callbackHeader" property is missing, in header collum checkbox with title:' + collumn.title + ' ');
+          // }
+        };
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // VARIABLES AND METHODS BUTTONS 
