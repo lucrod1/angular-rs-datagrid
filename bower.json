@@ -20,5 +20,8 @@
     "angular-sanitize": "~1.4.14",
     "angular-mocks": "~1.4.14",
     "angular-bootstrap": "0.13.4"
+  },
+  "dependencies": {
+    "angular-input-masks": "^2.5.0"
   }
 }

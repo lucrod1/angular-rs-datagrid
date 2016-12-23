@@ -1,0 +1,11 @@
+<input 
+	type="text" 
+	ng-change="changeInput(row, collumn, row.valueInput)" 
+	maxlength="{{collumn.maxlength}}"  
+	ng-blur="blurInput(row, collumn, row.valueInput)" 
+	ng-model="row.valueInput" 
+	ng-disabled="isDisabledInput(row, collumn)" 
+	ng-class="collumn.action.class"  
+	name="input_{$index}" 
+	id="input_{$index}"
+>

@@ -50,7 +50,10 @@ app.controller('demoController', function($scope, $http) {
       sortCollumn: 'id'
     }, {
       title: "Categoria",
-      index: 'categoria.nome'
+      index: 'categoria.nome',
+      render: function(obj) {
+        return '<b>' + obj.categoria.nome + '</b>';
+      }
     }, {
       title: "data",
       index: 'data.dataExibicao',
@@ -58,9 +61,25 @@ app.controller('demoController', function($scope, $http) {
     }, {
       title: "acao",
       index: 'acao',
-      isHtml: true,
-      render: function(obj) {
-        return '<b>' + obj.acao.complemento + '</b>';
+      action: {
+        type: 'input',
+        class: 'input-rs',
+        trigger: 'blur',            // default: 'blur', avaliables Triggers  'blur', 'change'
+        mask: {                     // optional
+          use: 'number',            // avaliables uses: 'number', 'percentage', 'money', 'br-phone','br-cep','br-cpf','br-cpfcnpj', 'time', '' , directive assist https://github.com/assisrafael/angular-input-masks
+          decimalPlace: 3,
+          maxlength: 11
+        },
+        isDisabled: function(obj){
+          if(obj.id === 66000000143365){
+            return true;
+          }else{
+            return false;
+          }
+        },
+        callback: function(obj, newValue){
+          console.log('execute action here value blur: '+newValue);
+        }
       }
     }],
     lazyData: function(page, size, sort, search) {

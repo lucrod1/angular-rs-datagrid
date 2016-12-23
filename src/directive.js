@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('rs.datagrid', [])
+angular.module('rs.datagrid', ['ui.utils.masks'])
   .directive('rsDatagrid', function($sce) {
     function Exception(type, message) {
       this.type = type;
@@ -346,6 +346,42 @@ angular.module('rs.datagrid', [])
           // else {
           //   throw new Exception('Missing property', 'function "callbackHeader" property is missing, in header collum checkbox with title:' + collumn.title + ' ');
           // }
+        };
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        // VARIABLES AND METHODS ACTION INPUT
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        scope.showInputWithoutMask = function(indexCollumn) {
+          if (angular.isDefined(scope.collumns[indexCollumn].action)) {
+            return scope.collumns[indexCollumn].action.type === 'input' && !scope.collumns[indexCollumn].action.mask;
+          }
+          return false;
+        };
+
+        scope.showInputNumberMask = function(indexCollumn) {
+          if (angular.isDefined(scope.collumns[indexCollumn].action)) {
+            return scope.collumns[indexCollumn].action.type === 'input' && scope.collumns[indexCollumn].action.mask && scope.collumns[indexCollumn].action.mask.use === 'ui-number-mask';
+          }
+          return false;
+        };
+
+        scope.isDisabledInput = function(row, collumn) {
+          if (angular.isFunction(collumn.action.isDisabled)) {
+            return collumn.action.isDisabled(row);
+          }
+          return false;
+        };
+
+        scope.blurInput = function(row, collumn, value) {
+          if (angular.isFunction(collumn.action.callback) && (collumn.action.trigger === 'blur' || !collumn.action.trigger)) {
+            collumn.action.callback(row, value);
+          }
+        };
+
+        scope.changeInput = function(row, collumn, value) {
+          if (angular.isFunction(collumn.action.callback) && (collumn.action.trigger === 'change')) {
+            collumn.action.callback(row, value);
+          }
         };
 
         ///////////////////////////////////////////////////////////////////////////////////////////////

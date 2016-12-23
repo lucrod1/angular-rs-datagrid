@@ -43,14 +43,24 @@
     <tbody>
       <tr ng-if="!showInfoProgress" ng-repeat="row in collection.content track by $index">
         <td ng-class="getClass($index)" ng-repeat="collumn in collumns track by $index">
+          
           <!-- print html text-->
           <span ng-if="isHtml($index)" ng-bind-html="getContentCell(row, $index)"></span>
+          
           <!-- print static text -->
           <span ng-if="!isHtml($index)" ng-bind="getContentCell(row, $index)"></span>
+          
           <!-- print action href -->
           <a ng-click="clickLink(row, $index)" ng-if="showLink($index)" ng-bind="row.textLink"></a>
+          
           <!-- print action checkbox -->
-          <input type="checkbox" ng-click="clickCheckbox(row, $index, row[collumn.index])" ng-model="row[collumn.index]" name="checkbox_{{$index}}" ng-if="showCheckbox($index)"> <span ng-if="showCheckbox($index)">{{row.textCheckbox}}</span>
+          <ng-include src="'templates/checkbox-template.html'" ng-if="showCheckbox($index)"></ng-include>
+          
+          <!-- print action input without mask-->
+          <ng-include src="'templates/input-template.html'" ng-if="showInputWithoutMask($index)"></ng-include>
+          
+          <!-- print action input with mask ui-number-mask -->
+          <ng-include src="'templates/input-number-template.html'" ng-if="showInputNumberMask($index)"></ng-include>
 
           <!-- render buttons -->
           <div class="actions pull-right" ng-if="$last">
