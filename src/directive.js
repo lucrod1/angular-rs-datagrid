@@ -358,9 +358,58 @@ angular.module('rs.datagrid', ['ui.utils.masks'])
           return false;
         };
 
-        scope.showInputNumberMask = function(indexCollumn) {
+        scope.showInputCpfCnpjMask = function(indexCollumn) {
           if (angular.isDefined(scope.collumns[indexCollumn].action)) {
-            return scope.collumns[indexCollumn].action.type === 'input' && scope.collumns[indexCollumn].action.mask && scope.collumns[indexCollumn].action.mask.use === 'ui-number-mask';
+            return scope.collumns[indexCollumn].action.type === 'input' && scope.collumns[indexCollumn].action.mask && scope.collumns[indexCollumn].action.mask.use === 'br-cpfcnpj';
+          }
+          return false;
+        };
+
+        scope.showInputCnpjMask = function(indexCollumn) {
+          if (angular.isDefined(scope.collumns[indexCollumn].action)) {
+            return scope.collumns[indexCollumn].action.type === 'input' && scope.collumns[indexCollumn].action.mask && scope.collumns[indexCollumn].action.mask.use === 'br-cnpj';
+          }
+          return false;
+        };
+
+        scope.showInputCpfMask = function(indexCollumn) {
+          if (angular.isDefined(scope.collumns[indexCollumn].action)) {
+            return scope.collumns[indexCollumn].action.type === 'input' && scope.collumns[indexCollumn].action.mask && scope.collumns[indexCollumn].action.mask.use === 'br-cpf';
+          }
+          return false;
+        };
+
+        scope.showInputCepMask = function(indexCollumn) {
+          if (angular.isDefined(scope.collumns[indexCollumn].action)) {
+            return scope.collumns[indexCollumn].action.type === 'input' && scope.collumns[indexCollumn].action.mask && scope.collumns[indexCollumn].action.mask.use === 'br-cep';
+          }
+          return false;
+        };
+
+        scope.showInputPhoneMask = function(indexCollumn) {
+          if (angular.isDefined(scope.collumns[indexCollumn].action)) {
+            return scope.collumns[indexCollumn].action.type === 'input' && scope.collumns[indexCollumn].action.mask && scope.collumns[indexCollumn].action.mask.use === 'br-phone';
+          }
+          return false;
+        };
+
+        scope.showInputMoneyMask = function(indexCollumn) {
+          if (angular.isDefined(scope.collumns[indexCollumn].action)) {
+            return scope.collumns[indexCollumn].action.type === 'input' && scope.collumns[indexCollumn].action.mask && scope.collumns[indexCollumn].action.mask.use === 'money';
+          }
+          return false;
+        };
+
+         scope.showInputNumberMask = function(indexCollumn) {
+          if (angular.isDefined(scope.collumns[indexCollumn].action)) {
+            return scope.collumns[indexCollumn].action.type === 'input' && scope.collumns[indexCollumn].action.mask && scope.collumns[indexCollumn].action.mask.use === 'number' && !scope.collumns[indexCollumn].action.mask.negative;
+          }
+          return false;
+        };
+
+        scope.showInputNumberMaskNegative = function(indexCollumn) {
+          if (angular.isDefined(scope.collumns[indexCollumn].action)) {
+            return scope.collumns[indexCollumn].action.type === 'input' && scope.collumns[indexCollumn].action.mask && scope.collumns[indexCollumn].action.mask.use === 'number' && scope.collumns[indexCollumn].action.mask.negative;
           }
           return false;
         };
@@ -378,9 +427,29 @@ angular.module('rs.datagrid', ['ui.utils.masks'])
           }
         };
 
+        scope.blurInputCpfCnpj = function(event, row, collumn, value) {
+          if (angular.isFunction(collumn.action.callback) && (collumn.action.trigger === 'blur' || !collumn.action.trigger)) {
+            var valid = true;
+            if (event.target.classList.contains('ng-invalid-cpf') || event.target.classList.contains('ng-invalid-cnpj')){
+              valid = false;
+            }
+            collumn.action.callback(row, value, valid);
+          }
+        };
+
         scope.changeInput = function(row, collumn, value) {
           if (angular.isFunction(collumn.action.callback) && (collumn.action.trigger === 'change')) {
             collumn.action.callback(row, value);
+          }
+        };
+
+        scope.changeInputCpfCnpj = function(event, row, collumn, value) {
+          if (angular.isFunction(collumn.action.callback) && (collumn.action.trigger === 'change')) {
+            var valid = true;
+            if (event.target.classList.contains('ng-invalid-cpf') || event.target.classList.contains('ng-invalid-cnpj')){
+              valid = false;
+            }
+            collumn.action.callback(row, value, valid);
           }
         };
 

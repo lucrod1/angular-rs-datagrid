@@ -1,0 +1,13 @@
+<input 
+	type="text" 
+	ui-number-mask="{{collumn.action.mask.decimalPlace}}" 
+	maxlength="{{collumn.action.mask.maxlength}}" 
+	ng-change="changeInput(row, collumn, row.valueInput)" 
+	ng-blur="blurInput(row, collumn, row.valueInput)" 
+	ng-model="row.valueInput" 
+	ng-disabled="isDisabledInput(row, collumn)" 
+	ng-class="collumn.action.class" 
+	name="input_{$index}" 
+	ui-negative-number
+	id="input_{$index}"
+>

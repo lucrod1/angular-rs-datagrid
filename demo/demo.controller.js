@@ -65,10 +65,33 @@ app.controller('demoController', function($scope, $http) {
         type: 'input',
         class: 'input-rs',
         trigger: 'blur',            // default: 'blur', avaliables Triggers  'blur', 'change'
+        // Internationalized: Used the decimal separator and the thousands separator defined in the client browser configuration
+        // ex: bower install angular-locale-pt-br.js and add into index.html
+        // mask: {                     // optional
+        //   use: 'number',            // avaliables uses: 'number', 'money', 'br-phone','br-cep','br-cpf','br-cpfcnpj', 'time', '' , directive assist https://github.com/assisrafael/angular-input-masks
+        //   decimalPlace: 3,          // number of decimals 
+        //   maxlength: 11,
+        //   negative: true            // default false, optional
+        // },
+        // mask: {                     // optional
+        //   use: 'money',             // avaliables uses: 'number', 'money', 'br-phone','br-cep','br-cpf','br-cpfcnpj', 'time', '' , directive assist https://github.com/assisrafael/angular-input-masks
+        //   decimalPlace: 2,          // number of decimals 
+        //   maxlength: 11
+        // },
+        // mask: {                     // optional
+        //   use: 'br-phone'
+        // },
+        // mask: {                     // optional
+        //   use: 'br-cep'
+        // },
+        // mask: {                     // optional
+        //   use: 'br-cpf'
+        // },
+        // mask: {                     // optional
+        //   use: 'br-cnpj'
+        // },
         mask: {                     // optional
-          use: 'number',            // avaliables uses: 'number', 'percentage', 'money', 'br-phone','br-cep','br-cpf','br-cpfcnpj', 'time', '' , directive assist https://github.com/assisrafael/angular-input-masks
-          decimalPlace: 3,
-          maxlength: 11
+          use: 'br-cpfcnpj'
         },
         isDisabled: function(obj){
           if(obj.id === 66000000143365){
@@ -77,8 +100,13 @@ app.controller('demoController', function($scope, $http) {
             return false;
           }
         },
-        callback: function(obj, newValue){
-          console.log('execute action here value blur: '+newValue);
+        callback: function(obj, newValue, valid){
+          if(valid){
+            console.log('execute action here value blur: '+newValue);
+          }else{
+            console.log('Campo invalido');
+            obj.valueInput = ''; //clean value
+          }
         }
       }
     }],

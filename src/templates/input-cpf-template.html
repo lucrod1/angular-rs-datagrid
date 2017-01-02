@@ -1,0 +1,12 @@
+<input 
+	type="text" 
+	ui-br-cpf-mask
+	maxlength="{{collumn.action.mask.maxlength}}" 
+	ng-change="changeInputCpfCnpj($event, row, collumn, row.valueInput)" 
+	ng-blur="blurInputCpfCnpj($event, row, collumn, row.valueInput)" 
+	ng-model="row.valueInput" 
+	ng-disabled="isDisabledInput(row, collumn)" 
+	ng-class="collumn.action.class" 
+	name="input_{$index}" 
+	id="input_{$index}"
+>
