@@ -16,22 +16,21 @@ app.controller('demoController', function($scope, $http) {
     collumns: [{
       index: 'destaque',
       sort: false,
-      class:'text-center',
+      class: 'text-center',
       // render: function(obj){
       //   return obj.destaque;
       // },
-      action:{
+      action: {
         type: 'checkbox',
         checkInHeader: true,
-        callbackHeader: function (checked){
-          console.log('checked: '+checked);
+        callbackHeader: function(checked) {
+          console.log('checked: ' + checked);
         },
-        callback: function(obj, checked){
-          console.log('checked: '+checked+', obj:'+obj.id);
+        callback: function(obj, checked) {
+          console.log('checked: ' + checked + ', obj:' + obj.id);
         }
       }
-    },
-    {
+    }, {
       title: "ID",
       index: 'id',
       sort: false,
@@ -51,20 +50,50 @@ app.controller('demoController', function($scope, $http) {
     }, {
       title: "Categoria",
       index: 'categoria.nome',
+      isHtml: true,
       render: function(obj) {
         return '<b>' + obj.categoria.nome + '</b>';
       }
     }, {
       title: "data",
-      index: 'data.dataExibicao',
-      class: 'text-center'
+      index: 'data.de',
+      class: 'text-center',
+      action: {
+        type: 'combo',
+        class: '',
+        avaliablesChoises: [{
+          "de": "22/01/2016 15:00",
+          "ate": "15/12/2016 17:00",
+          "dataExibicao": null
+        }, {
+          "de": "03/11/2015 14:00",
+          "ate": "29/12/2016 19:00",
+          "dataExibicao": null
+        }],
+        labelFunction: function(choise){
+          return choise.de;
+        },
+        valueFunction: function(choise){
+          return choise.de;
+        },
+        isDisabled: function(obj) {
+          if (obj.id === 66000000143365) {
+            return true;
+          } else {
+            return false;
+          }
+        },
+        callback: function(obj, newValue) {
+          console.log('execute action here value blur: ' + newValue);
+        }
+      }
     }, {
       title: "acao",
-      index: 'acao',
+      index: 'acao.nome',
       action: {
         type: 'input',
         class: 'input-rs',
-        trigger: 'blur',            // default: 'blur', avaliables Triggers  'blur', 'change'
+        trigger: 'blur', // default: 'blur', avaliables Triggers  'blur', 'change'
         // Internationalized: Used the decimal separator and the thousands separator defined in the client browser configuration
         // ex: bower install angular-locale-pt-br.js and add into index.html
         // mask: {                     // optional
@@ -90,23 +119,23 @@ app.controller('demoController', function($scope, $http) {
         // mask: {                     // optional
         //   use: 'br-cnpj'
         // },
-        mask: {                     // optional
-          use: 'br-cpfcnpj'
-        },
-        isDisabled: function(obj){
-          if(obj.id === 66000000143365){
+        // mask: { // optional
+        //   use: 'br-cpfcnpj'
+        // },
+        isDisabled: function(obj) {
+          if (obj.id === 66000000143365) {
             return true;
-          }else{
+          } else {
             return false;
           }
         },
-        callback: function(obj, newValue, valid){
-          if(valid){
-            console.log('execute action here value blur: '+newValue);
-          }else{
-            console.log('Campo invalido');
-            obj.valueInput = ''; //clean value
-          }
+        callback: function(obj, newValue, valid) {
+          // if (valid) {
+            console.log('execute action here value blur: ' + newValue);
+          // } else {
+            // console.log('Campo invalido');
+            // obj.valueInput = ''; //clean value
+          // }
         }
       }
     }],

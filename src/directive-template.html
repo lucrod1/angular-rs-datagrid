@@ -45,43 +45,46 @@
         <td ng-class="getClass($index)" ng-repeat="collumn in collumns track by $index">
           
           <!-- print html text-->
-          <span ng-if="isHtml($index)" ng-bind-html="getContentCell(row, $index)"></span>
+          <span ng-if="collumn.isHtml" ng-bind-html="getContentCell(row, $index)"></span>
           
           <!-- print static text -->
-          <span ng-if="!isHtml($index)" ng-bind="getContentCell(row, $index)"></span>
+          <span ng-if="!collumn.isHtml" ng-bind="getContentCell(row, $index)"></span>
           
           <!-- print action href -->
-          <a ng-click="clickLink(row, $index)" ng-if="showLink($index)" ng-bind="row.textLink"></a>
+          <a ng-click="clickLink(row, $index)" ng-if="collumn.isLink" ng-bind="row.textLink"></a>
           
           <!-- print action checkbox -->
-          <ng-include src="'templates/checkbox-template.html'" ng-if="showCheckbox($index)"></ng-include>
+          <ng-include src="'templates/checkbox-template.html'" ng-if="collumn.isCheckBox"></ng-include>
           
           <!-- print action input without mask-->
-          <ng-include src="'templates/input-template.html'" ng-if="showInputWithoutMask($index)"></ng-include>
+          <ng-include src="'templates/input-template.html'" ng-if="collumn.isInputWithoutMask"></ng-include>
           
           <!-- print action input with mask ui-number-mask -->
-          <ng-include src="'templates/input-number-template.html'" ng-if="showInputNumberMask($index)"></ng-include>
+          <ng-include src="'templates/input-number-template.html'" ng-if="collumn.isInputNumberMask"></ng-include>
           
           <!-- print action input with mask ui-number-negative-mask -->
-          <ng-include src="'templates/input-number-negative-template.html'" ng-if="showInputNumberMaskNegative($index)"></ng-include>
+          <ng-include src="'templates/input-number-negative-template.html'" ng-if="collumn.isInputNumberMaskNegative"></ng-include>
 
           <!-- print action input with mask ui-money-mask -->
-          <ng-include src="'templates/input-money-template.html'" ng-if="showInputMoneyMask($index)"></ng-include>
+          <ng-include src="'templates/input-money-template.html'" ng-if="collumn.isInputMoneyMask"></ng-include>
 
           <!-- print action input with mask ui-phone-mask -->
-          <ng-include src="'templates/input-phone-template.html'" ng-if="showInputPhoneMask($index)"></ng-include>
+          <ng-include src="'templates/input-phone-template.html'" ng-if="collumn.isInputPhoneMask"></ng-include>
 
           <!-- print action input with mask ui-cep-mask -->
-          <ng-include src="'templates/input-cep-template.html'" ng-if="showInputCepMask($index)"></ng-include>
+          <ng-include src="'templates/input-cep-template.html'" ng-if="collumn.isInputCepMask"></ng-include>
 
           <!-- print action input with mask ui-cpf-mask -->
-          <ng-include src="'templates/input-cpf-template.html'" ng-if="showInputCpfMask($index)"></ng-include>
+          <ng-include src="'templates/input-cpf-template.html'" ng-if="collumn.isInputCpfMask"></ng-include>
           
           <!-- print action input with mask ui-cnpj-mask -->
-          <ng-include src="'templates/input-cnpj-template.html'" ng-if="showInputCnpjMask($index)"></ng-include>
+          <ng-include src="'templates/input-cnpj-template.html'" ng-if="collumn.isInputCnpjMask"></ng-include>
 
           <!-- print action input with mask ui-cnpj-mask -->
-          <ng-include src="'templates/input-cpfcnpj-template.html'" ng-if="showInputCpfCnpjMask($index)"></ng-include>
+          <ng-include src="'templates/input-cpfcnpj-template.html'" ng-if="collumn.isInputCpfCnpjMask"></ng-include>
+
+          <!-- print action select -->
+          <ng-include src="'templates/select-template.html'" ng-if="collumn.isCombo"></ng-include>
 
           <!-- render buttons -->
           <div class="actions pull-right" ng-if="$last">

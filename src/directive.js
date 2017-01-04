@@ -16,6 +16,9 @@ angular.module('rs.datagrid', ['ui.utils.masks'])
       },
       replace: true,
       link: function(scope, elem, attrs, ctrl) {
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        // VARIABLES OF SCOPE
+        ///////////////////////////////////////////////////////////////////////////////////////////////
         scope.collumns = scope.config.collumns;
         scope.buttons = scope.config.buttons;
         scope.hasPagination = false;
@@ -23,6 +26,48 @@ angular.module('rs.datagrid', ['ui.utils.masks'])
         scope.hasSearch = false;
         scope.currentPage = 0;
         scope.avaliablesPages = [];
+        scope.avaliablesChoises = [];
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        // INIT SET PROPERT SHOW ACTIONS
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        angular.forEach(scope.collumns, function(collumn) {
+          collumn.isHtml = collumn.isHtml || false;
+          collumn.isLink = showLink(collumn);
+          collumn.isCheckBox = showCheckbox(collumn);
+          collumn.isInputWithoutMask = showInputWithoutMask(collumn);
+          collumn.isInputNumberMask = showInputNumberMask(collumn);
+          collumn.isInputNumberMaskNegative = showInputNumberMaskNegative(collumn);
+          collumn.isInputMoneyMask = showInputMoneyMask(collumn);
+          collumn.isInputPhoneMask = showInputPhoneMask(collumn);
+          collumn.isInputCepMask = showInputCepMask(collumn);
+          collumn.isInputCpfMask = showInputCpfMask(collumn);
+          collumn.isInputCnpjMask = showInputCnpjMask(collumn);
+          collumn.isInputCpfCnpjMask = showInputCpfCnpjMask(collumn);
+          collumn.isCombo = showCombo(collumn);
+        });
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        // INIT SET PROPERT VALUES NG.MODELS FOR ACTIONS
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        function setValuesActions(collection) {
+          for (var i = 0; i < scope.collumns.length; i++) {
+            var collumn = scope.collumns[i];
+            var action = false;
+            if (collumn.action && collumn.action.type) {
+              action = collumn.action.type;
+              angular.forEach(collection.content, function(row) {
+                switch(action){
+                  case 'input':
+                    row.valueInput = getValueObjectEvalBykey(row, collumn.index);
+                  break;
+                  case 'combo':
+                    row.valueCombo = getValueObjectEvalBykey(row, collumn.index);
+                }
+              });
+            }
+          }
+        }
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // REFRESH TABLE
@@ -48,13 +93,6 @@ angular.module('rs.datagrid', ['ui.utils.masks'])
 
         scope.getClass = function(indexCollumn) {
           return scope.collumns[indexCollumn].class;
-        };
-
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-        // VARIABLES AND METHODS ASSIST
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-        scope.isHtml = function(indexCollumn) {
-          return scope.collumns[indexCollumn].isHtml;
         };
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -170,6 +208,7 @@ angular.module('rs.datagrid', ['ui.utils.masks'])
           if (dados) {
             // console.log('watch collection');
             makePagination();
+            setValuesActions(dados);
           }
         });
 
@@ -245,6 +284,15 @@ angular.module('rs.datagrid', ['ui.utils.masks'])
           } catch (error) {}
         }
 
+        function getValueObjectEvalBykey(currentObject, key) {
+          try {
+            var item = eval("currentObject." + key);
+            if (!angular.isUndefinedOrNull(item)) {
+              return item;
+            }
+          } catch (error) {}
+        }
+
         scope.getContentCell = function(currentObject, indexCollumn) {
           var hasAction = angular.isDefined(scope.collumns[indexCollumn].action);
           var isRenderFunction = angular.isFunction(scope.collumns[indexCollumn].render);
@@ -281,9 +329,9 @@ angular.module('rs.datagrid', ['ui.utils.masks'])
           }
         }
 
-        scope.showLink = function(indexCollumn) {
-          if (angular.isDefined(scope.collumns[indexCollumn].action)) {
-            return scope.collumns[indexCollumn].action.type === 'href';
+        function showLink(collumn) {
+          if (angular.isDefined(collumn.action)) {
+            return collumn.action.type === 'href';
           }
           return false;
         };
@@ -305,9 +353,9 @@ angular.module('rs.datagrid', ['ui.utils.masks'])
           }
         }
 
-        scope.showCheckbox = function(indexCollumn) {
-          if (angular.isDefined(scope.collumns[indexCollumn].action)) {
-            return scope.collumns[indexCollumn].action.type === 'checkbox';
+        function showCheckbox(collumn) {
+          if (angular.isDefined(collumn.action)) {
+            return collumn.action.type === 'checkbox';
           }
           return false;
         };
@@ -351,68 +399,51 @@ angular.module('rs.datagrid', ['ui.utils.masks'])
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // VARIABLES AND METHODS ACTION INPUT
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        scope.showInputWithoutMask = function(indexCollumn) {
-          if (angular.isDefined(scope.collumns[indexCollumn].action)) {
-            return scope.collumns[indexCollumn].action.type === 'input' && !scope.collumns[indexCollumn].action.mask;
+        function showInputWithMask(collumn, typeMask) {
+          if (angular.isDefined(collumn.action)) {
+            return collumn.action.type === 'input' && collumn.action.mask && collumn.action.mask.use === typeMask;
+          }
+          return false;
+        }
+
+        function showInputWithoutMask(collumn) {
+          if (angular.isDefined(collumn.action)) {
+            return collumn.action.type === 'input' && !collumn.action.mask;
           }
           return false;
         };
 
-        scope.showInputCpfCnpjMask = function(indexCollumn) {
-          if (angular.isDefined(scope.collumns[indexCollumn].action)) {
-            return scope.collumns[indexCollumn].action.type === 'input' && scope.collumns[indexCollumn].action.mask && scope.collumns[indexCollumn].action.mask.use === 'br-cpfcnpj';
-          }
-          return false;
-        };
+        function showInputCpfCnpjMask(collumn) {
+          return showInputWithMask(collumn, 'br-cpfcnpj')
+        }
 
-        scope.showInputCnpjMask = function(indexCollumn) {
-          if (angular.isDefined(scope.collumns[indexCollumn].action)) {
-            return scope.collumns[indexCollumn].action.type === 'input' && scope.collumns[indexCollumn].action.mask && scope.collumns[indexCollumn].action.mask.use === 'br-cnpj';
-          }
-          return false;
-        };
+        function showInputCnpjMask(collumn) {
+          return showInputWithMask(collumn, 'br-cnpj');
+        }
 
-        scope.showInputCpfMask = function(indexCollumn) {
-          if (angular.isDefined(scope.collumns[indexCollumn].action)) {
-            return scope.collumns[indexCollumn].action.type === 'input' && scope.collumns[indexCollumn].action.mask && scope.collumns[indexCollumn].action.mask.use === 'br-cpf';
-          }
-          return false;
-        };
+        function showInputCpfMask(collumn) {
+          return showInputWithMask(collumn, 'br-cpf');
+        }
 
-        scope.showInputCepMask = function(indexCollumn) {
-          if (angular.isDefined(scope.collumns[indexCollumn].action)) {
-            return scope.collumns[indexCollumn].action.type === 'input' && scope.collumns[indexCollumn].action.mask && scope.collumns[indexCollumn].action.mask.use === 'br-cep';
-          }
-          return false;
-        };
+        function showInputCepMask(collumn) {
+          return showInputWithMask(collumn, 'br-cep');
+        }
 
-        scope.showInputPhoneMask = function(indexCollumn) {
-          if (angular.isDefined(scope.collumns[indexCollumn].action)) {
-            return scope.collumns[indexCollumn].action.type === 'input' && scope.collumns[indexCollumn].action.mask && scope.collumns[indexCollumn].action.mask.use === 'br-phone';
-          }
-          return false;
-        };
+        function showInputPhoneMask(collumn) {
+          return showInputWithMask(collumn, 'br-phone');
+        }
 
-        scope.showInputMoneyMask = function(indexCollumn) {
-          if (angular.isDefined(scope.collumns[indexCollumn].action)) {
-            return scope.collumns[indexCollumn].action.type === 'input' && scope.collumns[indexCollumn].action.mask && scope.collumns[indexCollumn].action.mask.use === 'money';
-          }
-          return false;
-        };
+        function showInputMoneyMask(collumn) {
+          return showInputWithMask(collumn, 'money');
+        }
 
-         scope.showInputNumberMask = function(indexCollumn) {
-          if (angular.isDefined(scope.collumns[indexCollumn].action)) {
-            return scope.collumns[indexCollumn].action.type === 'input' && scope.collumns[indexCollumn].action.mask && scope.collumns[indexCollumn].action.mask.use === 'number' && !scope.collumns[indexCollumn].action.mask.negative;
-          }
-          return false;
-        };
+        function showInputNumberMask(collumn) {
+          return showInputWithMask(collumn, 'number') && !collumn.action.mask.negative;
+        }
 
-        scope.showInputNumberMaskNegative = function(indexCollumn) {
-          if (angular.isDefined(scope.collumns[indexCollumn].action)) {
-            return scope.collumns[indexCollumn].action.type === 'input' && scope.collumns[indexCollumn].action.mask && scope.collumns[indexCollumn].action.mask.use === 'number' && scope.collumns[indexCollumn].action.mask.negative;
-          }
-          return false;
-        };
+        function showInputNumberMaskNegative(collumn) {
+          return showInputWithMask(collumn, 'number') && collumn.action.mask.negative;
+        }
 
         scope.isDisabledInput = function(row, collumn) {
           if (angular.isFunction(collumn.action.isDisabled)) {
@@ -430,7 +461,7 @@ angular.module('rs.datagrid', ['ui.utils.masks'])
         scope.blurInputCpfCnpj = function(event, row, collumn, value) {
           if (angular.isFunction(collumn.action.callback) && (collumn.action.trigger === 'blur' || !collumn.action.trigger)) {
             var valid = true;
-            if (event.target.classList.contains('ng-invalid-cpf') || event.target.classList.contains('ng-invalid-cnpj')){
+            if (event.target.classList.contains('ng-invalid-cpf') || event.target.classList.contains('ng-invalid-cnpj')) {
               valid = false;
             }
             collumn.action.callback(row, value, valid);
@@ -446,10 +477,59 @@ angular.module('rs.datagrid', ['ui.utils.masks'])
         scope.changeInputCpfCnpj = function(event, row, collumn, value) {
           if (angular.isFunction(collumn.action.callback) && (collumn.action.trigger === 'change')) {
             var valid = true;
-            if (event.target.classList.contains('ng-invalid-cpf') || event.target.classList.contains('ng-invalid-cnpj')){
+            if (event.target.classList.contains('ng-invalid-cpf') || event.target.classList.contains('ng-invalid-cnpj')) {
               valid = false;
             }
             collumn.action.callback(row, value, valid);
+          }
+        };
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        // VARIABLES AND METHODS ACTION COMBO
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        scope.getLabelCombo = function(row, collumn, item) {
+          if (collumn.action.type === 'combo' && angular.isFunction(collumn.action.labelFunction)) {
+            return collumn.action.labelFunction(item);
+          } else {
+            throw new Exception('Missing property', ' "labelFunction" function property is required for action combo');
+          }
+        };
+
+        scope.getValueCombo = function(row, collumn, item) {
+          if (collumn.action.type === 'combo' && angular.isFunction(collumn.action.valueFunction)) {
+            return collumn.action.valueFunction(item);
+          } else {
+            throw new Exception('Missing property', ' "valueFunction" function property is required for action combo');
+          }
+        };
+
+        scope.isDisabledCombo = function(row, collumn) {
+          if (angular.isFunction(collumn.action.isDisabled)) {
+            return collumn.action.isDisabled(row);
+          }
+          return false;
+        };
+
+        function showCombo(collumn) {
+          var ret = false;
+          if (angular.isDefined(collumn.action)) {
+            ret = collumn.action.type === 'combo';
+          }
+
+          if (ret) {
+            if (collumn.action.avaliablesChoises) {
+              scope.avaliablesChoises = collumn.action.avaliablesChoises;
+            } else {
+              throw new Exception('Missing property', ' "avaliablesChoises" property is required for action combo in collumn: ' + indexCollumn);
+            }
+          }
+
+          return ret;
+        };
+
+        scope.changeCombo = function(row, collumn, value) {
+          if (angular.isFunction(collumn.action.callback) && (collumn.action.type === 'combo')) {
+            collumn.action.callback(row, value);
           }
         };
 

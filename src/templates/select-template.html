@@ -1,0 +1,10 @@
+<select 
+	ng-model="row.valueCombo" 
+	ng-change="changeCombo(row, collumn, row.valueCombo)" 
+	name="combo_{$index}" 
+	ng-class="collumn.action.class" 
+	id="combo_{$index}"
+	ng-disabled="isDisabledCombo(row, collumn)" 
+	>
+	<option value="{{getValueCombo(row, collumn, item)}}" ng-repeat="item in avaliablesChoises">{{getLabelCombo(row, collumn, item)}}</option>
+</select>
