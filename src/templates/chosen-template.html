@@ -1,0 +1,15 @@
+<ui-select 
+	ng-model="row.valueChosen" 
+	ng-change="changeChosen(row, collumn, row.valueChosen)" 
+	theme="selectize" 
+	class="{{collumn.action.class}}"
+	ng-disabled="isDisabledInput(row, collumn)" 
+	name="chosen_{{$index}}" 
+	id="chosen_{{$index}}">
+  <ui-select-match placeholder="{{collumn.action.placeholder}}">
+    <div ng-bind-html="getItemSelected($select.selected, collumn)"></div>
+  </ui-select-match>
+  <ui-select-choices repeat="item in avaliablesChoisesChosen | propsFilter: getKeysForSearch(collumn) : $select.search">
+    <div ng-bind-html="getItemRender(item,collumn)"></div>
+  </ui-select-choices>
+</ui-select>

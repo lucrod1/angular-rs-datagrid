@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('rs.datagrid', ['ui.utils.masks'])
+angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
   .directive('rsDatagrid', function($sce) {
     function Exception(type, message) {
       this.type = type;
@@ -27,6 +27,7 @@ angular.module('rs.datagrid', ['ui.utils.masks'])
         scope.currentPage = 0;
         scope.avaliablesPages = [];
         scope.avaliablesChoises = [];
+        scope.avaliablesChoisesChosen = [];
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // INIT SET PROPERT SHOW ACTIONS
@@ -45,6 +46,7 @@ angular.module('rs.datagrid', ['ui.utils.masks'])
           collumn.isInputCnpjMask = showInputCnpjMask(collumn);
           collumn.isInputCpfCnpjMask = showInputCpfCnpjMask(collumn);
           collumn.isCombo = showCombo(collumn);
+          collumn.isChosen = showChosen(collumn);
         });
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -57,10 +59,10 @@ angular.module('rs.datagrid', ['ui.utils.masks'])
             if (collumn.action && collumn.action.type) {
               action = collumn.action.type;
               angular.forEach(collection.content, function(row) {
-                switch(action){
+                switch (action) {
                   case 'input':
                     row.valueInput = getValueObjectEvalBykey(row, collumn.index);
-                  break;
+                    break;
                   case 'combo':
                     row.valueCombo = getValueObjectEvalBykey(row, collumn.index);
                 }
@@ -334,7 +336,7 @@ angular.module('rs.datagrid', ['ui.utils.masks'])
             return collumn.action.type === 'href';
           }
           return false;
-        };
+        }
 
         scope.clickLink = function(currentObject, indexCollumn) {
           if (angular.isFunction(scope.collumns[indexCollumn].action.callback)) {
@@ -358,7 +360,7 @@ angular.module('rs.datagrid', ['ui.utils.masks'])
             return collumn.action.type === 'checkbox';
           }
           return false;
-        };
+        }
 
         scope.clickCheckbox = function(row, indexCollumn, checked) {
           var collumn = scope.collumns[indexCollumn];
@@ -411,10 +413,10 @@ angular.module('rs.datagrid', ['ui.utils.masks'])
             return collumn.action.type === 'input' && !collumn.action.mask;
           }
           return false;
-        };
+        }
 
         function showInputCpfCnpjMask(collumn) {
-          return showInputWithMask(collumn, 'br-cpfcnpj')
+          return showInputWithMask(collumn, 'br-cpfcnpj');
         }
 
         function showInputCnpjMask(collumn) {
@@ -520,17 +522,76 @@ angular.module('rs.datagrid', ['ui.utils.masks'])
             if (collumn.action.avaliablesChoises) {
               scope.avaliablesChoises = collumn.action.avaliablesChoises;
             } else {
-              throw new Exception('Missing property', ' "avaliablesChoises" property is required for action combo in collumn: ' + indexCollumn);
+              throw new Exception('Missing property', ' "avaliablesChoises" property is required for action combo');
             }
           }
 
           return ret;
-        };
+        }
 
         scope.changeCombo = function(row, collumn, value) {
           if (angular.isFunction(collumn.action.callback) && (collumn.action.type === 'combo')) {
             collumn.action.callback(row, value);
           }
+        };
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        // VARIABLES AND METHODS ACTION CHOSEN
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        function showChosen(collumn) {
+          var ret = false;
+          if (angular.isDefined(collumn.action)) {
+            ret = collumn.action.type === 'chosen';
+          }
+
+          if (ret) {
+            if (collumn.action.avaliablesChoises) {
+              scope.avaliablesChoisesChosen = collumn.action.avaliablesChoises;
+            } else {
+              throw new Exception('Missing property', ' "avaliablesChoises" property is required for action combo');
+            }
+          }
+
+          return ret;
+        }
+
+        scope.getItemRender = function(item, collumn) {
+          if (angular.isFunction(collumn.action.itemRender) && (collumn.action.type === 'chosen')) {
+            return collumn.action.itemRender(item);
+          }
+        };
+
+        scope.getKeysForSearch = function(collumn) {
+          if (angular.isArray(collumn.action.searchIn)) {
+            return collumn.action.searchIn;
+          } else {
+            throw new Exception('Missing property array', ' "searchIn" property is required for action chosen');
+          }
+        };
+
+        scope.getItemSelected = function(item, collumn) {
+          if (angular.isFunction(collumn.action.selectedRender) && (collumn.action.type === 'chosen')) {
+            if (item) {
+              return collumn.action.selectedRender(item);
+            }
+          } else if (angular.isFunction(collumn.action.itemRender) && (collumn.action.type === 'chosen')) {
+            if (item) {
+              return collumn.action.itemRender(item);
+            }
+          }
+        };
+
+        scope.changeChosen = function(row, collumn, value) {
+          if (angular.isFunction(collumn.action.callback) && (collumn.action.type === 'chosen')) {
+            collumn.action.callback(row, value);
+          }
+        };
+
+        scope.isDisabledInput = function(row, collumn) {
+          if (angular.isFunction(collumn.action.isDisabled)) {
+            return collumn.action.isDisabled(row);
+          }
+          return false;
         };
 
         ///////////////////////////////////////////////////////////////////////////////////////////////

@@ -83,6 +83,16 @@ gulp.task('scripts', ['clean'], function() {
       .pipe(templateCache({ module: 'rs.datagrid' }));
   };
 
+  function buildFilterJS() {
+    return gulp.src('src/filter/propsFilter.js')
+      .pipe(plumber({
+        errorHandler: handleError
+      }))
+      .pipe(jshint())
+      .pipe(jshint.reporter('jshint-stylish'))
+      .pipe(jshint.reporter('fail'));
+  };
+
   function buildDistJS() {
     return gulp.src('src/directive.js')
       .pipe(plumber({
@@ -109,12 +119,13 @@ gulp.task('scripts', ['clean'], function() {
     .pipe(gulp.dest('./dist/assets/images/'))
     .pipe(connect.reload());
 
-  es.merge(buildDistJS(), buildTemplates())
+  es.merge(buildDistJS(), buildFilterJS(),  buildTemplates())
     .pipe(plumber({
       errorHandler: handleError
     }))
     .pipe(order([
       'directive.js',
+      'propsFilter.js',
       'template.js'
     ]))
     .pipe(concat('directive.js'))

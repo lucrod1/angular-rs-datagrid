@@ -86,6 +86,9 @@
           <!-- print action select -->
           <ng-include src="'templates/select-template.html'" ng-if="collumn.isCombo"></ng-include>
 
+          <!-- print action chosen -->
+          <ng-include src="'templates/chosen-template.html'" ng-if="collumn.isChosen"></ng-include>
+
           <!-- render buttons -->
           <div class="actions pull-right" ng-if="$last">
             <button tooltip="{{button.tooltip}}" tooltip-placement="top" ng-if="isVisibleButton(button, row, $index)" type="button" ng-class="button.classButton" ng-click="button.callbackButton(row)" ng-repeat="button in buttons track by $index">

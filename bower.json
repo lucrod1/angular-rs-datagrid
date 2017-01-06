@@ -22,6 +22,7 @@
     "angular-bootstrap": "0.13.4"
   },
   "dependencies": {
-    "angular-input-masks": "^2.5.0"
+    "angular-input-masks": "^2.5.0",
+    "angular-ui-select": "^0.19.6"
   }
 }

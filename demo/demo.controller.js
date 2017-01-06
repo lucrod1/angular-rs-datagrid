@@ -22,6 +22,7 @@ app.controller('demoController', function($scope, $http) {
       // },
       action: {
         type: 'checkbox',
+        class: 'test',
         checkInHeader: true,
         callbackHeader: function(checked) {
           console.log('checked: ' + checked);
@@ -70,10 +71,10 @@ app.controller('demoController', function($scope, $http) {
           "ate": "29/12/2016 19:00",
           "dataExibicao": null
         }],
-        labelFunction: function(choise){
+        labelFunction: function(choise) {
           return choise.de;
         },
-        valueFunction: function(choise){
+        valueFunction: function(choise) {
           return choise.de;
         },
         isDisabled: function(obj) {
@@ -84,7 +85,42 @@ app.controller('demoController', function($scope, $http) {
           }
         },
         callback: function(obj, newValue) {
-          console.log('execute action here value blur: ' + newValue);
+          console.log('execute action here: ' + newValue);
+        }
+      }
+    }, {
+      title: 'Chosen',
+      index: 'tag',
+      action: {
+        type: 'chosen',
+        placeholder: 'Selecione um tag...',
+        theme: 'select2',
+        searchIn: ['id','nome'],
+        selectedRender: function(item){
+          return item.nome;
+        },
+        itemRender: function(item){
+          var ret =  '<small>';
+          ret     += 'id:'+item.id+'<br/>';
+          ret     += 'nome: '+item.nome+'<br/>';
+          ret     += '</small>';
+          return ret;             // is possible return html content
+        },
+        isDisabled: function(obj){
+          if (obj.id == '66000000154363'){
+            return true;
+          }
+          return false;
+        },
+        avaliablesChoises: [{
+          id: 1,
+          nome: 'tag 1'
+        },{
+          id: 2,
+          nome: 'tag 2'
+        }],
+        callback: function(obj, newValue) {
+          console.log('execute action here: ' + newValue.id);
         }
       }
     }, {
@@ -119,9 +155,9 @@ app.controller('demoController', function($scope, $http) {
         // mask: {                     // optional
         //   use: 'br-cnpj'
         // },
-        // mask: { // optional
-        //   use: 'br-cpfcnpj'
-        // },
+        mask: { // optional
+          use: 'br-cpfcnpj'
+        },
         isDisabled: function(obj) {
           if (obj.id === 66000000143365) {
             return true;
@@ -131,10 +167,10 @@ app.controller('demoController', function($scope, $http) {
         },
         callback: function(obj, newValue, valid) {
           // if (valid) {
-            console.log('execute action here value blur: ' + newValue);
+          console.log('execute action here value blur: ' + newValue);
           // } else {
-            // console.log('Campo invalido');
-            // obj.valueInput = ''; //clean value
+          // console.log('Campo invalido');
+          // obj.valueInput = ''; //clean value
           // }
         }
       }
@@ -157,17 +193,17 @@ app.controller('demoController', function($scope, $http) {
       });
     },
     buttons: [{
-      text: 'Editar',
+      text: 'Exlucir ',
       tooltip: 'Excluir',
       classIcon: 'glyphicon glyphicon-remove',
-      classButton: 'btn btn-xs btn-secondary',
-      isVisible: function(obj) {
-        if (obj.id === 66000000073961) {
-          return true;
-        } else {
-          return false;
-        }
-      },
+      classButton: 'btn btn-xs btn-primary',
+      // isVisible: function(obj) {
+      //   if (obj.id === 66000000073961) {
+      //     return true;
+      //   } else {
+      //     return false;
+      //   }
+      // },
       callbackButton: function(obj) {
         console.log('Execute action here obj clicked:' + obj.id);
       }
