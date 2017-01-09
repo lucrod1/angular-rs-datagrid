@@ -86,10 +86,14 @@
           <!-- print action select -->
           <ng-include src="'templates/select-template.html'" ng-if="collumn.isCombo"></ng-include>
 
-          <!-- print action chosen -->
-          <ng-include src="'templates/chosen-select2-template.html'" ng-if="collumn.isChosenSelectize"></ng-include>
+          <!-- print action chosen select2 -->
+          <ng-include src="'templates/chosen-select2-template.html'" ng-if="collumn.isChosenSelect2"></ng-include>
+          
+          <!-- print action chosen selectize -->
+          <ng-include src="'templates/chosen-selectize-template.html'" ng-if="collumn.isChosenSelectize"></ng-include>
 
-          <ng-include src="'templates/chosen-selectize-template.html'" ng-if="collumn.isChosenSelect2"></ng-include>
+          <!-- print action multi-chosen -->
+          <ng-include src="'templates/multi-chosen-select2-template.html'" ng-if="collumn.isMultiChosen"></ng-include>
 
           <!-- render buttons -->
           <div class="actions pull-right" ng-if="$last">

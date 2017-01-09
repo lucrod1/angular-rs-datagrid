@@ -96,7 +96,9 @@ app.controller('demoController', function($scope, $http) {
         placeholder: 'Selecione um tag...',
         theme: 'select2',
         searchIn: ['id','nome'],
-        selectedRender: function(item){ //optional
+        multiple: true,
+        allowClear: false,              // [x] button clear - default is false
+        selectedRender: function(item){ // optional
           return item.nome;
         },
         itemRender: function(item){
@@ -104,7 +106,7 @@ app.controller('demoController', function($scope, $http) {
           ret     += 'id:'+item.id+'<br/>';
           ret     += 'nome: '+item.nome+'<br/>';
           ret     += '</small>';
-          return ret;             // is possible return html content
+          return ret;                   // is possible return html content
         },
         isDisabled: function(obj){
           if (obj.id == '66000000154363'){
@@ -118,6 +120,49 @@ app.controller('demoController', function($scope, $http) {
         },{
           id: 2,
           nome: 'tag 2'
+        }],
+        callback: function(obj, newValue) {
+          console.log('execute action here: ' + newValue.id);
+        }
+      }
+    },{
+      title: 'Multi-Chosen',
+      index: 'nome',
+      action: {
+        type: 'multiChosen',
+        placeholder: 'Selecione um tag...',
+        theme: 'select2',
+        searchIn: ['id','nome'],
+        itemRender: function(item){
+          return item.nome;
+        },
+        onRemove : function(item, model){
+          console.log(item);
+        },
+        isDisabled: function(obj){
+          if (obj.id == '66000000154363'){
+            return true;
+          }
+          return false;
+        },
+        avaliablesChoises: [{
+          id: 1,
+          nome: 'tag 1'
+        },{
+          id: 2,
+          nome: 'tag 2'
+        },{
+          id: 3,
+          nome: 'tag 3'
+        },{
+          id: 4,
+          nome: 'tag 4'
+        },{
+          id: 5,
+          nome: 'tag 5'
+        },{
+          id: 6,
+          nome: 'tag 6'
         }],
         callback: function(obj, newValue) {
           console.log('execute action here: ' + newValue.id);

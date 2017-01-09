@@ -28,6 +28,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         scope.avaliablesPages = [];
         scope.avaliablesChoises = [];
         scope.avaliablesChoisesChosen = [];
+        scope.avaliablesChoisesMultiChosen = [];
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // INIT SET PROPERT SHOW ACTIONS
@@ -47,7 +48,8 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           collumn.isInputCpfCnpjMask = showInputCpfCnpjMask(collumn);
           collumn.isCombo = showCombo(collumn);
           collumn.isChosenSelectize = showChosen(collumn, 'selectize');
-          collumn.isChosenSelect2   = showChosen(collumn, 'select2');
+          collumn.isChosenSelect2 = showChosen(collumn, 'select2');
+          collumn.isMultiChosen = showMultiChosen(collumn);
         });
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,6 +68,12 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
                     break;
                   case 'combo':
                     row.valueCombo = getValueObjectEvalBykey(row, collumn.index);
+                  case 'chosen':
+                    row.valueChosen = getValueObjectEvalBykey(row, collumn.index);
+                    break;
+                  case 'multiChosen':
+                    row.valueMultiChosen = getValueObjectEvalBykey(row, collumn.index);
+                    break;
                 }
               });
             }
@@ -571,13 +579,17 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         };
 
         scope.getItemSelected = function(item, collumn) {
-          if (angular.isFunction(collumn.action.selectedRender) && (collumn.action.type === 'chosen')) {
-            if (item) {
-              return collumn.action.selectedRender(item);
-            }
-          } else if (angular.isFunction(collumn.action.itemRender) && (collumn.action.type === 'chosen')) {
-            if (item) {
-              return collumn.action.itemRender(item);
+          if (collumn.isMultiChosen) {
+            return item[collumn.index];
+          } else {
+            if (angular.isFunction(collumn.action.selectedRender) && (collumn.action.type === 'chosen')) {
+              if (item) {
+                return collumn.action.selectedRender(item);
+              }
+            } else if (angular.isFunction(collumn.action.itemRender) && (collumn.action.type === 'chosen')) {
+              if (item) {
+                return collumn.action.itemRender(item);
+              }
             }
           }
         };
@@ -593,6 +605,45 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
             return collumn.action.isDisabled(row);
           }
           return false;
+        };
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        // VARIABLES AND METHODS ACTION MULTI-CHOSEN
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        function showMultiChosen(collumn) {
+          var ret = false;
+          if (angular.isDefined(collumn.action)) {
+            ret = collumn.action.type === 'multiChosen'
+          }
+
+          if (ret) {
+            if (collumn.action.avaliablesChoises) {
+              scope.avaliablesChoisesMultiChosen = collumn.action.avaliablesChoises;
+            } else {
+              throw new Exception('Missing property', ' "avaliablesChoises" property is required for action combo');
+            }
+          }
+
+          return ret;
+        }
+
+        scope.isDisabledMultiChosen = function(row, collumn) {
+          if (angular.isFunction(collumn.action.isDisabled)) {
+            return collumn.action.isDisabled(row);
+          }
+          return false;
+        };
+
+        scope.getMultiItemRender = function(item, collumn) {
+          if (angular.isFunction(collumn.action.itemRender) && (collumn.action.type === 'multiChosen')) {
+            return collumn.action.itemRender(item);
+          }
+        };
+
+        scope.onRemove = function(collumn, item, model){
+          if (angular.isFunction(collumn.action.onRemove)){
+            return collumn.action.onRemove(item, model);
+          }
         };
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
