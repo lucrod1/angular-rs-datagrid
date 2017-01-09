@@ -96,7 +96,7 @@ app.controller('demoController', function($scope, $http) {
         placeholder: 'Selecione um tag...',
         theme: 'select2',
         searchIn: ['id','nome'],
-        selectedRender: function(item){
+        selectedRender: function(item){ //optional
           return item.nome;
         },
         itemRender: function(item){
@@ -129,6 +129,7 @@ app.controller('demoController', function($scope, $http) {
       action: {
         type: 'input',
         class: 'input-rs',
+        maxlength: 20,
         trigger: 'blur', // default: 'blur', avaliables Triggers  'blur', 'change'
         // Internationalized: Used the decimal separator and the thousands separator defined in the client browser configuration
         // ex: bower install angular-locale-pt-br.js and add into index.html
@@ -155,9 +156,9 @@ app.controller('demoController', function($scope, $http) {
         // mask: {                     // optional
         //   use: 'br-cnpj'
         // },
-        mask: { // optional
-          use: 'br-cpfcnpj'
-        },
+        // mask: { // optional
+        //   use: 'br-cpfcnpj'
+        // },
         isDisabled: function(obj) {
           if (obj.id === 66000000143365) {
             return true;
@@ -166,12 +167,12 @@ app.controller('demoController', function($scope, $http) {
           }
         },
         callback: function(obj, newValue, valid) {
-          // if (valid) {
+          if (valid) {
           console.log('execute action here value blur: ' + newValue);
-          // } else {
-          // console.log('Campo invalido');
-          // obj.valueInput = ''; //clean value
-          // }
+          } else {
+          console.log('Campo invalido');
+          obj.valueInput = ''; //clean value
+          }
         }
       }
     }],
@@ -193,7 +194,7 @@ app.controller('demoController', function($scope, $http) {
       });
     },
     buttons: [{
-      text: 'Exlucir ',
+      text: 'Excluir ',
       tooltip: 'Excluir',
       classIcon: 'glyphicon glyphicon-remove',
       classButton: 'btn btn-xs btn-primary',

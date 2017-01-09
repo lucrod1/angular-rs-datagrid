@@ -46,7 +46,8 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           collumn.isInputCnpjMask = showInputCnpjMask(collumn);
           collumn.isInputCpfCnpjMask = showInputCpfCnpjMask(collumn);
           collumn.isCombo = showCombo(collumn);
-          collumn.isChosen = showChosen(collumn);
+          collumn.isChosenSelectize = showChosen(collumn, 'selectize');
+          collumn.isChosenSelect2   = showChosen(collumn, 'select2');
         });
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -538,10 +539,10 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // VARIABLES AND METHODS ACTION CHOSEN
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        function showChosen(collumn) {
+        function showChosen(collumn, theme) {
           var ret = false;
           if (angular.isDefined(collumn.action)) {
-            ret = collumn.action.type === 'chosen';
+            ret = collumn.action.type === 'chosen' && collumn.action.theme === theme
           }
 
           if (ret) {

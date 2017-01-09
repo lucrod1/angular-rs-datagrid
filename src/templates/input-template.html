@@ -1,7 +1,7 @@
 <input 
 	type="text" 
 	ng-change="changeInput(row, collumn, row.valueInput)" 
-	maxlength="{{collumn.maxlength}}"  
+	maxlength="{{collumn.action.maxlength}}"  
 	ng-blur="blurInput(row, collumn, row.valueInput)" 
 	ng-model="row.valueInput" 
 	ng-disabled="isDisabledInput(row, collumn)" 
