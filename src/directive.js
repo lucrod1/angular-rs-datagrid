@@ -587,7 +587,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           }
         };
 
-        scope.isDisabledInput = function(row, collumn) {
+        scope.isDisabledChosen = function(row, collumn) {
           if (angular.isFunction(collumn.action.isDisabled)) {
             return collumn.action.isDisabled(row);
           }
