@@ -1,0 +1,17 @@
+<ui-select 
+	ng-model="row.valueMultiChosen"
+	multiple 
+	theme="select2" 
+	class="{{collumn.action.class}}"
+	ng-disabled="isDisabledMultiChosen(row, collumn)" 
+	name="chosen_{{$index}}" 
+	on-remove="onRemove(collumn, $item, row.valueMultiChosen)"
+	on-select="onSelect(collumn, $item, row.valueMultiChosen)"
+	id="chosen_{{$index}}">
+  <ui-select-match placeholder="{{collumn.action.placeholder}}">
+    <div ng-bind-html="selectedsMultiChosen($item, collumn)"></div>
+  </ui-select-match>
+  <ui-select-choices repeat="item in avaliablesChoisesMultiChosen | propsFilter: getKeysForSearch(collumn) : $select.search">
+    <div ng-bind-html="getMultiItemRender(item,collumn)"></div>
+  </ui-select-choices>
+</ui-select>

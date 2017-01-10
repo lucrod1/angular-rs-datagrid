@@ -348,10 +348,10 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         }
 
         scope.clickLink = function(currentObject, indexCollumn) {
-          if (angular.isFunction(scope.collumns[indexCollumn].action.callback)) {
-            scope.collumns[indexCollumn].action.callback(currentObject);
+          if (angular.isFunction(scope.collumns[indexCollumn].action.onClick)) {
+            scope.collumns[indexCollumn].action.onClick(currentObject);
           } else {
-            throw new Exception('Missing property', 'function "callback" property is missing, in collum:' + indexCollumn + ' ');
+            throw new Exception('Missing property', 'function "onClick" property is missing, in collum:' + indexCollumn + ' ');
           }
         };
 
@@ -386,12 +386,9 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
             collumn.checkboxHeader = false;
           }
 
-          if (angular.isFunction(collumn.action.callback)) {
-            collumn.action.callback(row, checked);
+          if (angular.isFunction(collumn.action.onCheck)) {
+            collumn.action.onCheck(row, checked);
           }
-          // else {
-          //   throw new Exception('Missing property', 'function "callback" property is missing, in collum with title:' + collumn.title + ' ');
-          // }
         };
 
         scope.clickCheckboxHeader = function(collumn, checked) {
@@ -399,12 +396,9 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
             row[collumn.index] = checked;
           });
 
-          if (angular.isFunction(collumn.action.callbackHeader)) {
-            collumn.action.callbackHeader(checked);
+          if (angular.isFunction(collumn.action.onCheckHeader)) {
+            collumn.action.onCheckHeader(checked);
           }
-          // else {
-          //   throw new Exception('Missing property', 'function "callbackHeader" property is missing, in header collum checkbox with title:' + collumn.title + ' ');
-          // }
         };
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -464,34 +458,34 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         };
 
         scope.blurInput = function(row, collumn, value) {
-          if (angular.isFunction(collumn.action.callback) && (collumn.action.trigger === 'blur' || !collumn.action.trigger)) {
-            collumn.action.callback(row, value);
+          if (angular.isFunction(collumn.action.onChange) && (collumn.action.trigger === 'blur' || !collumn.action.trigger)) {
+            collumn.action.onChange(row, value);
           }
         };
 
         scope.blurInputCpfCnpj = function(event, row, collumn, value) {
-          if (angular.isFunction(collumn.action.callback) && (collumn.action.trigger === 'blur' || !collumn.action.trigger)) {
+          if (angular.isFunction(collumn.action.onChange) && (collumn.action.trigger === 'blur' || !collumn.action.trigger)) {
             var valid = true;
             if (event.target.classList.contains('ng-invalid-cpf') || event.target.classList.contains('ng-invalid-cnpj')) {
               valid = false;
             }
-            collumn.action.callback(row, value, valid);
+            collumn.action.onChange(row, value, valid);
           }
         };
 
         scope.changeInput = function(row, collumn, value) {
-          if (angular.isFunction(collumn.action.callback) && (collumn.action.trigger === 'change')) {
-            collumn.action.callback(row, value);
+          if (angular.isFunction(collumn.action.onChange) && (collumn.action.trigger === 'change')) {
+            collumn.action.onChange(row, value);
           }
         };
 
         scope.changeInputCpfCnpj = function(event, row, collumn, value) {
-          if (angular.isFunction(collumn.action.callback) && (collumn.action.trigger === 'change')) {
+          if (angular.isFunction(collumn.action.onChange) && (collumn.action.trigger === 'change')) {
             var valid = true;
             if (event.target.classList.contains('ng-invalid-cpf') || event.target.classList.contains('ng-invalid-cnpj')) {
               valid = false;
             }
-            collumn.action.callback(row, value, valid);
+            collumn.action.onChange(row, value, valid);
           }
         };
 
@@ -499,18 +493,18 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         // VARIABLES AND METHODS ACTION COMBO
         ///////////////////////////////////////////////////////////////////////////////////////////////
         scope.getLabelCombo = function(row, collumn, item) {
-          if (collumn.action.type === 'combo' && angular.isFunction(collumn.action.labelFunction)) {
-            return collumn.action.labelFunction(item);
+          if (collumn.action.type === 'combo' && angular.isFunction(collumn.action.labelRender)) {
+            return collumn.action.labelRender(item);
           } else {
-            throw new Exception('Missing property', ' "labelFunction" function property is required for action combo');
+            throw new Exception('Missing property', ' "labelRender" function property is required for action combo');
           }
         };
 
         scope.getValueCombo = function(row, collumn, item) {
-          if (collumn.action.type === 'combo' && angular.isFunction(collumn.action.valueFunction)) {
-            return collumn.action.valueFunction(item);
+          if (collumn.action.type === 'combo' && angular.isFunction(collumn.action.valueRender)) {
+            return collumn.action.valueRender(item);
           } else {
-            throw new Exception('Missing property', ' "valueFunction" function property is required for action combo');
+            throw new Exception('Missing property', ' "valueRender" function property is required for action combo');
           }
         };
 
@@ -539,8 +533,8 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         }
 
         scope.changeCombo = function(row, collumn, value) {
-          if (angular.isFunction(collumn.action.callback) && (collumn.action.type === 'combo')) {
-            collumn.action.callback(row, value);
+          if (angular.isFunction(collumn.action.onChange) && (collumn.action.type === 'combo')) {
+            collumn.action.onChange(row, value);
           }
         };
 
@@ -579,24 +573,20 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         };
 
         scope.getItemSelected = function(item, collumn) {
-          if (collumn.isMultiChosen) {
-            return item[collumn.index];
-          } else {
-            if (angular.isFunction(collumn.action.selectedRender) && (collumn.action.type === 'chosen')) {
-              if (item) {
-                return collumn.action.selectedRender(item);
-              }
-            } else if (angular.isFunction(collumn.action.itemRender) && (collumn.action.type === 'chosen')) {
-              if (item) {
-                return collumn.action.itemRender(item);
-              }
+          if (angular.isFunction(collumn.action.selectedRender) && (collumn.action.type === 'chosen')) {
+            if (item) {
+              return collumn.action.selectedRender(item);
+            }
+          } else if (angular.isFunction(collumn.action.itemRender) && (collumn.action.type === 'chosen')) {
+            if (item) {
+              return collumn.action.itemRender(item);
             }
           }
         };
 
         scope.changeChosen = function(row, collumn, value) {
-          if (angular.isFunction(collumn.action.callback) && (collumn.action.type === 'chosen')) {
-            collumn.action.callback(row, value);
+          if (angular.isFunction(collumn.action.onChange) && (collumn.action.type === 'chosen')) {
+            collumn.action.onChange(row, value);
           }
         };
 
@@ -640,9 +630,25 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           }
         };
 
-        scope.onRemove = function(collumn, item, model){
-          if (angular.isFunction(collumn.action.onRemove)){
+        scope.onRemove = function(collumn, item, model) {
+          if (angular.isFunction(collumn.action.onRemove)) {
             return collumn.action.onRemove(item, model);
+          }
+        };
+
+        scope.onSelect = function(collumn, item, model) {
+          if (angular.isFunction(collumn.action.onSelect)) {
+            return collumn.action.onSelect(item, model);
+          }
+        };
+
+        scope.selectedsMultiChosen = function(item, collumn) {
+          if (angular.isFunction(collumn.action.selectedsRender) && (collumn.action.type === 'multiChosen')) {
+            return collumn.action.selectedsRender(item);
+          } else if (angular.isFunction(collumn.action.itemRender) && (collumn.action.type === 'multiChosen')) {
+            if (item) {
+              return collumn.action.itemRender(item);
+            }
           }
         };
 

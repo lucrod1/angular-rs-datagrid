@@ -24,10 +24,10 @@ app.controller('demoController', function($scope, $http) {
         type: 'checkbox',
         class: 'test',
         checkInHeader: true,
-        callbackHeader: function(checked) {
+        onCheckHeader: function(checked) {
           console.log('checked: ' + checked);
         },
-        callback: function(obj, checked) {
+        onCheck: function(obj, checked) {
           console.log('checked: ' + checked + ', obj:' + obj.id);
         }
       }
@@ -40,7 +40,7 @@ app.controller('demoController', function($scope, $http) {
       },
       action: {
         type: 'href',
-        callback: function(obj) {
+        onClick: function(obj) {
           console.log('click link' + obj.id);
         }
       }
@@ -71,10 +71,10 @@ app.controller('demoController', function($scope, $http) {
           "ate": "29/12/2016 19:00",
           "dataExibicao": null
         }],
-        labelFunction: function(choise) {
+        labelRender: function(choise) {
           return choise.de;
         },
-        valueFunction: function(choise) {
+        valueRender: function(choise) {
           return choise.de;
         },
         isDisabled: function(obj) {
@@ -84,7 +84,7 @@ app.controller('demoController', function($scope, $http) {
             return false;
           }
         },
-        callback: function(obj, newValue) {
+        onChange: function(obj, newValue) {
           console.log('execute action here: ' + newValue);
         }
       }
@@ -96,7 +96,6 @@ app.controller('demoController', function($scope, $http) {
         placeholder: 'Selecione um tag...',
         theme: 'select2',
         searchIn: ['id','nome'],
-        multiple: true,
         allowClear: false,              // [x] button clear - default is false
         selectedRender: function(item){ // optional
           return item.nome;
@@ -121,7 +120,7 @@ app.controller('demoController', function($scope, $http) {
           id: 2,
           nome: 'tag 2'
         }],
-        callback: function(obj, newValue) {
+        onChange: function(obj, newValue) {
           console.log('execute action here: ' + newValue.id);
         }
       }
@@ -133,6 +132,9 @@ app.controller('demoController', function($scope, $http) {
         placeholder: 'Selecione um tag...',
         theme: 'select2',
         searchIn: ['id','nome'],
+        selectedsRender: function(item){
+          return item.nome;
+        },
         itemRender: function(item){
           return item.nome;
         },
@@ -164,8 +166,8 @@ app.controller('demoController', function($scope, $http) {
           id: 6,
           nome: 'tag 6'
         }],
-        callback: function(obj, newValue) {
-          console.log('execute action here: ' + newValue.id);
+        onSelect: function(item, model) {
+          console.log('execute action here: ' + item.id);
         }
       }
     }, {
@@ -211,7 +213,7 @@ app.controller('demoController', function($scope, $http) {
             return false;
           }
         },
-        callback: function(obj, newValue, valid) {
+        onChange: function(obj, newValue, valid) {
           if (valid) {
           console.log('execute action here value blur: ' + newValue);
           } else {
