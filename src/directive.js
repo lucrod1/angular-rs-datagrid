@@ -29,6 +29,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         scope.avaliablesChoises = [];
         scope.avaliablesChoisesChosen = [];
         scope.avaliablesChoisesMultiChosen = [];
+        scope.currentTr = null;
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // INIT SET PROPERT SHOW ACTIONS
@@ -51,6 +52,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           collumn.isChosenSelect2 = showChosen(collumn, 'select2');
           collumn.isMultiChosen = showMultiChosen(collumn);
         });
+
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // INIT SET PROPERT VALUES NG.MODELS FOR ACTIONS
@@ -649,6 +651,49 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
             if (item) {
               return collumn.action.itemRender(item);
             }
+          }
+        };
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        // VARIABLES AND METHODS POPOVER 
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        var topTable, topTr, leftTable, popover, heightPopover, widthTr, widthPopover;
+        scope.getStylePopover = function() {
+          popover = angular.element(document.getElementsByClassName('popover'));
+          if (scope.currentTr && popover) {
+            popover.css('display','block');
+            topTr = scope.currentTr.offsetTop;
+            heightPopover = popover[0].clientHeight;
+            widthPopover = popover[0].clientWidth;
+            widthTr = scope.currentTr.clientWidth;
+            topTable = scope.currentTr.offsetParent.offsetTop;
+            leftTable = scope.currentTr.offsetParent.offsetLeft;
+            popover.css('top',topTable + topTr - heightPopover + 'px');
+            popover.css('left',leftTable + (widthTr / 2) - (widthPopover / 2) + 'px');
+          } else {
+            popover.css('display','none');
+          }
+        };
+
+        scope.hoverTr = function(ev, row) {
+          scope.currentTr = ev.currentTarget;
+          scope[scope.config.popoverRow.ngModel] = row;
+        };
+
+        scope.outTr = function() {
+          scope.currentTr = null;
+          scope[scope.config.popoverRow.ngModel] = null;
+        };
+
+        scope.getTitlePopover   = function(){
+          if(scope.config.popoverRow && scope.config.popoverRow.titleRender && scope.currentTr){
+            return scope.config.popoverRow.titleRender(scope[scope.config.popoverRow.ngModel])
+          }
+        };
+
+        scope.getTemplateUrl = function(){
+          if(scope.config.popoverRow && scope.config.popoverRow.templateUrl){
+            return 'template-popover.html';
           }
         };
 

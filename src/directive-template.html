@@ -1,10 +1,29 @@
 <div>
+  <!-- popover -->
+  <div 
+    class="popover top fade in" 
+    title="Tile"
+    placement="top" 
+    html="true" 
+    ng-style="getStylePopover()">
+      <div class="arrow"></div>
+      <div class="popover-inner">
+        <!-- ngIf: title -->
+        <h3 class="popover-title" ng-bind-html="getTitlePopover()"></h3>
+        <!-- end ngIf: title -->
+        <div class="popover-content">
+          <ng-include src="config.popoverRow.templateUrl"></ng-include>
+        </div>
+      </div>
+  </div>
+  <!-- fim popover -->
   <!-- pagination size -->
   <div ng-if="hasPagination" class="pagination_header">
     <span ng-bind="pagination.labelSize"></span>
     <select class="pagination_select" ng-change="changePaginationSize()" ng-model="pagination.defaultSize" ng-options="size for size in pagination.avaliableSizes">
     </select>
   </div>
+  <!-- loading -->
   <div id="loading" class='uil-default-css' ng-if="showProgress" style='transform:scale(0.14);'>
     <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(0deg) translate(0,-50px);transform:rotate(0deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
     <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(30deg) translate(0,-50px);transform:rotate(30deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
@@ -26,14 +45,12 @@
   </div>
   <!--  -->
   <br style="clear: both;" />
-
   <!-- table -->
   <table ng-class="getClassTable()">
     <thead>
       <tr>
         <th ng-class="getClass($index)" style="cursor: {{getCursorCollumn(collumn)}}" ng-click="sortCollumn(collumn)" ng-repeat="collumn in collumns track by $index">
-          <input ng-click="clickCheckboxHeader(collumn, collumn.checkboxHeader)" ng-if="collumn.action.type ==='checkbox' && collumn.action.checkInHeader" type="checkbox" ng-model="collumn.checkboxHeader" name="checkbox_0" id="checkbox_0">
-          {{collumn.title}}
+          <input ng-click="clickCheckboxHeader(collumn, collumn.checkboxHeader)" ng-if="collumn.action.type ==='checkbox' && collumn.action.checkInHeader" type="checkbox" ng-model="collumn.checkboxHeader" name="checkbox_0" id="checkbox_0"> {{collumn.title}}
           <i ng-if="hasSortCollumnDirection(collumn, 'asc')" class="icon-sort asc"></i>
           <i ng-if="hasSortCollumnDirection(collumn, 'desc')" class="icon-sort desc"></i>
           <i ng-if="hasSortCollumnDirection(collumn, 'all')" class="icon-sort asc-desc"></i>
@@ -41,63 +58,45 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-if="!showInfoProgress" ng-repeat="row in collection.content track by $index">
+      <tr ng-if="!showInfoProgress" ng-mouseover="hoverTr($event, row)" ng-mouseout="outTr()" ng-repeat="row in collection.content track by $index">
         <td ng-class="getClass($index)" ng-repeat="collumn in collumns track by $index">
-          
           <!-- print html text-->
           <span ng-if="collumn.isHtml" ng-bind-html="getContentCell(row, $index)"></span>
-          
           <!-- print static text -->
           <span ng-if="!collumn.isHtml" ng-bind="getContentCell(row, $index)"></span>
-          
           <!-- print action href -->
           <a ng-click="clickLink(row, $index)" ng-if="collumn.isLink" ng-bind="row.textLink"></a>
-          
           <!-- print action checkbox -->
           <ng-include src="'templates/checkbox-template.html'" ng-if="collumn.isCheckBox"></ng-include>
-          
           <!-- print action input without mask-->
           <ng-include src="'templates/input-template.html'" ng-if="collumn.isInputWithoutMask"></ng-include>
-          
           <!-- print action input with mask ui-number-mask -->
           <ng-include src="'templates/input-number-template.html'" ng-if="collumn.isInputNumberMask"></ng-include>
-          
           <!-- print action input with mask ui-number-negative-mask -->
           <ng-include src="'templates/input-number-negative-template.html'" ng-if="collumn.isInputNumberMaskNegative"></ng-include>
-
           <!-- print action input with mask ui-money-mask -->
           <ng-include src="'templates/input-money-template.html'" ng-if="collumn.isInputMoneyMask"></ng-include>
-
           <!-- print action input with mask ui-phone-mask -->
           <ng-include src="'templates/input-phone-template.html'" ng-if="collumn.isInputPhoneMask"></ng-include>
-
           <!-- print action input with mask ui-cep-mask -->
           <ng-include src="'templates/input-cep-template.html'" ng-if="collumn.isInputCepMask"></ng-include>
-
           <!-- print action input with mask ui-cpf-mask -->
           <ng-include src="'templates/input-cpf-template.html'" ng-if="collumn.isInputCpfMask"></ng-include>
-          
           <!-- print action input with mask ui-cnpj-mask -->
           <ng-include src="'templates/input-cnpj-template.html'" ng-if="collumn.isInputCnpjMask"></ng-include>
-
           <!-- print action input with mask ui-cnpj-mask -->
           <ng-include src="'templates/input-cpfcnpj-template.html'" ng-if="collumn.isInputCpfCnpjMask"></ng-include>
-
           <!-- print action select -->
           <ng-include src="'templates/select-template.html'" ng-if="collumn.isCombo"></ng-include>
-
           <!-- print action chosen select2 -->
           <ng-include src="'templates/chosen-select2-template.html'" ng-if="collumn.isChosenSelect2"></ng-include>
-          
           <!-- print action chosen selectize -->
           <ng-include src="'templates/chosen-selectize-template.html'" ng-if="collumn.isChosenSelectize"></ng-include>
-
           <!-- print action multi-chosen -->
           <ng-include src="'templates/multi-chosen-select2-template.html'" ng-if="collumn.isMultiChosen"></ng-include>
-
           <!-- render buttons -->
           <div class="actions pull-right" ng-if="$last">
-            <button tooltip="{{button.tooltip}}" tooltip-placement="top" ng-if="isVisibleButton(button, row, $index)" type="button" ng-class="button.classButton" ng-click="button.callbackButton(row)" ng-repeat="button in buttons track by $index">
+            <button tooltip="{{button.tooltip}}" tooltip-placement="top" ng-if="isVisibleButton(button, row, $index)" type="button" ng-class="button.classButton" ng-click="button.onClick(row)" ng-repeat="button in buttons track by $index">
               <span ng-class="button.classIcon"></span> {{button.text}}
             </button>
           </div>
@@ -110,20 +109,22 @@
   </table>
   <!-- pages -->
   <div class="pagination_page">
+    <!-- loading -->
     <div id="loading" class='uil-default-css' ng-if="showProgress" style='transform:scale(0.14);'>
-    <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(0deg) translate(0,-50px);transform:rotate(0deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
-    <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(30deg) translate(0,-50px);transform:rotate(30deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
-    <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(60deg) translate(0,-50px);transform:rotate(60deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
-    <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(90deg) translate(0,-50px);transform:rotate(90deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
-    <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(120deg) translate(0,-50px);transform:rotate(120deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
-    <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(150deg) translate(0,-50px);transform:rotate(150deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
-    <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(180deg) translate(0,-50px);transform:rotate(180deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
-    <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(210deg) translate(0,-50px);transform:rotate(210deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
-    <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(240deg) translate(0,-50px);transform:rotate(240deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
-    <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(270deg) translate(0,-50px);transform:rotate(270deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
-    <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(300deg) translate(0,-50px);transform:rotate(300deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
-    <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(330deg) translate(0,-50px);transform:rotate(330deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
-  </div>
+      <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(0deg) translate(0,-50px);transform:rotate(0deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
+      <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(30deg) translate(0,-50px);transform:rotate(30deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
+      <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(60deg) translate(0,-50px);transform:rotate(60deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
+      <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(90deg) translate(0,-50px);transform:rotate(90deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
+      <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(120deg) translate(0,-50px);transform:rotate(120deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
+      <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(150deg) translate(0,-50px);transform:rotate(150deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
+      <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(180deg) translate(0,-50px);transform:rotate(180deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
+      <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(210deg) translate(0,-50px);transform:rotate(210deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
+      <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(240deg) translate(0,-50px);transform:rotate(240deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
+      <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(270deg) translate(0,-50px);transform:rotate(270deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
+      <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(300deg) translate(0,-50px);transform:rotate(300deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
+      <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(330deg) translate(0,-50px);transform:rotate(330deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
+    </div>
+    <!-- buttons page -->
     <ul>
       <li class="prev" ng-class="{'disabled': collection.first}">
         <a ng-click="prevPage()">← Anterior</a>

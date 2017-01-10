@@ -13,6 +13,13 @@ app.controller('demoController', function($scope, $http) {
     search: {
       label: 'Filtrar por: ',
     },
+    popoverRow: {
+      titleRender: function (obj){
+        return "title teste";
+      },
+      templateUrl: 'template-popover.html',      // string, URL TEMPLATE
+      ngModel: 'popover'    // String that presents the model in popover template
+    },
     collumns: [{
       index: 'destaque',
       sort: false,
@@ -252,7 +259,7 @@ app.controller('demoController', function($scope, $http) {
       //     return false;
       //   }
       // },
-      callbackButton: function(obj) {
+      onClick: function(obj) {
         console.log('Execute action here obj clicked:' + obj.id);
       }
     }]
