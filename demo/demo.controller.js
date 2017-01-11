@@ -1,32 +1,39 @@
 app.controller('demoController', function($scope, $http) {
 
   $scope.config = {
-    classTable: 'table table-bordered table-striped',
-    messageLoading: 'Loading...',
-    sort: true,
-    defaultSort: 'id,asc',
-    pagination: {
-      labelSize: 'Registros por página: ',
-      defaultSize: 10,
-      avaliableSizes: [10, 25, 50, 100, 500]
+    
+    classTable: 'table table-bordered table-striped',   // optional, default: "table table-bordered table-striped"
+    messageLoading: 'Loading...',                       // optional, default: "loading..."
+    sort: true,                                         // optional, default: false
+    defaultSort: 'id,asc',                              // optional, default is first "collumn.index", asc
+    
+    pagination: {                                       // required in this version, because this version only work with pagination
+    //   labelSize: 'Registros por página: ',           // optional, default "Page size: ""
+    //   defaultSize: 10,                               // optional, default first item in avaliableSizes
+    //   avaliableSizes: [10, 25, 50, 100, 500]         // optional, default [10,25,50,100]
     },
-    search: {
-      label: 'Filtrar por: ',
+    
+    search: {                                           // optional
+      label: 'Filtrar por: ',                           // optional, default ''
     },
-    popoverRow: {
-      titleRender: function (obj){
-        return "title teste";
+    
+    popoverRow: {                                       // optional
+      titleRender: function (row){                      // optional, callback(currentRow) for render title in popover
+        return row.unidade.nome;
       },
-      templateUrl: 'template-popover.html',      // string, URL TEMPLATE
-      ngModel: 'popover'    // String that presents the model in popover template
+      templateUrl: 'template-popover.html',             // required type: String "popover-template.html"
+      ngModel: 'popover'                                // required type: String (that presents the model in popover template)
     },
-    collumns: [{
-      index: 'destaque',
-      sort: false,
-      class: 'text-center',
-      // render: function(obj){
-      //   return obj.destaque;
-      // },
+
+    collumns: [{                                        // required
+      index: 'destaque',                                // Required, this property represents which key will be printed on the column according to the row
+      sort: false,                                      // optional, default: true
+      class: 'text-center',                             // optional type: String this class will be included in <td>
+      
+      render: function(row){                            // optional, callback(currentRow) for print value in collumn, override collumn.index
+        return row.destaque;
+      },
+      
       action: {
         type: 'checkbox',
         class: 'test',
@@ -42,7 +49,7 @@ app.controller('demoController', function($scope, $http) {
       title: "ID",
       index: 'id',
       sort: false,
-      render: function(obj) {
+      render: function(obj) {                           // optional, callback(currentRow) override collumn[index]
         return obj.id;
       },
       action: {
@@ -101,7 +108,7 @@ app.controller('demoController', function($scope, $http) {
       action: {
         type: 'chosen',
         placeholder: 'Selecione um tag...',
-        theme: 'select2',
+        theme: 'selectize',
         searchIn: ['id','nome'],
         allowClear: false,              // [x] button clear - default is false
         selectedRender: function(item){ // optional

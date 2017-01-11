@@ -9,7 +9,7 @@
       <div class="arrow"></div>
       <div class="popover-inner">
         <!-- ngIf: title -->
-        <h3 class="popover-title" ng-bind-html="getTitlePopover()"></h3>
+        <h3 class="popover-title" ng-if="config.popoverRow.titleRender" ng-bind-html="getTitlePopover()"></h3>
         <!-- end ngIf: title -->
         <div class="popover-content">
           <ng-include src="config.popoverRow.templateUrl"></ng-include>
