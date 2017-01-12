@@ -96,7 +96,7 @@
           <ng-include src="'templates/multi-chosen-select2-template.html'" ng-if="collumn.isMultiChosen"></ng-include>
           <!-- render buttons -->
           <div class="actions pull-right" ng-if="$last">
-            <button tooltip="{{button.tooltip}}" tooltip-placement="top" ng-if="isVisibleButton(button, row, $index)" type="button" ng-class="button.classButton" ng-click="button.onClick(row)" ng-repeat="button in buttons track by $index">
+            <button tooltip="{{button.tooltip}}" style="margin-left: 5px;" tooltip-placement="top" ng-if="isVisibleButton(button, row, $index)" type="button" ng-class="button.classButton" ng-click="button.onClick(row)" ng-repeat="button in buttons track by $index">
               <span ng-class="button.classIcon"></span> {{button.text}}
             </button>
           </div>
@@ -125,7 +125,7 @@
       <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(330deg) translate(0,-50px);transform:rotate(330deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
     </div>
     <!-- buttons page -->
-    <ul>
+    <ul ng-if="hasPagination">
       <li class="prev" ng-class="{'disabled': collection.first}">
         <a ng-click="prevPage()">← Anterior</a>
       </li>

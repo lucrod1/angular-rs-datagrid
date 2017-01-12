@@ -11,7 +11,6 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
       restrict: 'AE',
       templateUrl: 'directive-template.html',
       scope: {
-        collection: "=",
         config: "="
       },
       replace: true,
@@ -30,6 +29,10 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         scope.avaliablesChoisesChosen = [];
         scope.avaliablesChoisesMultiChosen = [];
         scope.currentTr = null;
+
+        if (scope.config.pagination) {
+          scope.hasPagination = true;
+        }
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // INIT SET PROPERT SHOW ACTIONS
@@ -51,7 +54,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           collumn.isChosenSelectize = showChosen(collumn, 'selectize');
           collumn.isChosenSelect2 = showChosen(collumn, 'select2');
           collumn.isMultiChosen = showMultiChosen(collumn);
-          scope.containPopover  = showPopover();
+          scope.containPopover = showPopover();
         });
 
 
@@ -205,36 +208,49 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // VARIABLES AND METHODS FOR PAGINATION IN TABLE
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        if (scope.config.pagination) {
+        if (scope.hasPagination) {
           scope.hasPagination = true;
           scope.pagination = scope.config.pagination; //EXPOSE PAGINATION IN SCOPE
 
-          if(!angular.isDefined(scope.pagination.avaliableSizes)){
+          if (!angular.isDefined(scope.pagination.avaliableSizes)) {
             scope.pagination.avaliableSizes = [10, 25, 50, 100];
           }
 
-          if(!angular.isDefined(scope.pagination.defaultSize)){
+          if (!angular.isDefined(scope.pagination.defaultSize)) {
             scope.pagination.defaultSize = scope.pagination.avaliableSizes[0];
           }
 
-          if(!angular.isDefined(scope.pagination.labelSize)){
+          if (!angular.isDefined(scope.pagination.labelSize)) {
             scope.pagination.labelSize = 'Page size:';
           }
 
-          if (!angular.isDefined(scope.config.lazyData)) {
-            throw new Exception('Missing property', 'function "lazyData" property is required for grid with pagination and this property is missing in config:');
-          } else {
+          if (angular.isDefined(scope.config.lazyData)) {
             scope.showInfoProgress = true; //CALL WHEN INIT COMPONENT
-            scope.config.lazyData(scope.currentPage, scope.pagination.defaultSize, getCurrentSort()).then(function() {
+            scope.config.lazyData(scope.currentPage, scope.pagination.defaultSize, getCurrentSort()).then(function(dados) {
               scope.showInfoProgress = false;
+              scope.collection = dados;
             });
+          } else {
+            throw new Exception('Missing property', 'function "lazyData" property is required for grid with pagination and this property is missing in config:');
+          }
+        } else {
+          scope.showInfoProgress = true;
+          if (angular.isDefined(scope.config.data)) {
+            scope.showInfoProgress = false;
+            scope.collection = {
+              content: scope.config.data()
+            };
+          }else{
+            throw new Exception('Missing property', 'function "data" property is required for grid without pagination and this property is missing in config'); 
           }
         }
 
         scope.$watchCollection('collection', function(dados) {
           if (dados) {
             // console.log('watch collection');
-            makePagination();
+            if (scope.hasPagination) {
+              makePagination();
+            }
             setValuesActions(dados);
           }
         });
@@ -675,26 +691,26 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         scope.getStylePopover = function() {
           popover = angular.element(document.getElementsByClassName('popover'));
           if (scope.currentTr && popover) {
-            popover.css('display','block');
+            popover.css('display', 'block');
             topTr = scope.currentTr.offsetTop;
             heightPopover = popover[0].clientHeight;
             widthPopover = popover[0].clientWidth;
             widthTr = scope.currentTr.clientWidth;
             topTable = scope.currentTr.offsetParent.offsetTop;
             leftTable = scope.currentTr.offsetParent.offsetLeft;
-            popover.css('top',topTable + topTr - heightPopover + 'px');
-            popover.css('left',leftTable + (widthTr / 2) - (widthPopover / 2) + 'px');
+            popover.css('top', topTable + topTr - heightPopover + 'px');
+            popover.css('left', leftTable + (widthTr / 2) - (widthPopover / 2) + 'px');
           } else {
-            popover.css('display','none');
+            popover.css('display', 'none');
           }
         };
 
-        function showPopover(){
-          if (scope.config.popoverRow){
-            if(!angular.isDefined(scope.config.popoverRow.ngModel)){
+        function showPopover() {
+          if (scope.config.popoverRow) {
+            if (!angular.isDefined(scope.config.popoverRow.ngModel)) {
               throw new Exception('Missing property', ' "ngModel" property is required for popoverRow, this property represents the model in popover template');
             }
-            if(!angular.isDefined(scope.config.popoverRow.templateUrl)){
+            if (!angular.isDefined(scope.config.popoverRow.templateUrl)) {
               throw new Exception('Missing property', ' "templateUrl" property is required for popoverRow');
             }
             return true;
@@ -703,21 +719,21 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         }
 
         scope.hoverTr = function(ev, row) {
-          if (scope.containPopover){
+          if (scope.containPopover) {
             scope.currentTr = ev.currentTarget;
             scope[scope.config.popoverRow.ngModel] = row;
           }
         };
 
         scope.outTr = function() {
-          if (scope.containPopover){
+          if (scope.containPopover) {
             scope.currentTr = null;
             scope[scope.config.popoverRow.ngModel] = null;
           }
         };
 
-        scope.getTitlePopover   = function(){
-          if (scope.containPopover && scope.config.popoverRow.titleRender && scope.currentTr){
+        scope.getTitlePopover = function() {
+          if (scope.containPopover && scope.config.popoverRow.titleRender && scope.currentTr) {
             return scope.config.popoverRow.titleRender(scope[scope.config.popoverRow.ngModel]);
           }
         };
