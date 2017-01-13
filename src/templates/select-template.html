@@ -6,6 +6,6 @@
 	id="combo_{{$index}}"
 	ng-disabled="isDisabledCombo(row, collumn)" 
 	>
-	<option value="">{{collumn.action.labelChoose}}</option>
+	<option ng-if="collumn.action.labelChoose" value="">{{collumn.action.labelChoose}}</option>
 	<option value="{{item}}" ng-repeat="item in avaliablesChoises">{{item}}</option>
 </select>
