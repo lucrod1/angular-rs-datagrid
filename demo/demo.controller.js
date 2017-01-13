@@ -15,7 +15,7 @@ app.controller('demoController', function($scope, $http) {
       title: '',
       index: 'enable',
       class: 'text-center',
-
+      sort: false,
       render: function(row) {
         return row.destaque;
       },
@@ -55,15 +55,65 @@ app.controller('demoController', function($scope, $http) {
     }, {
       title: 'Action href',
       index: 'github',
-      render: function(row){
+      render: function(row) {
         return 'open github'
       },
       action: {
         type: 'href',
         onClick: function(row) {
-          window.open(row.github,'_blank');
+          window.open(row.github, '_blank');
         }
       }
+    }, {
+      title: 'Action input',
+      index: 'nickName',
+      action: {
+        type: 'input',
+        class: 'input-rs',
+        maxlength: 10,
+        trigger: 'blur',
+        onChange: function(row) {
+          alert('blur action input and maxlength 10, newValue is:' + row.nickName);
+        }
+      }
+    }, {
+      title: 'Action input with mask',
+      index: 'value',
+      action: {
+        type: 'input',
+        class: 'input-rs',
+        maxlength: 10,
+        trigger: 'blur',
+        mask: {
+          use: 'number',
+          decimalPlace: 2,
+          maxlength: 11,
+          negative: true
+        },
+        onChange: function(row) {
+          alert('blur action input and maxlength 10, newValue is:' + row.value);
+        }
+      }
+    }, {
+      title: 'Action Combo',
+      index: 'status',
+      action: {
+        type: 'combo',
+        class: '',
+        avaliablesChoises: ["ATIVO","INATIVO"],
+        labelChoose: 'Selecione...',
+        isDisabled: function(obj) {
+          if (obj.id === 66000000143365) {
+            return true;
+          } else {
+            return false;
+          }
+        },
+        onChange: function(obj) {
+          console.log('execute action here: ' + obj.status);
+        }
+      }
+
     }, {
       title: 'Buttons',
       sort: false
@@ -76,8 +126,179 @@ app.controller('demoController', function($scope, $http) {
           id: 1,
           name: 'Ribeirão Preto'
         },
+        nickName: 'lucrod1',
         github: 'https://github.com/lucrod1/',
-        enable: true
+        enable: true,
+        value: '10.20',
+        status: "ATIVO"
+      },{
+        id: 1,
+        name: 'Lucas Rodrigues',
+        city: {
+          id: 1,
+          name: 'Ribeirão Preto'
+        },
+        nickName: 'lucrod1',
+        github: 'https://github.com/lucrod1/',
+        enable: true,
+        value: '10.20',
+        status: "ATIVO"
+      },{
+        id: 1,
+        name: 'Lucas Rodrigues',
+        city: {
+          id: 1,
+          name: 'Ribeirão Preto'
+        },
+        nickName: 'lucrod1',
+        github: 'https://github.com/lucrod1/',
+        enable: true,
+        value: '10.20',
+        status: "ATIVO"
+      },{
+        id: 1,
+        name: 'Lucas Rodrigues',
+        city: {
+          id: 1,
+          name: 'Ribeirão Preto'
+        },
+        nickName: 'lucrod1',
+        github: 'https://github.com/lucrod1/',
+        enable: true,
+        value: '10.20',
+        status: "ATIVO"
+      },{
+        id: 1,
+        name: 'Lucas Rodrigues',
+        city: {
+          id: 1,
+          name: 'Ribeirão Preto'
+        },
+        nickName: 'lucrod1',
+        github: 'https://github.com/lucrod1/',
+        enable: true,
+        value: '10.20',
+        status: "ATIVO"
+      },{
+        id: 1,
+        name: 'Lucas Rodrigues',
+        city: {
+          id: 1,
+          name: 'Ribeirão Preto'
+        },
+        nickName: 'lucrod1',
+        github: 'https://github.com/lucrod1/',
+        enable: true,
+        value: '10.20',
+        status: "ATIVO"
+      },{
+        id: 1,
+        name: 'Lucas Rodrigues',
+        city: {
+          id: 1,
+          name: 'Ribeirão Preto'
+        },
+        nickName: 'lucrod1',
+        github: 'https://github.com/lucrod1/',
+        enable: true,
+        value: '10.20',
+        status: "ATIVO"
+      },{
+        id: 1,
+        name: 'Lucas Rodrigues',
+        city: {
+          id: 1,
+          name: 'Ribeirão Preto'
+        },
+        nickName: 'lucrod1',
+        github: 'https://github.com/lucrod1/',
+        enable: true,
+        value: '10.20',
+        status: "ATIVO"
+      },{
+        id: 1,
+        name: 'Lucas Rodrigues',
+        city: {
+          id: 1,
+          name: 'Ribeirão Preto'
+        },
+        nickName: 'lucrod1',
+        github: 'https://github.com/lucrod1/',
+        enable: true,
+        value: '10.20',
+        status: "ATIVO"
+      },{
+        id: 1,
+        name: 'Lucas Rodrigues',
+        city: {
+          id: 1,
+          name: 'Ribeirão Preto'
+        },
+        nickName: 'lucrod1',
+        github: 'https://github.com/lucrod1/',
+        enable: true,
+        value: '10.20',
+        status: "ATIVO"
+      },{
+        id: 1,
+        name: 'Lucas Rodrigues',
+        city: {
+          id: 1,
+          name: 'Ribeirão Preto'
+        },
+        nickName: 'lucrod1',
+        github: 'https://github.com/lucrod1/',
+        enable: true,
+        value: '10.20',
+        status: "ATIVO"
+      },{
+        id: 1,
+        name: 'Lucas Rodrigues',
+        city: {
+          id: 1,
+          name: 'Ribeirão Preto'
+        },
+        nickName: 'lucrod1',
+        github: 'https://github.com/lucrod1/',
+        enable: true,
+        value: '10.20',
+        status: "ATIVO"
+      },{
+        id: 1,
+        name: 'Lucas Rodrigues',
+        city: {
+          id: 1,
+          name: 'Ribeirão Preto'
+        },
+        nickName: 'lucrod1',
+        github: 'https://github.com/lucrod1/',
+        enable: true,
+        value: '10.20',
+        status: "ATIVO"
+      },{
+        id: 1,
+        name: 'Lucas Rodrigues',
+        city: {
+          id: 1,
+          name: 'Ribeirão Preto'
+        },
+        nickName: 'lucrod1',
+        github: 'https://github.com/lucrod1/',
+        enable: true,
+        value: '10.20',
+        status: "ATIVO"
+      },{
+        id: 1,
+        name: 'Lucas Rodrigues',
+        city: {
+          id: 1,
+          name: 'Ribeirão Preto'
+        },
+        nickName: 'lucrod1',
+        github: 'https://github.com/lucrod1/',
+        enable: true,
+        value: '10.20',
+        status: "ATIVO"
       }]
     },
     buttons: [{

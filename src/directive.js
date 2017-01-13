@@ -67,22 +67,23 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
             var action = false;
             if (collumn.action && collumn.action.type) {
               action = collumn.action.type;
+              var count = 0;
               angular.forEach(collection.content, function(row) {
-                switch (action) {
-                  case 'input':
-                    row.valueInput = getValueObjectEvalBykey(row, collumn.index);
-                    break;
-                  case 'combo':
-                    row.valueCombo = getValueObjectEvalBykey(row, collumn.index);
-                    break;
-                  case 'chosen':
-                    row.valueChosen = getValueObjectEvalBykey(row, collumn.index);
-                    break;
-                  case 'multiChosen':
-                    row.valueMultiChosen = getValueObjectEvalBykey(row, collumn.index);
-                    break;
+                //checkboxHeader
+                if (action === 'checkbox' && row[collumn.index]) {
+                  count++;
                 }
+
+                if (angular.isUndefined(row._internal)) {
+                  row._internal = {};
+                }
+                row._internal[collumn.index] = getValueObjectEvalBykey(row, collumn.index);
               });
+              if (count === scope.collection.content.length) {
+                collumn.checkboxHeader = true;
+              } else {
+                collumn.checkboxHeader = false;
+              }
             }
           }
         }
@@ -240,8 +241,8 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
             scope.collection = {
               content: scope.config.data()
             };
-          }else{
-            throw new Exception('Missing property', 'function "data" property is required for grid without pagination and this property is missing in config'); 
+          } else {
+            throw new Exception('Missing property', 'function "data" property is required for grid without pagination and this property is missing in config');
           }
         }
 
@@ -534,7 +535,13 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
 
         scope.getValueCombo = function(row, collumn, item) {
           if (collumn.action.type === 'combo' && angular.isFunction(collumn.action.valueRender)) {
-            return collumn.action.valueRender(item);
+            var value = collumn.action.valueRender(item);
+            if (row[collumn.index].toString() === value) {
+              item.selected = true;
+            } else {
+              item.selected = false;
+            }
+            return value;
           } else {
             throw new Exception('Missing property', ' "valueRender" function property is required for action combo');
           }

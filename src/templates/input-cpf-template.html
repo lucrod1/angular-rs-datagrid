@@ -4,7 +4,7 @@
 	maxlength="{{collumn.action.mask.maxlength}}" 
 	ng-change="changeInputCpfCnpj($event, row, collumn, row.valueInput)" 
 	ng-blur="blurInputCpfCnpj($event, row, collumn, row.valueInput)" 
-	ng-model="row.valueInput" 
+	ng-model="row[collumn.index]" 
 	ng-disabled="isDisabledInput(row, collumn)" 
 	ng-class="collumn.action.class" 
 	name="input_cpf{{$index}}" 
