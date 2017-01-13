@@ -2,11 +2,6 @@
 
 angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
   .directive('rsDatagrid', function($sce) {
-    function Exception(type, message) {
-      this.type = type;
-      this.message = message;
-    }
-
     return {
       restrict: 'AE',
       templateUrl: 'directive-template.html',
@@ -64,39 +59,47 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         function setValuesActions(collection) {
           for (var i = 0; i < scope.collumns.length; i++) {
             var collumn = scope.collumns[i];
-            var action = false;
-            if (collumn.action && collumn.action.type) {
-              action = collumn.action.type;
-              var count = 0;
-              angular.forEach(collection.content, function(row) {
-                //checkboxHeader
-                if (action === 'checkbox' && row[collumn.index]) {
-                  count++;
-                }
-
-                if (angular.isUndefined(row._internal)) {
-                  row._internal = {};
-                }
-                row._internal[collumn.index] = getValueObjectEvalBykey(row, collumn.index);
-              });
-              if (count === scope.collection.content.length) {
-                collumn.checkboxHeader = true;
-              } else {
-                collumn.checkboxHeader = false;
+            var count = 0;
+            angular.forEach(collection.content, function(row) {
+              //checkboxHeader
+              if (collumn.action && collumn.action === 'checkbox' && row[collumn.index]) {
+                count++;
               }
+              setAttrInternal(row, collumn);
+            });
+            if (count === scope.collection.content.length) {
+              collumn.checkboxHeader = true;
+            } else {
+              collumn.checkboxHeader = false;
             }
           }
         }
+
+        function setAttrInternal(row, collumn) {
+          if (angular.isUndefined(row._internal)) {
+            row._internal = {};
+          }
+          if(angular.isUndefined(collumn.index)){
+            throw new Error('Missing property, "index" property is required for column');
+          }
+          if(angular.isFunction(collumn.render)){
+            row._internal[collumn.index] = collumn.render(row);
+          }else{
+            row._internal[collumn.index] = getValueObjectEvalBykey(row, collumn.index);
+          }
+        };
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // REFRESH TABLE
         ///////////////////////////////////////////////////////////////////////////////////////////////
         function refresh(page) {
-          scope.showProgress = true;
-          scope.config.lazyData(page, scope.pagination.defaultSize, getCurrentSort(), scope.pagination.search).then(function() {
-            scope.showProgress = false;
-            scope.currentPage = page;
-          });
+          if (scope.hasPagination) {
+            scope.showProgress = true;
+            scope.config.lazyData(page, scope.pagination.defaultSize, getCurrentSort(), scope.pagination.search).then(function() {
+              scope.showProgress = false;
+              scope.currentPage = page;
+            });
+          }
         }
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -124,7 +127,11 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
 
         scope.$watch('pagination.search', function(newValue, oldValue) {
           if (newValue !== oldValue) {
-            refresh(0);
+            if (scope.hasPagination) {
+              refresh(0);
+            } else {
+
+            }
           }
         });
 
@@ -232,7 +239,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
               scope.collection = dados;
             });
           } else {
-            throw new Exception('Missing property', 'function "lazyData" property is required for grid with pagination and this property is missing in config:');
+            throw new Error('Missing property, function "lazyData" property is required for grid with pagination and this property is missing in config:');
           }
         } else {
           scope.showInfoProgress = true;
@@ -242,7 +249,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
               content: scope.config.data()
             };
           } else {
-            throw new Exception('Missing property', 'function "data" property is required for grid without pagination and this property is missing in config');
+            throw new Error('Missing property, function "data" property is required for grid without pagination and this property is missing in config');
           }
         }
 
@@ -384,7 +391,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           if (angular.isFunction(scope.collumns[indexCollumn].action.onClick)) {
             scope.collumns[indexCollumn].action.onClick(currentObject);
           } else {
-            throw new Exception('Missing property', 'function "onClick" property is missing, in collum:' + indexCollumn + ' ');
+            throw new Error('Missing property, function "onClick" property is missing, in collum:' + indexCollumn + ' ');
           }
         };
 
@@ -529,7 +536,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           if (collumn.action.type === 'combo' && angular.isFunction(collumn.action.labelRender)) {
             return collumn.action.labelRender(item);
           } else {
-            throw new Exception('Missing property', ' "labelRender" function property is required for action combo');
+            throw new Error('Missing property,  "labelRender" function property is required for action combo');
           }
         };
 
@@ -543,7 +550,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
             }
             return value;
           } else {
-            throw new Exception('Missing property', ' "valueRender" function property is required for action combo');
+            throw new Error('Missing property,  "valueRender" function property is required for action combo');
           }
         };
 
@@ -564,7 +571,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
             if (collumn.action.avaliablesChoises) {
               scope.avaliablesChoises = collumn.action.avaliablesChoises;
             } else {
-              throw new Exception('Missing property', ' "avaliablesChoises" property is required for action combo');
+              throw new Error('Missing property,  "avaliablesChoises" property is required for action combo');
             }
           }
 
@@ -590,7 +597,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
             if (collumn.action.avaliablesChoises) {
               scope.avaliablesChoisesChosen = collumn.action.avaliablesChoises;
             } else {
-              throw new Exception('Missing property', ' "avaliablesChoises" property is required for action combo');
+              throw new Error('Missing property,  "avaliablesChoises" property is required for action combo');
             }
           }
 
@@ -607,7 +614,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           if (angular.isArray(collumn.action.searchIn)) {
             return collumn.action.searchIn;
           } else {
-            throw new Exception('Missing property array', ' "searchIn" property is required for action chosen');
+            throw new Error('Missing propertyaray', ' "searchIn" property is required for action chosen');
           }
         };
 
@@ -649,7 +656,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
             if (collumn.action.avaliablesChoises) {
               scope.avaliablesChoisesMultiChosen = collumn.action.avaliablesChoises;
             } else {
-              throw new Exception('Missing property', ' "avaliablesChoises" property is required for action combo');
+              throw new Error('Missing property,  "avaliablesChoises" property is required for action combo');
             }
           }
 
@@ -715,10 +722,10 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         function showPopover() {
           if (scope.config.popoverRow) {
             if (!angular.isDefined(scope.config.popoverRow.ngModel)) {
-              throw new Exception('Missing property', ' "ngModel" property is required for popoverRow, this property represents the model in popover template');
+              throw new Error('Missing property,  "ngModel" property is required for popoverRow, this property represents the model in popover template');
             }
             if (!angular.isDefined(scope.config.popoverRow.templateUrl)) {
-              throw new Exception('Missing property', ' "templateUrl" property is required for popoverRow');
+              throw new Error('Missing property,  "templateUrl" property is required for popoverRow');
             }
             return true;
           }
