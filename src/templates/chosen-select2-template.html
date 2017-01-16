@@ -1,6 +1,6 @@
 <ui-select 
 	ng-model="row[collumn.index]" 
-	ng-change="changeChosen(row, collumn, row.valueChosen)" 
+	ng-change="changeChosen(row, collumn, row[collumn.index])" 
 	theme="select2" 
 	class="{{collumn.action.class}}"
 	ng-disabled="isDisabledChosen(row, collumn)" 

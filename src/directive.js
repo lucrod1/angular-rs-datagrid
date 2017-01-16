@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
-  .directive('rsDatagrid', function($sce) {
+  .directive('rsDatagrid', function($locale) {
     return {
       restrict: 'AE',
       templateUrl: 'directive-template.html',
@@ -24,6 +24,9 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         scope.avaliablesChoisesChosen = [];
         scope.avaliablesChoisesMultiChosen = [];
         scope.currentTr = null;
+        scope.filter = {
+          search: null
+        };
 
         if (scope.config.pagination) {
           scope.hasPagination = true;
@@ -56,7 +59,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // INIT SET PROPERT VALUES NG.MODELS FOR ACTIONS
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        function setValuesActions(collection) {
+        function setValuesInternal(collection) {
           for (var i = 0; i < scope.collumns.length; i++) {
             var collumn = scope.collumns[i];
             var count = 0;
@@ -79,15 +82,27 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           if (angular.isUndefined(row._internal)) {
             row._internal = {};
           }
-          if(angular.isUndefined(collumn.index)){
+          if (angular.isUndefined(collumn.index)) {
             throw new Error('Missing property, "index" property is required for column');
           }
-          if(angular.isFunction(collumn.render)){
+          if (angular.isFunction(collumn.render)) {
             row._internal[collumn.index] = collumn.render(row);
+          } else if(collumn.action && collumn.action.type === 'input' && collumn.action.mask){
+            switch(collumn.action.mask.use){
+              case 'number':
+                row._internal[collumn.index] = getValueObjectEvalBykey(row, collumn.index).replace('.',$locale.NUMBER_FORMATS.DECIMAL_SEP);
+              break;
+              case 'money':
+                row._internal[collumn.index] = $locale.NUMBER_FORMATS.CURRENCY_SYM+' '+getValueObjectEvalBykey(row, collumn.index).replace('.',$locale.NUMBER_FORMATS.DECIMAL_SEP);
+                break;
+              default:
+                row._internal[collumn.index] = getValueObjectEvalBykey(row, collumn.index);
+                break;
+            }
           }else{
             row._internal[collumn.index] = getValueObjectEvalBykey(row, collumn.index);
           }
-        };
+        }
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // REFRESH TABLE
@@ -112,7 +127,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
             return 'table table-bordered table-striped';
           }
         };
-
+       
         scope.getClass = function(indexCollumn) {
           return scope.collumns[indexCollumn].class;
         };
@@ -129,8 +144,6 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           if (newValue !== oldValue) {
             if (scope.hasPagination) {
               refresh(0);
-            } else {
-
             }
           }
         });
@@ -259,7 +272,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
             if (scope.hasPagination) {
               makePagination();
             }
-            setValuesActions(dados);
+            setValuesInternal(dados);
           }
         });
 
@@ -497,9 +510,9 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           return false;
         };
 
-        scope.blurInput = function(row, collumn, value) {
+        scope.blurInput = function(row, collumn) {
           if (angular.isFunction(collumn.action.onChange) && (collumn.action.trigger === 'blur' || !collumn.action.trigger)) {
-            collumn.action.onChange(row, value);
+            collumn.action.onChange(row);
           }
         };
 
@@ -611,11 +624,18 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         };
 
         scope.getKeysForSearch = function(collumn) {
-          if (angular.isArray(collumn.action.searchIn)) {
-            return collumn.action.searchIn;
-          } else {
-            throw new Error('Missing propertyaray', ' "searchIn" property is required for action chosen');
+          if (scope.hasPagination) {
+            if (angular.isArray(collumn.action.searchIn)) {
+              return collumn.action.searchIn;
+            } else {
+              throw new Error('Missing propertyaray', ' "searchIn" property is required for action chosen');
+            }
+          }else{
+            if(scope.collection.content[0]._internal){
+              return Object.keys(scope.collection.content[0]._internal);
+            }
           }
+          return [];
         };
 
         scope.getItemSelected = function(item, collumn) {

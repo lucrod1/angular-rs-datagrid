@@ -41,7 +41,8 @@
   <!-- pagination search -->
   <div ng-if="hasSearch" class="pagination_search">
     <span ng-bind="search.label"></span>
-    <input type="text" name="search" ng-model-options="{debounce: 1000}" ng-keyup="keyup(pagination.search)" ng-model="pagination.search" id="search">
+    <input type="text" name="search"  ng-keyup="keyup(filter.search)" ng-model="filter.search" id="searchValue">
+    {{searchValue}}
   </div>
   <!--  -->
   <br style="clear: both;" />
@@ -58,7 +59,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-if="!showInfoProgress" ng-mouseover="hoverTr($event, row)" ng-mouseout="outTr()" ng-repeat="row in collection.content track by $index">
+      <tr ng-if="!showInfoProgress" ng-mouseover="hoverTr($event, row)" ng-mouseout="outTr()" ng-repeat="row in collection.content | propsFilter: getKeysForSearch(collumn) : filter.search : true">
         <td ng-class="getClass($index)" ng-repeat="collumn in collumns track by $index">
           <!-- print html text-->
           <span ng-if="collumn.isHtml" ng-bind-html="getContentCell(row, $index)"></span>

@@ -24,7 +24,7 @@ angular.module("rs.datagrid")
       }
       return strAccentsOut;
     };
-    return function(items, props, search) {
+    return function(items, props, search, internal) {
       var out;
       out = [];
       if (angular.isArray(items)) {
@@ -35,9 +35,16 @@ angular.module("rs.datagrid")
           while (i < props.length) {
             prop = props[i];
             text = removeAccents(search).toString().toLowerCase();
-            if (item[prop] && removeAccents(item[prop]).toString().toLowerCase().indexOf(text) !== -1) {
-              itemMatches = true;
-              break;
+            if (internal) {
+              if (item._internal[prop] && removeAccents(item._internal[prop]).toString().toLowerCase().indexOf(text) !== -1) {
+                itemMatches = true;
+                break;
+              }
+            } else {
+              if (item[prop] && removeAccents(item[prop]).toString().toLowerCase().indexOf(text) !== -1) {
+                itemMatches = true;
+                break;
+              }
             }
             i++;
           }

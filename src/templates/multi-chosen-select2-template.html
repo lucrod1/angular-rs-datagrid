@@ -5,8 +5,8 @@
 	class="{{collumn.action.class}}"
 	ng-disabled="isDisabledMultiChosen(row, collumn)" 
 	name="chosen_{{$index}}" 
-	on-remove="onRemove(collumn, $item, row.valueMultiChosen)"
-	on-select="onSelect(collumn, $item, row.valueMultiChosen)"
+	on-remove="onRemove(collumn, $item, row[collumn.index])"
+	on-select="onSelect(collumn, $item, row[collumn.index])"
 	id="chosen_{{$index}}">
   <ui-select-match placeholder="{{collumn.action.placeholder}}">
     <div ng-bind-html="selectedsMultiChosen($item, collumn)"></div>

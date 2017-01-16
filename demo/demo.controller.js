@@ -16,10 +16,6 @@ app.controller('demoController', function($scope, $http) {
       index: 'enable',
       class: 'text-center',
       sort: false,
-      render: function(row) {
-        return row.enable;
-      },
-
       action: {
         type: 'checkbox',
         class: 'checkboxClass',
@@ -49,11 +45,11 @@ app.controller('demoController', function($scope, $http) {
         return row.id + " - " + row.name;
       }
     }, {
-      title: 'Class center',
+      title: 'Class',
       index: 'city.name',
       class: 'text-center',
     }, {
-      title: 'Action href',
+      title: 'Href',
       index: 'github',
       render: function(row) {
         return 'open github'
@@ -65,7 +61,7 @@ app.controller('demoController', function($scope, $http) {
         }
       }
     }, {
-      title: 'Action input',
+      title: 'Input',
       index: 'nickName',
       action: {
         type: 'input',
@@ -77,25 +73,25 @@ app.controller('demoController', function($scope, $http) {
         }
       }
     }, {
-      title: 'Action input with mask',
-      index: 'value',
+      title: 'Input with mask',
+      index: 'phone',
       action: {
         type: 'input',
         class: 'input-rs',
         maxlength: 10,
         trigger: 'blur',
         mask: {
-          use: 'number',
-          decimalPlace: 2,
-          maxlength: 11,
-          negative: true
+          use: 'br-phone',
+          // decimalPlace: 2,
+          // maxlength: 11,
+          // negative: true
         },
         onChange: function(row) {
           alert('blur action input and maxlength 10, newValue is:' + row.value);
         }
       }
     }, {
-      title: 'Action Combo',
+      title: 'Combo',
       index: 'status',
       action: {
         type: 'combo',
@@ -130,6 +126,7 @@ app.controller('demoController', function($scope, $http) {
         nickName: 'lucrod1',
         github: 'https://github.com/lucrod1/',
         enable: true,
+        phone: '1636101626',
         value: '10.20',
         status: "ATIVO"
       }, {

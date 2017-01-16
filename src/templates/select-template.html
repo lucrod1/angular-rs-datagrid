@@ -1,6 +1,6 @@
 <select 
 	ng-model="row[collumn.index]" 
-	ng-change="changeCombo(row, collumn, row.valueCombo)" 
+	ng-change="changeCombo(row, collumn, row[collumn.index])" 
 	name="combo_{{$index}}" 
 	ng-class="collumn.action.class" 
 	id="combo_{{$index}}"

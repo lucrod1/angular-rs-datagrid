@@ -2,10 +2,11 @@
 	type="text" 
 	ui-br-phone-number 
 	maxlength="{{collumn.action.mask.maxlength}}" 
-	ng-change="changeInput(row, collumn, row.valueInput)" 
-	ng-blur="blurInput(row, collumn, row.valueInput)" 
+	ng-change="changeInput(row, collumn)" 
+	ng-blur="blurInput(row, collumn)" 
 	ng-model="row[collumn.index]" 
 	ng-disabled="isDisabledInput(row, collumn)" 
+	model-view-value="true"
 	ng-class="collumn.action.class" 
 	name="input_phone{{$index}}" 
 	id="input_phone{{$index}}"
