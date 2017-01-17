@@ -75,7 +75,7 @@ $scope.config = {
 };
 ```
 ## How disable sort in collumn
-defines sort = false in collumn property
+Defines sort = false in collumn property
 ```
 $scope.config = {
   ...
@@ -89,7 +89,7 @@ $scope.config = {
 };
 ```
 ## How Stylize collumn
-defines class in collumn
+Defines class in collumn
 ```
 $scope.config = {
   ...
@@ -104,7 +104,7 @@ $scope.config = {
 ```
 
 ## How render checkbox in collumn
-Defines a property action in config.collumn type = checkbox
+Defines a property type = 'checkbox' in collumn.action.type
 ```
 $scope.config = {
   ...
@@ -129,20 +129,42 @@ $scope.config = {
 ```
 
 ## How render href in collumn
-Defines a property action in config.collumn type = href
+Defines a property type = 'href' in collumn.action.type
 ```
 $scope.config = {
   ...
   collumns: [{
-    title: "ID",
-    index: 'id',
+    title: "Href",
+    index: 'github',
     render: function(obj) { // in action href, this property is required, callback(currentRow) override collumn[index], for label the href
-      return obj.id;
+      return 'open github';
     },
     action: {
       type: 'href',
       onClick: function(obj) {                        // callback(currentRow) when click in href
-        console.log('click link' + obj.id);
+        window.open(row.github, '_blank');
+      }
+    }
+ }],
+ ...
+};
+```
+
+## How render input in collumn
+Defines a property type = 'input' in collumn.action.type
+```
+$scope.config = {
+  ...
+  collumns: [{
+    title: 'Input',
+    index: 'nickName',
+    action: {
+      type: 'input',
+      class: 'input-rs',                // optional 
+      maxlength: 10,                    // optional
+      trigger: 'blur',                  // required, default: 'blur', avaliables Triggers  'blur', 'change'
+      onChange: function(row) {         // callback when exec trigger 
+        console.log('Row actual: '+row);
       }
     }
   }],
@@ -150,8 +172,115 @@ $scope.config = {
 };
 ```
 
-## How render combo box in collumn
+## How render input with mask 'Number' in collumn
+Defines a property type = 'input' and mask in collumn.action
+```
+$scope.config = {
+  ...
+  collumns: [{
+    title: 'Input',
+    index: 'nickName',
+    action: {
+      type: 'input',
+      trigger: 'blur',                  // required, default: 'blur', avaliables Triggers  'blur', 'change'
+      mask: {                     
+        use: 'number',                  // avaliables uses: 'number', 'money', 'br-phone','br-cep','br-cpf','br-cpfcnpj'
+        decimalPlace: 2,                // number of decimals 
+        maxlength: 11,
+        negative: true                  // optional, default false
+      },
+      isDisabled: function(obj) {       // callback
+        if (obj.id === 1) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      onChange: function(row) {         // callback when exec trigger 
+        console.log('Row actual: '+row);
+      }
+    }
+  }],
+ ...
+};
+```
+## Mask Money
+```
+  ...
+  mask: {
+    use: 'money',    
+    decimalPlace: 2,          // number of decimals 
+    maxlength: 11
+  },
+  ...
+```
+## Mask br-phone
+```
+  ...
+  mask: {
+    use: 'br-phone'
+  },
+  ...
+```
+## Mask br-cep
+```
+  ...
+  mask: {
+    use: 'br-cep'
+  },
+  ...
+```
+## Mask br-cpf
+It has 2 parameters, row and isValid result validation
+```
+  ...
+  mask: {
+    use: 'br-cpf'
+  },
+  onChange: function(row, isValid) {      //callback 
+    if(isValid){
+      console.log('execute action here');
+    }else{
+      console.log('CPF inválido');
+    }
+  }
+  ...
+```
+## Mask br-cnpj
+It has 2 parameters, row and isValid result validation
+```
+  ...
+  mask: {
+    use: 'br-cnpj'
+  },
+  onChange: function(row, isValid) {      //callback 
+    if(isValid){
+      console.log('execute action here');
+    }else{
+      console.log('CPF inválido');
+    }
+  }
+  ...
+```
+## Mask br-cpfcnpj
+It has 2 parameters, row and isValid result validation
+```
+  ...
+  mask: {
+    use: 'br-cpfcnpj'
+  },
+  onChange: function(row, isValid) {      //callback 
+    if(isValid){
+      console.log('execute action here');
+    }else{
+      console.log('CPF inválido');
+    }
+  }
+  ...
+```
+## How render comboBox in collumn
 Defines a property action in config.collumn type = combo
+
 ```
 $scope.config = {
   ...
