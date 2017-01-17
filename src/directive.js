@@ -32,6 +32,8 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           scope.hasPagination = true;
         }
 
+        var maskFactory = require('mask-factory');
+
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // INIT SET PROPERT SHOW ACTIONS
         ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -93,9 +95,11 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
                 row._internal[collumn.index] = getValueObjectEvalBykey(row, collumn.index).replace('.',$locale.NUMBER_FORMATS.DECIMAL_SEP);
               break;
               case 'money':
+
                 row._internal[collumn.index] = $locale.NUMBER_FORMATS.CURRENCY_SYM+' '+getValueObjectEvalBykey(row, collumn.index).replace('.',$locale.NUMBER_FORMATS.DECIMAL_SEP);
                 break;
               default:
+                elem
                 row._internal[collumn.index] = getValueObjectEvalBykey(row, collumn.index);
                 break;
             }
