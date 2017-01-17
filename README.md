@@ -1,5 +1,4 @@
-# Directive angular-rs-datagrid
-## Directive in development version beta!
+# Directive angular-rs-datagrid Directive is under development, version alpha
 
 ## Installation
 
