@@ -128,37 +128,6 @@ $scope.config = {
 };
 ```
 
-## How render buttons
-The buttons are always rendered in the last column
-Defines a property buttons in config
-```
-$scope.config = {
-  ...
-  collumns: [{...}],
-  buttons: [
-    {
-      text: 'Excluir',                              //optional 
-      classButton: 'btn btn-xs btn-primary',        // class ex: <button class="btn btn-xs btn-primary"></button>
-      onClick: function(obj) {                      // callback when clicked
-        console.log('Execute action here obj clicked:' + obj.id);
-      }
-    },
-    {
-      tooltip: 'Tooltip',                           //optional 
-      classIcon: 'glyphicon glyphicon-remove',      // class for icon in button
-      classButton: 'btn btn-xs btn-danger',         // class ex: <button class="btn btn-xs btn-danger"></button>
-      isVisible: function(obj) {                    // callback for handle when the button will be rendered according a expression boolean
-        if (obj.id == 1) {                        
-          return false;
-        } else {
-          return true;
-        }
-      },
-    }
-  ]
-  ...
-};
-```
 ## How render href in collumn
 Defines a property action in config.collumn type = href
 ```
@@ -202,5 +171,38 @@ $scope.config = {
  ...
 };
 ```
+
+## How render buttons
+The buttons are always rendered in the last column<br/>
+Defines a property buttons in config
+```
+$scope.config = {
+  ...
+  collumns: [{...}],
+  buttons: [
+    {
+      text: 'Excluir',                              //optional 
+      classButton: 'btn btn-xs btn-primary',        // class ex: <button class="btn btn-xs btn-primary"></button>
+      onClick: function(obj) {                      // callback when clicked
+        console.log('Execute action here obj clicked:' + obj.id);
+      }
+    },
+    {
+      tooltip: 'Tooltip',                           //optional 
+      classIcon: 'glyphicon glyphicon-remove',      // class for icon in button
+      classButton: 'btn btn-xs btn-danger',         // class ex: <button class="btn btn-xs btn-danger"></button>
+      isVisible: function(obj) {                    // callback for handle when the button will be rendered according a expression boolean
+        if (obj.id == 1) {                        
+          return false;
+        } else {
+          return true;
+        }
+      },
+    }
+  ]
+  ...
+};
+```
+
 ### License
 MIT
