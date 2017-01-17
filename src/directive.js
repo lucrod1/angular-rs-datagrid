@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
-  .directive('rsDatagrid', function($locale) {
+  .directive('rsDatagrid', function($locale, $filter) {
     return {
       restrict: 'AE',
       templateUrl: 'directive-template.html',
@@ -203,7 +203,11 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
               directionSortAsc = !directionSortAsc;
             }
             collumSort = col;
-            refresh(0);
+            if(scope.hasPagination){
+              refresh(0);
+            }else{
+              scope.collection.content = $filter('orderBy')(scope.collection.content, "_internal."+col, !directionSortAsc);
+            }
           }
         };
 
@@ -338,16 +342,6 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           return angular.isUndefined(val) || val === null;
         };
 
-        function getValueObjectEvalByIndex(currentObject, indexCollumn) {
-          var index = scope.collumns[indexCollumn].index;
-          try {
-            var item = eval("currentObject." + index);
-            if (!angular.isUndefinedOrNull(item)) {
-              return item;
-            }
-          } catch (error) {}
-        }
-
         function getValueObjectEvalBykey(currentObject, key) {
           try {
             var item = eval("currentObject." + key);
@@ -377,7 +371,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
             if (isRenderFunction) {
               return scope.config.collumns[indexCollumn].render(currentObject);
             } else {
-              return getValueObjectEvalByIndex(currentObject, indexCollumn);
+              return currentObject[scope.collumns[indexCollumn].index];
             }
           }
         };
@@ -389,7 +383,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           if (isRenderFunction) {
             currentObject.textLink = scope.config.collumns[indexCollumn].render(currentObject);
           } else {
-            currentObject.textLink = getValueObjectEvalByIndex(currentObject, indexCollumn);
+            currentObject.textLink = currentObject[scope.config.collumns[indexCollumn].index];
           }
         }
 

@@ -46,8 +46,11 @@ app.controller('demoController', function($scope, $http) {
       }
     }, {
       title: 'Class',
-      index: 'city.name',
+      index: 'city',
       class: 'text-center',
+      render: function(row) {
+        return row.city.name;
+      },
     }, {
       title: 'Href',
       index: 'github',
