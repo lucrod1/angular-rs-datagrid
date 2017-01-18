@@ -87,20 +87,20 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
           }
           if (angular.isFunction(collumn.render)) {
             row._internal[collumn.index] = collumn.render(row);
-          } else if(collumn.action && collumn.action.type === 'input' && collumn.action.mask){
-            switch(collumn.action.mask.use){
+          } else if (collumn.action && collumn.action.type === 'input' && collumn.action.mask) {
+            switch (collumn.action.mask.use) {
               case 'number':
-                row._internal[collumn.index] = getValueObjectEvalBykey(row, collumn.index).replace('.',$locale.NUMBER_FORMATS.DECIMAL_SEP);
-              break;
+                row._internal[collumn.index] = getValueObjectEvalBykey(row, collumn.index).replace('.', $locale.NUMBER_FORMATS.DECIMAL_SEP);
+                break;
               case 'money':
 
-                row._internal[collumn.index] = $locale.NUMBER_FORMATS.CURRENCY_SYM+' '+getValueObjectEvalBykey(row, collumn.index).replace('.',$locale.NUMBER_FORMATS.DECIMAL_SEP);
+                row._internal[collumn.index] = $locale.NUMBER_FORMATS.CURRENCY_SYM + ' ' + getValueObjectEvalBykey(row, collumn.index).replace('.', $locale.NUMBER_FORMATS.DECIMAL_SEP);
                 break;
               default:
                 row._internal[collumn.index] = getValueObjectEvalBykey(row, collumn.index);
                 break;
             }
-          }else{
+          } else {
             row._internal[collumn.index] = getValueObjectEvalBykey(row, collumn.index);
           }
         }
@@ -128,7 +128,7 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
             return 'table table-bordered table-striped';
           }
         };
-       
+
         scope.getClass = function(indexCollumn) {
           return scope.collumns[indexCollumn].class;
         };
@@ -204,10 +204,10 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
               directionSortAsc = !directionSortAsc;
             }
             collumSort = col;
-            if(scope.hasPagination){
+            if (scope.hasPagination) {
               refresh(0);
-            }else{
-              scope.collection.content = $filter('orderBy')(scope.collection.content, "_internal."+col, !directionSortAsc);
+            } else {
+              scope.collection.content = $filter('orderBy')(scope.collection.content, "_internal." + col, !directionSortAsc);
             }
           }
         };
@@ -619,15 +619,17 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
         };
 
         scope.getKeysForSearch = function(collumn) {
-          if (scope.hasPagination && collumn && angular.isDefined(collumn.action) && (collumn.action.type === 'chosen' || collumn.action.type === 'multiChosen')) {
-            if (angular.isArray(collumn.action.searchIn)) {
-              return collumn.action.searchIn;
+          if (collumn && angular.isDefined(collumn.action) && (collumn.action.type === 'chosen' || collumn.action.type === 'multiChosen')) {
+            if (scope.hasPagination) {
+              if (angular.isArray(collumn.action.searchIn)) {
+                return collumn.action.searchIn;
+              } else {
+                throw new Error('Missing propertyaray', ' "searchIn" property is required for action chosen');
+              }
             } else {
-              throw new Error('Missing propertyaray', ' "searchIn" property is required for action chosen');
-            }
-          }else{
-            if(scope.collection.content[0]._internal){
-              return Object.keys(scope.collection.content[0]._internal);
+              if (scope.collection.content[0]._internal) {
+                return Object.keys(scope.collection.content[0]._internal);
+              }
             }
           }
           return [];
