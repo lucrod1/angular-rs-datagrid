@@ -165,6 +165,9 @@ $scope.config = {
     action: {
       type: 'input',
       class: 'input-rs',                // optional 
+      ng-style: {                       // optional
+        width: '100px'
+      },
       maxlength: 10,                    // optional
       trigger: 'blur',                  // required, default: 'blur', avaliables Triggers  'blur', 'change'
       isDisabled: function(obj) {       // callback
@@ -301,6 +304,9 @@ $scope.config = {
     action: {
       type: 'combo',
       class: '',                                     // optional
+      ng-style: {                                    // optional
+        width: '100px'
+      },
       avaliablesChoises: ["ACTIVE","INACTIVE"], // required, Collection for populate combo, not use array of object for this use "chosen
       labelChoose: 'Select...',                      // optional, if defined, create a empty option
       isDisabled: function(obj) {                    // optional, callback for disable the combo
@@ -329,7 +335,11 @@ $scope.config = {
     index: 'tag',
     action: {
       type: 'chosen',
-      placeholder: 'Selecione um tag...',         
+      placeholder: 'Selecione um tag...',  
+      class: '',                            // optional
+      ng-style: {                           // optional
+        width: '100px'
+      },
       theme: 'select2',
       searchIn: ['id','nome'],              // property the object for search
       allowClear: false,                    // [x] button clear - default is false
