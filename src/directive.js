@@ -111,9 +111,10 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
         function refresh(page) {
           if (scope.hasPagination) {
             scope.showProgress = true;
-            scope.config.lazyData(page, scope.pagination.defaultSize, getCurrentSort(), scope.pagination.search).then(function() {
+            scope.config.lazyData(page, scope.pagination.defaultSize, getCurrentSort(), scope.pagination.search).then(function(result) {
               scope.showProgress = false;
               scope.currentPage = page;
+              scope.collection = result;
             });
           }
         }
