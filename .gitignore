@@ -3,6 +3,5 @@ bower_components/
 .sass-cache/
 .tmp/
 test/
-dist/
 tests/coverage
 .DS_Store
