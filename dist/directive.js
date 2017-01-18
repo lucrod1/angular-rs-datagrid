@@ -1,7 +1,7 @@
 /*!
  * angular.datagrid
  * 
- * Version: 0.0.1 - 2017-01-18T18:14:39.032Z
+ * Version: 0.0.1 - 2017-01-18T18:16:58.505Z
  * License: MIT
  */
 
@@ -386,14 +386,16 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
         };
 
         scope.getCollection = function() {
-          if (scope.hasPagination) {
-            return scope.collection.content;
-          } else {
-            var keys = [];
-            if (scope.collection.content[0]._internal) {
-              keys = Object.keys(scope.collection.content[0]._internal);
+          if (scope.collection) {
+            if (scope.hasPagination) {
+              return scope.collection.content;
+            } else {
+              var keys = [];
+              if (scope.collection.content[0]._internal) {
+                keys = Object.keys(scope.collection.content[0]._internal);
+              }
+              return $filter('propsFilter')(scope.collection.content, keys, scope.filter.search, true);
             }
-            return $filter('propsFilter')(scope.collection.content, keys, scope.filter.search, true);
           }
         };
 
