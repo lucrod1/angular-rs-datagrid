@@ -80,7 +80,7 @@ gulp.task('scripts', ['clean'], function() {
         spare: true,
         quotes: true
       }))
-      .pipe(templateCache({ module: 'rs.datagrid' }));
+      .pipe(templateCache({ module: 'angular.datagrid' }));
   };
 
   function buildFilterJS() {

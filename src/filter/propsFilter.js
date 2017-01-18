@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module("rs.datagrid")
+angular.module("angular.datagrid")
   .filter("propsFilter", function() {
     var removeAccents;
     removeAccents = function(strValAccents) {

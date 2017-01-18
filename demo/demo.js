@@ -1,5 +1,5 @@
-var app = angular.module('rs', [
+var app = angular.module('app', [
   'ngSanitize',
-  'rs.datagrid',
+  'angular.datagrid',
   'ui.bootstrap'
 ]);

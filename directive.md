@@ -5,7 +5,7 @@
 Install via bower
 
 ```shell
-bower install --save angular-rs-datagrid
+bower install --save angular.datagrid
 ```
 
 ### Usage
