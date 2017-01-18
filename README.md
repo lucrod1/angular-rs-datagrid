@@ -1,4 +1,4 @@
-# Directive angular-rs-datagrid 
+# Directive angular.datagrid 
 #### Directive is under development, version alpha
 
 ## Installation
@@ -6,7 +6,7 @@
 With Bower:
 
 ```
-bower install --save angular-rs-datagrid
+bower install --save angular.datagrid
 ```
 
 With npm:
