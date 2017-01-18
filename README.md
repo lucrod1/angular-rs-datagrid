@@ -464,7 +464,42 @@ template-popover.html
   <p>Nick Name: {{this.popover.nickName}}</p>
   <p>City: {{this.popover.city.name}}</p>
 </div>
-
+```
+## How use pagination in component
+This version only implements pagination in backend<br/>
+Defines property pagination in config
+```
+$scope.config = {
+  ...
+  pagination: {                                       // optional
+    labelSize: 'Registros por página: ',              // optional, default "Page size: ""
+    defaultSize: 10,                                  // optional, default first item in avaliableSizes
+    avaliableSizes: [10, 25, 50, 100, 500]            // optional, default [10,25,50,100]
+  },
+  ...
+};
+```
+When using paging, you must implement a lazyData function within the configuration, this function is responsive to update or components automatically, page sorts and other
+```
+$scope.config = {
+  ...
+  lazyData: function(page, size, sort, search) {
+    var params = {
+      page: page,
+      size: size,
+      sort: sort,
+      search: search
+      };
+      return $http({
+        url: "http://localhost:8080/acoes",
+        method: 'GET',
+        params: params,
+      }).then(function(result) {
+        return result.data;
+      });
+  },
+  ...
+};
 ```
 ### License
 MIT
