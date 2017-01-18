@@ -285,15 +285,22 @@ Defines a property action in config.collumn type = combo
 $scope.config = {
   ...
   collumns: [{
-    title: "ID",
-    index: 'id',
-    render: function(obj) { // in action href, this property is required, callback(currentRow) override collumn[index], for label the href
-      return obj.id;
-    },
+    title: "Combo",
+    index: 'status',
     action: {
-      type: 'href',
-      onClick: function(obj) {                        // callback(currentRow) when click in href
-        console.log('click link' + obj.id);
+      type: 'combo',
+      class: '',                                     // optional
+      avaliablesChoises: ["ACTIVE","INACTIVE"], // required, Collection for populate combo, not use array of object for this use "chosen
+      labelChoose: 'Select...',                      // optional, if defined, create a empty option
+      isDisabled: function(obj) {                    // optional, callback for disable the combo
+        if (obj.id === 1) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      onChange: function(obj) {
+        console.log('execute action here');
       }
     }
   }],
