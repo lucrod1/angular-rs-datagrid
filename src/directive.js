@@ -619,7 +619,7 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
         };
 
         scope.getKeysForSearch = function(collumn) {
-          if (scope.hasPagination && angular.isDefined(collumn.action) && (collumn.action.type === 'chosen' || collumn.action.type === 'multiChosen')) {
+          if (scope.hasPagination && collumn && angular.isDefined(collumn.action) && (collumn.action.type === 'chosen' || collumn.action.type === 'multiChosen')) {
             if (angular.isArray(collumn.action.searchIn)) {
               return collumn.action.searchIn;
             } else {
