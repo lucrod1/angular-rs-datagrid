@@ -75,7 +75,7 @@ $scope.config = {
 };
 ```
 ## How disable sort in collumn
-defines sort = false in collumn property
+Defines sort = false in collumn property
 ```
 $scope.config = {
   ...
@@ -89,7 +89,7 @@ $scope.config = {
 };
 ```
 ## How Stylize collumn
-defines class in collumn
+Defines class in collumn
 ```
 $scope.config = {
   ...
@@ -104,7 +104,7 @@ $scope.config = {
 ```
 
 ## How render checkbox in collumn
-Defines a property action in config.collumn type = checkbox
+Defines a property type = 'checkbox' in collumn.action.type
 ```
 $scope.config = {
   ...
@@ -128,8 +128,287 @@ $scope.config = {
 };
 ```
 
+## How render href in collumn
+Defines a property type = 'href' in collumn.action.type
+```
+$scope.config = {
+  ...
+  collumns: [{
+    title: "Href",
+    index: 'github',
+    render: function(obj) { // in action href, this property is required, callback(currentRow) override collumn[index], for label the href
+      return 'open github';
+    },
+    action: {
+      type: 'href',
+      onClick: function(obj) {                        // callback(currentRow) when click in href
+        window.open(row.github, '_blank');
+      }
+    }
+ }],
+ ...
+};
+```
+
+## How render input in collumn
+Defines a property type = 'input' in collumn.action.type
+```
+$scope.config = {
+  ...
+  collumns: [{
+    title: 'Input',
+    index: 'nickName',
+    action: {
+      type: 'input',
+      class: 'input-rs',                // optional 
+      maxlength: 10,                    // optional
+      trigger: 'blur',                  // required, default: 'blur', avaliables Triggers  'blur', 'change'
+      onChange: function(row) {         // callback when exec trigger 
+        console.log('Row actual: '+row);
+      }
+    }
+  }],
+ ...
+};
+```
+
+## How render input with mask 'Number' in collumn
+Defines a property type = 'input' and mask in collumn.action
+```
+$scope.config = {
+  ...
+  collumns: [{
+    title: 'Input',
+    index: 'nickName',
+    action: {
+      type: 'input',
+      trigger: 'blur',                  // required, default: 'blur', avaliables Triggers  'blur', 'change'
+      mask: {                     
+        use: 'number',                  // avaliables uses: 'number', 'money', 'br-phone','br-cep','br-cpf','br-cpfcnpj'
+        decimalPlace: 2,                // number of decimals 
+        maxlength: 11,
+        negative: true                  // optional, default false
+      },
+      isDisabled: function(obj) {       // callback
+        if (obj.id === 1) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      onChange: function(row) {         // callback when exec trigger 
+        console.log('Row actual: '+row);
+      }
+    }
+  }],
+ ...
+};
+```
+## Mask Money
+```
+  ...
+  mask: {
+    use: 'money',    
+    decimalPlace: 2,          // number of decimals 
+    maxlength: 11
+  },
+  ...
+```
+## Mask br-phone
+```
+  ...
+  mask: {
+    use: 'br-phone'
+  },
+  ...
+```
+## Mask br-cep
+```
+  ...
+  mask: {
+    use: 'br-cep'
+  },
+  ...
+```
+## Mask br-cpf
+It has 2 parameters, row and isValid result validation
+```
+  ...
+  mask: {
+    use: 'br-cpf'
+  },
+  onChange: function(row, isValid) {      //callback 
+    if(isValid){
+      console.log('execute action here');
+    }else{
+      console.log('CPF inválido');
+    }
+  }
+  ...
+```
+## Mask br-cnpj
+It has 2 parameters, row and isValid result validation
+```
+  ...
+  mask: {
+    use: 'br-cnpj'
+  },
+  onChange: function(row, isValid) {      //callback 
+    if(isValid){
+      console.log('execute action here');
+    }else{
+      console.log('CPF inválido');
+    }
+  }
+  ...
+```
+## Mask br-cpfcnpj
+It has 2 parameters, row and isValid result validation
+```
+  ...
+  mask: {
+    use: 'br-cpfcnpj'
+  },
+  onChange: function(row, isValid) {      //callback 
+    if(isValid){
+      console.log('execute action here');
+    }else{
+      console.log('CPF inválido');
+    }
+  }
+  ...
+```
+## How render comboBox in collumn
+Defines a property type = 'combo' and mask in collumn.action
+
+```
+$scope.config = {
+  ...
+  collumns: [{
+    title: "Combo",
+    index: 'status',
+    action: {
+      type: 'combo',
+      class: '',                                     // optional
+      avaliablesChoises: ["ACTIVE","INACTIVE"], // required, Collection for populate combo, not use array of object for this use "chosen
+      labelChoose: 'Select...',                      // optional, if defined, create a empty option
+      isDisabled: function(obj) {                    // optional, callback for disable the combo
+        if (obj.id === 1) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      onChange: function(obj) {
+        console.log('execute action here');
+      }
+    }
+  }],
+ ...
+};
+```
+
+## How render chosen in collumn
+Defines a property type = 'chosen' and mask in collumn.action
+```
+$scope.config = {
+  ...
+  collumns: [{
+    title: 'Chosen',
+    index: 'tag',
+    action: {
+      type: 'chosen',
+      placeholder: 'Selecione um tag...',         
+      theme: 'select2',
+      searchIn: ['id','nome'],              // property the object for search
+      allowClear: false,                    // [x] button clear - default is false
+      selectedRender: function(item){       // optional
+        return item.nome;
+      },
+      itemRender: function(item){
+        var ret =  '<small>';
+        ret     += 'id:'+item.id+'<br/>';
+        ret     += 'nome: '+item.nome+'<br/>';
+        ret     += '</small>';
+        return ret;                   // is possible return html content
+      },
+      isDisabled: function(obj){
+        if (obj.id == 1){
+          return true;
+        }
+        return false;
+      },
+      avaliablesChoises: [{
+        id: 1,
+        nome: 'tag 1'
+      },{
+        id: 2,
+        nome: 'tag 2'
+      }],
+      onChange: function(obj, newValue) {
+        console.log('execute action here: ' + newValue.id);
+      }
+   }],
+  ...
+};
+```
+## How render multiChosen in collumn
+Defines a property type = 'multiChosen' and mask in collumn.action
+```
+$scope.config = {
+  ...
+  collumns: [{
+    title: 'Multi-Chosen',
+    index: 'nome',
+    action: {
+      type: 'multiChosen',
+      placeholder: 'Selecione um tag...',
+      theme: 'select2',
+      searchIn: ['id','nome'],
+      selectedsRender: function(item){
+        return item.nome;
+      },
+      itemRender: function(item){
+        return item.nome;
+      },
+      onRemove : function(item, model){
+        console.log(item);
+      },
+      isDisabled: function(obj){
+        if (obj.id == 1){
+          return true;
+        }
+        return false;
+      },
+      avaliablesChoises: [{
+        id: 1,
+        nome: 'tag 1'
+      },{
+        id: 2,
+        nome: 'tag 2'
+      },{
+        id: 3,
+        nome: 'tag 3'
+      },{
+        id: 4,
+        nome: 'tag 4'
+      },{
+        id: 5,
+        nome: 'tag 5'
+      },{
+        id: 6,
+        nome: 'tag 6'
+      }],
+      onSelect: function(item, model) {
+        console.log('execute action here: ' + item.id);
+      }
+  }],
+  ...
+};
+```
+
 ## How render buttons
-The buttons are always rendered in the last column
+The buttons are always rendered in the last column<br/>
 Defines a property buttons in config
 ```
 $scope.config = {
@@ -159,48 +438,29 @@ $scope.config = {
   ...
 };
 ```
-## How render href in collumn
-Defines a property action in config.collumn type = href
-```
-$scope.config = {
-  ...
-  collumns: [{
-    title: "ID",
-    index: 'id',
-    render: function(obj) { // in action href, this property is required, callback(currentRow) override collumn[index], for label the href
-      return obj.id;
-    },
-    action: {
-      type: 'href',
-      onClick: function(obj) {                        // callback(currentRow) when click in href
-        console.log('click link' + obj.id);
-      }
-    }
-  }],
- ...
-};
-```
 
-## How render combo box in collumn
-Defines a property action in config.collumn type = combo
+## Render popover for Row
+Defines a property popoverRow, trigger is hover in row
 ```
 $scope.config = {
   ...
-  collumns: [{
-    title: "ID",
-    index: 'id',
-    render: function(obj) { // in action href, this property is required, callback(currentRow) override collumn[index], for label the href
-      return obj.id;
+  popoverRow: {                                       // optional
+    titleRender: function (row){                      // optional, callback(currentRow) for render title in popover
+      return row.name+' '+row.lastName;
     },
-    action: {
-      type: 'href',
-      onClick: function(obj) {                        // callback(currentRow) when click in href
-        console.log('click link' + obj.id);
-      }
-    }
-  }],
- ...
+    templateUrl: 'template-popover.html',             // required type: String "popover-template.html"
+    ngModel: 'popover'                                // required type: String (that presents the model in popover template)
+  },
+  ...
 };
+```
+template-popover.html
+```
+<div>
+  <p>Nick Name: {{this.popover.nickName}}</p>
+  <p>City: {{this.popover.city.name}}</p>
+</div>
+
 ```
 ### License
 MIT
