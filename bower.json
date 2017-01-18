@@ -6,8 +6,8 @@
   ],
   "description": "Angular directive for dataGrid with pagination in back-end and input, input-mask, chosen, combo, checkbox, multiChosen and others",
   "main": [
-    "dist/directive.css",
-    "dist/directive.js"
+    "dist/directive.min.css",
+    "dist/directive.min.js"
   ],
   "license": "MIT",
   "private": false,
@@ -19,7 +19,7 @@
     "src",
     "gulpfile.js",
     "karma.conf.js",
-    "directive.md"
+    "directive.md",
     "demo",
     "tests"
   ],
