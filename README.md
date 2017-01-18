@@ -167,6 +167,13 @@ $scope.config = {
       class: 'input-rs',                // optional 
       maxlength: 10,                    // optional
       trigger: 'blur',                  // required, default: 'blur', avaliables Triggers  'blur', 'change'
+      isDisabled: function(obj) {       // callback
+        if (obj.id === 1) {
+          return true;
+        } else {
+          return false;
+        }
+      },
       onChange: function(row) {         // callback when exec trigger 
         console.log('Row actual: '+row);
       }
