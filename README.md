@@ -439,5 +439,20 @@ $scope.config = {
 };
 ```
 
+## Render popover for Row
+Defines a property popoverRow, trigger is hover in row
+```
+$scope.config = {
+  ...
+  popoverRow: {                                       // optional
+    titleRender: function (row){                      // optional, callback(currentRow) for render title in popover
+      return row.name+' '+row.lastName;
+    },
+    templateUrl: 'template-popover.html',             // required type: String "popover-template.html"
+    ngModel: 'popover'                                // required type: String (that presents the model in popover template)
+  },
+  ...
+};
+```
 ### License
 MIT
