@@ -279,7 +279,7 @@ It has 2 parameters, row and isValid result validation
   ...
 ```
 ## How render comboBox in collumn
-Defines a property action in config.collumn type = combo
+Defines a property type = 'combo' and mask in collumn.action
 
 ```
 $scope.config = {
@@ -305,6 +305,105 @@ $scope.config = {
     }
   }],
  ...
+};
+```
+
+## How render chosen in collumn
+Defines a property type = 'chosen' and mask in collumn.action
+```
+$scope.config = {
+  ...
+  collumns: [{
+    title: 'Chosen',
+    index: 'tag',
+    action: {
+      type: 'chosen',
+      placeholder: 'Selecione um tag...',         
+      theme: 'select2',
+      searchIn: ['id','nome'],              // property the object for search
+      allowClear: false,                    // [x] button clear - default is false
+      selectedRender: function(item){       // optional
+        return item.nome;
+      },
+      itemRender: function(item){
+        var ret =  '<small>';
+        ret     += 'id:'+item.id+'<br/>';
+        ret     += 'nome: '+item.nome+'<br/>';
+        ret     += '</small>';
+        return ret;                   // is possible return html content
+      },
+      isDisabled: function(obj){
+        if (obj.id == 1){
+          return true;
+        }
+        return false;
+      },
+      avaliablesChoises: [{
+        id: 1,
+        nome: 'tag 1'
+      },{
+        id: 2,
+        nome: 'tag 2'
+      }],
+      onChange: function(obj, newValue) {
+        console.log('execute action here: ' + newValue.id);
+      }
+   }],
+  ...
+};
+```
+## How render multiChosen in collumn
+Defines a property type = 'multiChosen' and mask in collumn.action
+```
+$scope.config = {
+  ...
+  collumns: [{
+    title: 'Multi-Chosen',
+    index: 'nome',
+    action: {
+      type: 'multiChosen',
+      placeholder: 'Selecione um tag...',
+      theme: 'select2',
+      searchIn: ['id','nome'],
+      selectedsRender: function(item){
+        return item.nome;
+      },
+      itemRender: function(item){
+        return item.nome;
+      },
+      onRemove : function(item, model){
+        console.log(item);
+      },
+      isDisabled: function(obj){
+        if (obj.id == 1){
+          return true;
+        }
+        return false;
+      },
+      avaliablesChoises: [{
+        id: 1,
+        nome: 'tag 1'
+      },{
+        id: 2,
+        nome: 'tag 2'
+      },{
+        id: 3,
+        nome: 'tag 3'
+      },{
+        id: 4,
+        nome: 'tag 4'
+      },{
+        id: 5,
+        nome: 'tag 5'
+      },{
+        id: 6,
+        nome: 'tag 6'
+      }],
+      onSelect: function(item, model) {
+        console.log('execute action here: ' + item.id);
+      }
+  }],
+  ...
 };
 ```
 
