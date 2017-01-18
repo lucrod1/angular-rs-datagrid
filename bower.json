@@ -6,7 +6,7 @@
   ],
   "description": "Angular directive for dataGrid with pagination in back-end and input, input-mask, chosen, combo, checkbox, multiChosen and others",
   "main": "dist/directive.css, dist/directive.js",
-  "repository": "git@github.com:lucrod1/angular.datagrid.git"
+  "repository": "git@github.com:lucrod1/angular.datagrid.git",
   "license": "MIT",
   "private": false,
   "ignore": [
