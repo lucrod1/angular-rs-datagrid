@@ -21,6 +21,10 @@ Datagrid component that supports several types of value editing. It is possible 
 This component works with two dependencies, angular-input-mask and angular-ui-select
 
 ## How to use
+include module into app
+```
+'angular.datagrid'
+```
 ### HTML template
 ```
 <rs-datagrid config="config"></rs-datagrid>

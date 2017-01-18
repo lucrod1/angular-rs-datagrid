@@ -19,6 +19,7 @@
     "src",
     "gulpfile.js",
     "karma.conf.js",
+    "directive.md"
     "demo",
     "tests"
   ],
