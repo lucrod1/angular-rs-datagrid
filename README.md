@@ -479,5 +479,27 @@ $scope.config = {
   ...
 };
 ```
+When using paging, you must implement a lazyData function within the configuration, this function is responsive to update or components automatically, page sorts and other
+```
+$scope.config = {
+  ...
+  lazyData: function(page, size, sort, search) {
+    var params = {
+      page: page,
+      size: size,
+      sort: sort,
+      search: search
+      };
+      return $http({
+        url: "http://localhost:8080/acoes",
+        method: 'GET',
+        params: params,
+      }).then(function(result) {
+        return result.data;
+      });
+  },
+  ...
+};
+```
 ### License
 MIT
