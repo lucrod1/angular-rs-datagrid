@@ -454,5 +454,13 @@ $scope.config = {
   ...
 };
 ```
+template-popover.html
+```
+<div>
+  <p>Nick Name: {{this.popover.nickName}}</p>
+  <p>City: {{this.popover.city.name}}</p>
+</div>
+
+```
 ### License
 MIT
