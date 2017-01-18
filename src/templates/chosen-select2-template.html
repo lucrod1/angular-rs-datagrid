@@ -3,6 +3,7 @@
 	ng-change="changeChosen(row, collumn, row[collumn.index])" 
 	theme="select2" 
 	class="{{collumn.action.class}}"
+	ng-style="collumn.action.style"
 	ng-disabled="isDisabledChosen(row, collumn)" 
 	name="chosen_{{$index}}" 
 	id="chosen_{{$index}}">

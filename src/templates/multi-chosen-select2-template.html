@@ -3,6 +3,7 @@
 	multiple 
 	theme="select2" 
 	class="{{collumn.action.class}}"
+	ng-style="collumn.action.style"
 	ng-disabled="isDisabledMultiChosen(row, collumn)" 
 	name="chosen_{{$index}}" 
 	on-remove="onRemove(collumn, $item, row[collumn.index])"

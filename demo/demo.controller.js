@@ -92,6 +92,9 @@ app.controller('demoController', function($scope, $http) {
           type: 'input',
           trigger: 'blur',
           class: 'input-rs',
+          style: {
+            width: '100px'
+          },
           mask: {
             use: 'br-cpf',
           },
