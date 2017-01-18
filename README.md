@@ -27,7 +27,7 @@ include module into app
 ```
 ### HTML template
 ```
-<rs-datagrid config="config"></rs-datagrid>
+<datagrid config="config"></datagrid>
 ```
 ### property config in controller
 ```
