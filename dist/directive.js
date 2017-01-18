@@ -1,7 +1,7 @@
 /*!
  * angular.datagrid
  * 
- * Version: 0.0.1 - 2017-01-18T16:47:58.253Z
+ * Version: 0.0.1 - 2017-01-18T17:29:40.580Z
  * License: MIT
  */
 
@@ -627,7 +627,7 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
         };
 
         scope.getKeysForSearch = function(collumn) {
-          if (scope.hasPagination) {
+          if (scope.hasPagination && angular.isDefined(collumn.action) && (collumn.action.type === 'chosen' || collumn.action.type === 'multiChosen')) {
             if (angular.isArray(collumn.action.searchIn)) {
               return collumn.action.searchIn;
             } else {
