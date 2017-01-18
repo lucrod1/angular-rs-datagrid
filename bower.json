@@ -4,7 +4,7 @@
   "authors": [
     "Lucas Rodrigues"
   ],
-  "description": "Angular directive for data grid with pagination in back-end and actions, editable, chosen, combo, input and others",
+  "description": "Angular directive for dataGrid with pagination in back-end and input, input-mask, chosen, combo, checkbox, multiChosen and others",
   "main": "dist/directive.js, dist/directive.js",
   "license": "MIT",
   "private": false,
