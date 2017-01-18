@@ -59,7 +59,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-if="!showInfoProgress" ng-mouseover="hoverTr($event, row)" ng-mouseout="outTr()" ng-repeat="row in collection.content | propsFilter: getKeysForSearch(collumn) : filter.search : true">
+      <tr ng-if="!showInfoProgress" ng-mouseover="hoverTr($event, row)" ng-mouseout="outTr()" ng-repeat="row in getCollection()">
         <td ng-class="getClass($index)" ng-repeat="collumn in collumns track by $index">
           <!-- print html text-->
           <span ng-if="collumn.isHtml" ng-bind-html="getContentCell(row, $index)"></span>

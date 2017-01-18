@@ -288,42 +288,4 @@ app.controller('demoController', function($scope, $http) {
       }
     }]
   }
-
-  $scope.collection1 = {
-    "content": [{
-      "id": 1,
-      "firstName": "Lucas",
-      "lastName": "Rodrigues",
-      "username": "lucrod1",
-      "address": {
-        "country": "BR",
-        "state": "SP",
-        "city": "Ribeirão Preto"
-      }
-    }, {
-      "id": 2,
-      "firstName": "John",
-      "lastName": "lucker",
-      "username": "john1",
-      "address": {
-        "country": "US",
-        "state": "AZ",
-        "city": "Arizona"
-      }
-    }],
-    "totalElements": 2,
-    "last": true,
-    "totalPages": 1,
-    "sort": [{
-      "direction": "ASC",
-      "property": "id",
-      "ignoreCase": true,
-      "nullHandling": "NULLS_LAST",
-      "ascending": true
-    }],
-    "first": true,
-    "numberOfElements": 2,
-    "size": 10,
-    "number": 0
-  };
 });

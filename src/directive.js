@@ -377,6 +377,18 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
           }
         };
 
+        scope.getCollection = function() {
+          if (scope.hasPagination) {
+            return scope.collection.content;
+          } else {
+            var keys = [];
+            if (scope.collection.content[0]._internal) {
+              keys = Object.keys(scope.collection.content[0]._internal);
+            }
+            return $filter('propsFilter')(scope.collection.content, keys, scope.filter.search, true);
+          }
+        };
+
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // VARIABLES AND METHODS ACTION HREF
         ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -619,17 +631,11 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
         };
 
         scope.getKeysForSearch = function(collumn) {
-          if (collumn && angular.isDefined(collumn.action) && (collumn.action.type === 'chosen' || collumn.action.type === 'multiChosen')) {
-            if (scope.hasPagination) {
-              if (angular.isArray(collumn.action.searchIn)) {
-                return collumn.action.searchIn;
-              } else {
-                throw new Error('Missing propertyaray', ' "searchIn" property is required for action chosen');
-              }
+          if (scope.hasPagination) {
+            if (angular.isArray(collumn.action.searchIn)) {
+              return collumn.action.searchIn;
             } else {
-              if (scope.collection.content[0]._internal) {
-                return Object.keys(scope.collection.content[0]._internal);
-              }
+              throw new Error('Missing propertyaray', ' "searchIn" property is required for action chosen');
             }
           }
           return [];
