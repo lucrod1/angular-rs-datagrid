@@ -514,13 +514,13 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           }
         };
 
-        scope.blurInputCpfCnpj = function(event, row, collumn, value) {
+        scope.blurInputCpfCnpj = function(event, row, collumn) {
           if (angular.isFunction(collumn.action.onChange) && (collumn.action.trigger === 'blur' || !collumn.action.trigger)) {
             var valid = true;
             if (event.target.classList.contains('ng-invalid-cpf') || event.target.classList.contains('ng-invalid-cnpj')) {
               valid = false;
             }
-            collumn.action.onChange(row, value, valid);
+            collumn.action.onChange(row, valid);
           }
         };
 
@@ -530,13 +530,13 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           }
         };
 
-        scope.changeInputCpfCnpj = function(event, row, collumn, value) {
+        scope.changeInputCpfCnpj = function(event, row, collumn) {
           if (angular.isFunction(collumn.action.onChange) && (collumn.action.trigger === 'change')) {
             var valid = true;
             if (event.target.classList.contains('ng-invalid-cpf') || event.target.classList.contains('ng-invalid-cnpj')) {
               valid = false;
             }
-            collumn.action.onChange(row, value, valid);
+            collumn.action.onChange(row, valid);
           }
         };
 

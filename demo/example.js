@@ -6,9 +6,9 @@ $scope.config = {
     defaultSort: 'id,asc',                              // optional, default is first "collumn.index", asc
     
     pagination: {                                       // optional
-      labelSize: 'Registros por página: ',           // optional, default "Page size: ""
-      defaultSize: 10,                               // optional, default first item in avaliableSizes
-      avaliableSizes: [10, 25, 50, 100, 500]         // optional, default [10,25,50,100]
+      labelSize: 'Registros por página: ',              // optional, default "Page size: ""
+      defaultSize: 10,                                  // optional, default first item in avaliableSizes
+      avaliableSizes: [10, 25, 50, 100, 500]            // optional, default [10,25,50,100]
     },
     
     search: {                                           // optional
@@ -199,7 +199,7 @@ $scope.config = {
         //   negative: true            // default false, optional
         // },
         // mask: {                     // optional
-        //   use: 'money',             // avaliables uses: 'number', 'money', 'br-phone','br-cep','br-cpf','br-cpfcnpj', 'time', '' , directive assist https://github.com/assisrafael/angular-input-masks
+        //   use: 'money',             // avaliables uses: 'number', 'money', 'br-phone','br-cep','br-cpf','br-cpfcnpj', '' , directive assist https://github.com/assisrafael/angular-input-masks
         //   decimalPlace: 2,          // number of decimals 
         //   maxlength: 11
         // },
