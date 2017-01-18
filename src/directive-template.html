@@ -62,9 +62,9 @@
       <tr ng-if="!showInfoProgress" ng-mouseover="hoverTr($event, row)" ng-mouseout="outTr()" ng-repeat="row in getCollection()">
         <td ng-class="getClass($index)" ng-repeat="collumn in collumns track by $index">
           <!-- print html text-->
-          <span ng-if="collumn.isHtml" ng-bind-html="getContentCell(row, $index)"></span>
+          <div ng-if="collumn.isHtml" ng-bind-html="getContentCell(row, $index)"></div>
           <!-- print static text -->
-          <span ng-if="!collumn.isHtml" ng-bind="getContentCell(row, $index)"></span>
+          <div ng-if="!collumn.isHtml" ng-bind="getContentCell(row, $index)"></div>
           <!-- print action href -->
           <a ng-click="clickLink(row, $index)" ng-if="collumn.isLink" ng-bind="row.textLink"></a>
           <!-- print action checkbox -->
