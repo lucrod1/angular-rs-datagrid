@@ -50,7 +50,7 @@
   <table ng-class="config.classTaable || 'table table-bordered table-striped'">
     <thead>
       <tr>
-        <th ng-class="collumn.class" style="cursor: {{getCursorCollumn(collumn)}}" ng-click="sortCollumn(collumn)" ng-repeat="collumn in collumns track by $index">
+        <th ng-class="collumn.class" ng-style="collumn.style" style="cursor: {{getCursorCollumn(collumn)}}" ng-click="sortCollumn(collumn)" ng-repeat="collumn in collumns track by $index">
           <input ng-click="clickCheckboxHeader(collumn, collumn.checkboxHeader)" ng-if="collumn.action.type ==='checkbox' && collumn.action.checkInHeader" type="checkbox" ng-model="collumn.checkboxHeader" name="checkbox_0" id="checkbox_0"> {{collumn.title}}
           <i ng-if="hasSortCollumnDirection(collumn, 'asc')" class="icon-sort asc"></i>
           <i ng-if="hasSortCollumnDirection(collumn, 'desc')" class="icon-sort desc"></i>
@@ -60,7 +60,7 @@
     </thead>
     <tbody>
       <tr ng-if="!showInfoProgress" ng-mouseover="hoverTr($event, row)" ng-mouseout="outTr()" ng-repeat="row in getCollection()">
-        <td ng-class="collumn.class" ng-repeat="collumn in collumns track by $index">
+        <td ng-class="collumn.class" ng-style="collumn.style" ng-repeat="collumn in collumns track by $index">
           <!-- print html text-->
           <div ng-if="collumn.isHtml && !collumn.action" ng-bind-html="row._internal[collumn.index]"></div>
           <!-- print static text -->
