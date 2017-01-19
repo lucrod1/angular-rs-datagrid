@@ -568,6 +568,14 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
         };
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
+        // VARIABLES AND METHODS ASSIST CHOSEN AND MULTI-CHOSEN
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        scope.getAvaliablesChoises = function(array, collumn, search) {
+          return $filter('angularDatagridPropsFilter')(array, getKeysForSearch(collumn), search, false);
+        };
+
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////
         // VARIABLES AND METHODS ACTION CHOSEN
         ///////////////////////////////////////////////////////////////////////////////////////////////
         function showChosen(collumn, theme) {
@@ -593,16 +601,14 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
           }
         };
 
-        scope.getKeysForSearch = function(collumn) {
-          if (scope.hasPagination) {
-            if (angular.isArray(collumn.action.searchIn)) {
-              return collumn.action.searchIn;
-            } else {
-              throw new Error('Missing propertyaray', ' "searchIn" property is required for action chosen');
-            }
+        function getKeysForSearch(collumn) {
+          if (angular.isArray(collumn.action.searchIn)) {
+            return collumn.action.searchIn;
+          } else {
+            throw new Error('Missing propertyaray', ' "searchIn" property is required for action chosen');
           }
           return [];
-        };
+        }
 
         scope.getItemSelected = function(item, collumn) {
           if (angular.isFunction(collumn.action.selectedRender) && (collumn.action.type === 'chosen')) {
@@ -682,10 +688,6 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
               return collumn.action.itemRender(item);
             }
           }
-        };
-
-        scope.getAvaliablesChoisesMultiChosen = function (collumn, search){
-          scope.getAvaliablesChoisesMultiChosen = $filter('angularDatagridPropsFilter')(scope.getAvaliablesChoisesMultiChosen, getKeysForSearch(collumn), search, false);
         };
 
         ///////////////////////////////////////////////////////////////////////////////////////////////

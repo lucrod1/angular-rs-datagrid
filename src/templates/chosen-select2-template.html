@@ -10,7 +10,7 @@
   <ui-select-match allow-clear="{{collumn.action.allowClear}}" placeholder="{{collumn.action.placeholder}}">
     <div ng-bind-html="getItemSelected($select.selected, collumn)"></div>
   </ui-select-match>
-  <ui-select-choices repeat="item in avaliablesChoisesChosen | propsFilter: getKeysForSearch(collumn) : $select.search">
+  <ui-select-choices repeat="item in getAvaliablesChoises(collumn.action.avaliablesChoises, collumn, $select.search)">
     <div ng-bind-html="getItemRender(item,collumn)"></div>
   </ui-select-choices>
 </ui-select>

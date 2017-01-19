@@ -12,7 +12,7 @@
   <ui-select-match placeholder="{{collumn.action.placeholder}}">
     <div ng-bind-html="selectedsMultiChosen($item, collumn)"></div>
   </ui-select-match>
-  <ui-select-choices repeat="item in getAvaliablesChoisesMultiChosen(collumn, $select.search)">
+  <ui-select-choices repeat="item in getAvaliablesChoises(collumn.action.avaliablesChoises, collumn, $select.search)">
     <div ng-bind-html="getMultiItemRender(item,collumn)"></div>
   </ui-select-choices>
 </ui-select>
