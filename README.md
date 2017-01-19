@@ -395,7 +395,7 @@ $scope.config = {
       itemRender: function(item){
         return item.nome;
       },
-      onRemove : function(item, model){
+      onRemove : function(row, item, model){
         console.log(item);
       },
       isDisabled: function(obj){
@@ -423,7 +423,7 @@ $scope.config = {
         id: 6,
         nome: 'tag 6'
       }],
-      onSelect: function(item, model) {
+      onSelect: function(row, item, model) {
         console.log('execute action here: ' + item.id);
       }
   }],
