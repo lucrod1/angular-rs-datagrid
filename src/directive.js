@@ -347,7 +347,7 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
               if (scope.collection.content[0]._internal) {
                 keys = Object.keys(scope.collection.content[0]._internal);
               }
-              return $filter('propsFilter')(scope.collection.content, keys, scope.filter.search, true);
+              return $filter('angularDatagridPropsFilter')(scope.collection.content, keys, scope.filter.search, true);
             }
           }
         };
@@ -685,7 +685,7 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
         };
 
         scope.getAvaliablesChoisesMultiChosen = function (collumn, search){
-          scope.getAvaliablesChoisesMultiChosen = $filter('propsFilter')(scope.getAvaliablesChoisesMultiChosen, getKeysForSearch(collumn), search, false);
+          scope.getAvaliablesChoisesMultiChosen = $filter('angularDatagridPropsFilter')(scope.getAvaliablesChoisesMultiChosen, getKeysForSearch(collumn), search, false);
         };
 
         ///////////////////////////////////////////////////////////////////////////////////////////////

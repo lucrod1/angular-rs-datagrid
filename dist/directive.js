@@ -1,7 +1,7 @@
 /*!
  * angular.datagrid
  * 
- * Version: 0.0.1 - 2017-01-19T13:30:50.070Z
+ * Version: 0.0.1 - 2017-01-19T13:49:57.138Z
  * License: MIT
  */
 
@@ -355,7 +355,7 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
               if (scope.collection.content[0]._internal) {
                 keys = Object.keys(scope.collection.content[0]._internal);
               }
-              return $filter('propsFilter')(scope.collection.content, keys, scope.filter.search, true);
+              return $filter('angularDatagridPropsFilter')(scope.collection.content, keys, scope.filter.search, true);
             }
           }
         };
@@ -693,7 +693,7 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
         };
 
         scope.getAvaliablesChoisesMultiChosen = function (collumn, search){
-          scope.getAvaliablesChoisesMultiChosen = $filter('propsFilter')(scope.getAvaliablesChoisesMultiChosen, getKeysForSearch(collumn), search, false);
+          scope.getAvaliablesChoisesMultiChosen = $filter('angularDatagridPropsFilter')(scope.getAvaliablesChoisesMultiChosen, getKeysForSearch(collumn), search, false);
         };
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -772,7 +772,7 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
 'use strict';
 
 angular.module("angular.datagrid")
-  .filter("propsFilter", function() {
+  .filter("angularDatagridPropsFilter", function() {
     var removeAccents;
     removeAccents = function(strValAccents) {
       var accents, accentsOut, strAccents, strAccentsLen, strAccentsOut, y;
