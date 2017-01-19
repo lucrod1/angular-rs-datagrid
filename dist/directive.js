@@ -1,7 +1,7 @@
 /*!
  * angular.datagrid
  * 
- * Version: 0.0.1 - 2017-01-19T18:17:15.458Z
+ * Version: 0.0.1 - 2017-01-19T18:26:45.065Z
  * License: MIT
  */
 
@@ -98,18 +98,20 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
           } else if (collumn.action && collumn.action.type === 'input' && collumn.action.mask) {
             switch (collumn.action.mask.use) {
               case 'number':
-                row._internal[collumn.index] = getValueObjectEvalBykey(row, collumn.index).toString().replace('.', $locale.NUMBER_FORMATS.DECIMAL_SEP);
+                if(row[collumn.index]){
+                  row._internal[collumn.index] = row[collumn.index].toString().replace('.', $locale.NUMBER_FORMATS.DECIMAL_SEP);
+                }
                 break;
               case 'money':
 
-                row._internal[collumn.index] = $locale.NUMBER_FORMATS.CURRENCY_SYM + ' ' + getValueObjectEvalBykey(row, collumn.index).toString().replace('.', $locale.NUMBER_FORMATS.DECIMAL_SEP);
+                row._internal[collumn.index] = $locale.NUMBER_FORMATS.CURRENCY_SYM + ' ' + row[collumn.index].toString().replace('.', $locale.NUMBER_FORMATS.DECIMAL_SEP);
                 break;
               default:
-                row._internal[collumn.index] = getValueObjectEvalBykey(row, collumn.index);
+                row._internal[collumn.index] = row[collumn.index];
                 break;
             }
           } else {
-            row._internal[collumn.index] = getValueObjectEvalBykey(row, collumn.index);
+            row._internal[collumn.index] = row[collumn.index];
           }
         }
 
@@ -336,15 +338,6 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
         angular.isUndefinedOrNull = function(val) {
           return angular.isUndefined(val) || val === null;
         };
-
-        function getValueObjectEvalBykey(currentObject, key) {
-          try {
-            var item = eval("currentObject." + key);
-            if (!angular.isUndefinedOrNull(item)) {
-              return item;
-            }
-          } catch (error) {}
-        }
 
         scope.getCollection = function() {
           if (scope.collection) {
