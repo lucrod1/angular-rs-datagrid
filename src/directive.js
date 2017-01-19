@@ -115,7 +115,7 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
         function refresh(page) {
           if (scope.hasPagination) {
             scope.showProgress = true;
-            scope.config.lazyData(page, scope.pagination.defaultSize, getCurrentSort(), scope.pagination.search).then(function(result) {
+            scope.config.lazyData(page, scope.pagination.defaultSize, getCurrentSort(), scope.filter.search).then(function(result) {
               scope.showProgress = false;
               scope.currentPage = page;
               scope.collection = result;
@@ -131,7 +131,7 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
           scope.search = scope.config.search; //EXPOSE SEARCH IN SCOPE
         }
 
-        scope.$watch('pagination.search', function(newValue, oldValue) {
+        scope.$watch('filter.search', function(newValue, oldValue) {
           if (newValue !== oldValue) {
             if (scope.hasPagination) {
               refresh(0);
