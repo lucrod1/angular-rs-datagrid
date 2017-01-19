@@ -4,6 +4,7 @@ app.controller('demoController', function($scope, $http) {
 
     classTable: 'table table-bordered table-striped',
     messageLoading: 'Loading...',
+    messageEmpty:   'No results',
     sort: true,
     defaultSort: 'id,asc',
 
