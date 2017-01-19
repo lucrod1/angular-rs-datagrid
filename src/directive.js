@@ -120,21 +120,6 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
         }
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        // VARIABLES AND METHODS FOR PRINT STYLES OR CLASS IN TABLE
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-        scope.getClassTable = function() {
-          if (scope.config.classTable) {
-            return scope.config.classTable;
-          } else {
-            return 'table table-bordered table-striped';
-          }
-        };
-
-        scope.getClass = function(indexCollumn) {
-          return scope.collumns[indexCollumn].class;
-        };
-
-        ///////////////////////////////////////////////////////////////////////////////////////////////
         // VARIABLES AND METHODS FOR SEARCH IN TABLE
         ///////////////////////////////////////////////////////////////////////////////////////////////
         if (scope.config.search) {
@@ -352,31 +337,6 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
             }
           } catch (error) {}
         }
-
-        scope.getContentCell = function(currentObject, indexCollumn) {
-          var hasAction = angular.isDefined(scope.collumns[indexCollumn].action);
-          var isRenderFunction = angular.isFunction(scope.collumns[indexCollumn].render);
-
-          if (hasAction) {
-            var action = scope.collumns[indexCollumn].action;
-
-            switch (action.type) {
-              case 'href':
-                renderHref(isRenderFunction, currentObject, indexCollumn);
-                break;
-
-              case 'checkbox':
-                renderLabelCheckbox(isRenderFunction, currentObject, indexCollumn);
-                break;
-            }
-          } else {
-            if (isRenderFunction) {
-              return scope.config.collumns[indexCollumn].render(currentObject);
-            } else {
-              return currentObject[scope.collumns[indexCollumn].index];
-            }
-          }
-        };
 
         scope.getCollection = function() {
           if (scope.collection) {
