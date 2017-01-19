@@ -1,7 +1,7 @@
 /*!
  * angular.datagrid
  * 
- * Version: 0.0.1 - 2017-01-18T19:25:26.140Z
+ * Version: 0.0.1 - 2017-01-19T11:50:03.065Z
  * License: MIT
  */
 
@@ -195,13 +195,13 @@
   cursor: pointer;
 }
 .icon-sort.asc-desc {
-  background-image: url('../bower_components/angular.datagrid/dist/assets/images/icon-arrowgroup.png');
+  background-image: url('assets/images/icon-arrowgroup.png');
 }
 .icon-sort.asc {
-  background-image: url('../bower_components/angular.datagrid/dist/assets/images/icon-arrowgroup-down.png');
+  background-image: url('assets/images/icon-arrowgroup-down.png');
 }
 .icon-sort.desc {
-  background-image: url('../bower_components/angular.datagrid/dist/assets/images/icon-arrowgroup-up.png');
+  background-image: url('assets/images/icon-arrowgroup-up.png');
 }
 .input-rs {
   padding: 4px;
