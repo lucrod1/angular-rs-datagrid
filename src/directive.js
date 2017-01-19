@@ -336,13 +336,24 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
         scope.getCollection = function() {
           if (scope.collection) {
             if (scope.hasPagination) {
+              if(scope.collection.content.length === 0){
+                scope.showEmptyRow = true;
+              }else{
+                scope.showEmptyRow = false;
+              }
               return scope.collection.content;
             } else {
               var keys = [];
               if (scope.collection.content[0]._internal) {
                 keys = Object.keys(scope.collection.content[0]._internal);
               }
-              return $filter('angularDatagridPropsFilter')(scope.collection.content, keys, scope.filter.search, true);
+              var result = $filter('angularDatagridPropsFilter')(scope.collection.content, keys, scope.filter.search, true);
+              if(result.length === 0){
+                scope.showEmptyRow = true;
+              }else{
+                scope.showEmptyRow = false;
+              }
+              return result;
             }
           }
         };
