@@ -1,7 +1,7 @@
 /*!
  * angular.datagrid
  * 
- * Version: 0.0.1 - 2017-01-19T18:26:45.065Z
+ * Version: 0.0.1 - 2017-01-19T18:28:22.976Z
  * License: MIT
  */
 
@@ -96,6 +96,7 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
           if (angular.isFunction(collumn.render)) {
             row._internal[collumn.index] = collumn.render(row);
           } else if (collumn.action && collumn.action.type === 'input' && collumn.action.mask) {
+            row._internal[collumn.index] = undefined;
             switch (collumn.action.mask.use) {
               case 'number':
                 if(row[collumn.index]){
@@ -103,8 +104,9 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
                 }
                 break;
               case 'money':
-
-                row._internal[collumn.index] = $locale.NUMBER_FORMATS.CURRENCY_SYM + ' ' + row[collumn.index].toString().replace('.', $locale.NUMBER_FORMATS.DECIMAL_SEP);
+                if(row[collumn.index]){
+                  row._internal[collumn.index] = $locale.NUMBER_FORMATS.CURRENCY_SYM + ' ' + row[collumn.index].toString().replace('.', $locale.NUMBER_FORMATS.DECIMAL_SEP);
+                }
                 break;
               default:
                 row._internal[collumn.index] = row[collumn.index];
