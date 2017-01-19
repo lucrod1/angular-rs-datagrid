@@ -90,11 +90,11 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
           } else if (collumn.action && collumn.action.type === 'input' && collumn.action.mask) {
             switch (collumn.action.mask.use) {
               case 'number':
-                row._internal[collumn.index] = getValueObjectEvalBykey(row, collumn.index).replace('.', $locale.NUMBER_FORMATS.DECIMAL_SEP);
+                row._internal[collumn.index] = getValueObjectEvalBykey(row, collumn.index).toString().replace('.', $locale.NUMBER_FORMATS.DECIMAL_SEP);
                 break;
               case 'money':
 
-                row._internal[collumn.index] = $locale.NUMBER_FORMATS.CURRENCY_SYM + ' ' + getValueObjectEvalBykey(row, collumn.index).replace('.', $locale.NUMBER_FORMATS.DECIMAL_SEP);
+                row._internal[collumn.index] = $locale.NUMBER_FORMATS.CURRENCY_SYM + ' ' + getValueObjectEvalBykey(row, collumn.index).toString().replace('.', $locale.NUMBER_FORMATS.DECIMAL_SEP);
                 break;
               default:
                 row._internal[collumn.index] = getValueObjectEvalBykey(row, collumn.index);
