@@ -1,7 +1,7 @@
 /*!
  * angular.datagrid
  * 
- * Version: 0.0.1 - 2017-01-19T12:38:11.052Z
+ * Version: 0.0.1 - 2017-01-19T13:30:50.070Z
  * License: MIT
  */
 
@@ -692,6 +692,10 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
           }
         };
 
+        scope.getAvaliablesChoisesMultiChosen = function (collumn, search){
+          scope.getAvaliablesChoisesMultiChosen = $filter('propsFilter')(scope.getAvaliablesChoisesMultiChosen, getKeysForSearch(collumn), search, false);
+        };
+
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // VARIABLES AND METHODS POPOVER 
         ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -839,5 +843,5 @@ $templateCache.put("templates/input-number-negative-template.html","<input type=
 $templateCache.put("templates/input-number-template.html","<input type=\"text\" ui-number-mask=\"{{collumn.action.mask.decimalPlace}}\" maxlength=\"{{collumn.action.mask.maxlength}}\" ng-change=\"changeInput(row, collumn)\" ng-blur=\"blurInput(row, collumn)\" ng-model=\"row[collumn.index]\" ng-disabled=\"isDisabledInput(row, collumn)\" ng-class=\"collumn.action.class\" ng-style=\"collumn.action.style\" name=\"input_number{$index}}\" id=\"input_number{{$index}}\">");
 $templateCache.put("templates/input-phone-template.html","<input type=\"text\" ui-br-phone-number=\"\" maxlength=\"{{collumn.action.mask.maxlength}}\" ng-change=\"changeInput(row, collumn)\" ng-blur=\"blurInput(row, collumn)\" ng-model=\"row[collumn.index]\" ng-disabled=\"isDisabledInput(row, collumn)\" model-view-value=\"true\" ng-class=\"collumn.action.class\" ng-style=\"collumn.action.style\" name=\"input_phone{{$index}}\" id=\"input_phone{{$index}}\">");
 $templateCache.put("templates/input-template.html","<input type=\"text\" ng-change=\"changeInput(row, collumn)\" maxlength=\"{{collumn.action.maxlength}}\" ng-blur=\"blurInput(row, collumn)\" ng-model=\"row[collumn.index]\" ng-disabled=\"isDisabledInput(row, collumn)\" ng-class=\"collumn.action.class\" ng-style=\"collumn.action.style\" name=\"input_{{$index}}\" id=\"input_{{$index}}\">");
-$templateCache.put("templates/multi-chosen-select2-template.html","<ui-select ng-model=\"row[collumn.index]\" multiple=\"\" theme=\"select2\" class=\"{{collumn.action.class}}\" ng-style=\"collumn.action.style\" ng-disabled=\"isDisabledMultiChosen(row, collumn)\" name=\"chosen_{{$index}}\" on-remove=\"onRemove(collumn, $item, row[collumn.index])\" on-select=\"onSelect(collumn, $item, row[collumn.index])\" id=\"chosen_{{$index}}\"><ui-select-match placeholder=\"{{collumn.action.placeholder}}\"><div ng-bind-html=\"selectedsMultiChosen($item, collumn)\"></div></ui-select-match><ui-select-choices repeat=\"item in avaliablesChoisesMultiChosen | propsFilter: getKeysForSearch(collumn) : $select.search : false\"><div ng-bind-html=\"getMultiItemRender(item,collumn)\"></div></ui-select-choices></ui-select>");
+$templateCache.put("templates/multi-chosen-select2-template.html","<ui-select ng-model=\"row[collumn.index]\" multiple=\"\" theme=\"select2\" class=\"{{collumn.action.class}}\" ng-style=\"collumn.action.style\" ng-disabled=\"isDisabledMultiChosen(row, collumn)\" name=\"chosen_{{$index}}\" on-remove=\"onRemove(collumn, $item, row[collumn.index])\" on-select=\"onSelect(collumn, $item, row[collumn.index])\" id=\"chosen_{{$index}}\"><ui-select-match placeholder=\"{{collumn.action.placeholder}}\"><div ng-bind-html=\"selectedsMultiChosen($item, collumn)\"></div></ui-select-match><ui-select-choices repeat=\"item in getAvaliablesChoisesMultiChosen(collumn, $select.search)\"><div ng-bind-html=\"getMultiItemRender(item,collumn)\"></div></ui-select-choices></ui-select>");
 $templateCache.put("templates/select-template.html","<select ng-model=\"row[collumn.index]\" ng-change=\"changeCombo(row, collumn, row[collumn.index])\" name=\"combo_{{$index}}\" ng-class=\"collumn.action.class\" ng-style=\"collumn.action.style\" id=\"combo_{{$index}}\" ng-disabled=\"isDisabledCombo(row, collumn)\"><option ng-if=\"collumn.action.labelChoose\" value=\"\">{{collumn.action.labelChoose}}</option><option value=\"{{item}}\" ng-repeat=\"item in avaliablesChoises\">{{item}}</option></select>");}]);

@@ -684,6 +684,10 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
           }
         };
 
+        scope.getAvaliablesChoisesMultiChosen = function (collumn, search){
+          scope.getAvaliablesChoisesMultiChosen = $filter('propsFilter')(scope.getAvaliablesChoisesMultiChosen, getKeysForSearch(collumn), search, false);
+        };
+
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // VARIABLES AND METHODS POPOVER 
         ///////////////////////////////////////////////////////////////////////////////////////////////
