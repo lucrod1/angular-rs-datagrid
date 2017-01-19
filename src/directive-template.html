@@ -41,7 +41,7 @@
   <!-- pagination search -->
   <div ng-if="hasSearch" class="pagination_search">
     <span ng-bind="search.label"></span>
-    <input type="text" name="search"  ng-keyup="keyup(filter.search)" ng-model-options="{debounce: 300 }" ng-model="filter.search" id="searchValue">
+    <input type="text" name="search"  ng-keyup="keyup(filter.search)" ng-model-options="{debounce: 1000 }" ng-model="filter.search" id="searchValue">
     {{searchValue}}
   </div>
   <!--  -->
