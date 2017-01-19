@@ -663,15 +663,15 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
           }
         };
 
-        scope.onRemove = function(collumn, item, model) {
+        scope.onRemove = function(row, collumn, item, model) {
           if (angular.isFunction(collumn.action.onRemove)) {
-            return collumn.action.onRemove(item, model);
+            return collumn.action.onRemove(row, item, model);
           }
         };
 
-        scope.onSelect = function(collumn, item, model) {
+        scope.onSelect = function(row, collumn, item, model) {
           if (angular.isFunction(collumn.action.onSelect)) {
-            return collumn.action.onSelect(item, model);
+            return collumn.action.onSelect(row, item, model);
           }
         };
 
