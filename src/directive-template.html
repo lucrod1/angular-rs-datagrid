@@ -59,7 +59,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-if="!showInfoProgress" ng-mouseover="hoverTr($event, row)" ng-mouseout="outTr()" ng-repeat="row in getCollection()">
+      <tr ng-if="!showInfoProgress" ng-mouseover="hoverTr($event, row)" ng-mouseout="outTr()" ng-repeat="row in getCollection() track by $index">
         <td ng-class="collumn.class" ng-style="collumn.style" ng-repeat="collumn in collumns track by $index">
           <!-- print html text-->
           <div ng-if="collumn.isHtml && !collumn.action" ng-bind-html="row._internal[collumn.index]"></div>

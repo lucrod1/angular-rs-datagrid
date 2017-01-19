@@ -1,7 +1,7 @@
 /*!
  * angular.datagrid
  * 
- * Version: 0.0.1 - 2017-01-19T19:01:24.154Z
+ * Version: 0.0.1 - 2017-01-19T19:12:02.388Z
  * License: MIT
  */
 
@@ -173,6 +173,7 @@
 }
 .pagination_header .pagination_select {
   margin-left: 10px;
+  width: 40px;
 }
 .pagination_search {
   float: right;
