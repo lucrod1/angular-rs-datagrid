@@ -1,7 +1,7 @@
 /*!
  * angular.datagrid
  * 
- * Version: 1.0.33 - 2017-01-20T17:39:36.742Z
+ * Version: 1.0.34 - 2017-01-20T17:42:10.654Z
  * License: MIT
  */
 
