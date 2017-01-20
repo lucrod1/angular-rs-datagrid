@@ -1,5 +1,5 @@
 # Directive angular.datagrid 
-#### Directive is under development, version alpha
+#### Directive is under development, version beta
 
 ## Installation
 
