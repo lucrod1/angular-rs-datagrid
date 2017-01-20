@@ -91,12 +91,12 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
             row._internal[collumn.index] = undefined;
             switch (collumn.action.mask.use) {
               case 'number':
-                if(row[collumn.index]){
+                if (row[collumn.index]) {
                   row._internal[collumn.index] = row[collumn.index].toString().replace('.', $locale.NUMBER_FORMATS.DECIMAL_SEP);
                 }
                 break;
               case 'money':
-                if(row[collumn.index]){
+                if (row[collumn.index]) {
                   row._internal[collumn.index] = $locale.NUMBER_FORMATS.CURRENCY_SYM + ' ' + row[collumn.index].toString().replace('.', $locale.NUMBER_FORMATS.DECIMAL_SEP);
                 }
                 break;
@@ -242,10 +242,15 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
 
           if (angular.isDefined(scope.config.lazyData)) {
             scope.showInfoProgress = true; //CALL WHEN INIT COMPONENT
-            scope.config.lazyData(scope.currentPage, scope.pagination.defaultSize, getCurrentSort()).then(function(dados) {
-              scope.showInfoProgress = false;
-              scope.collection = dados;
-            });
+            var promise = scope.config.lazyData(scope.currentPage, scope.pagination.defaultSize, getCurrentSort());
+            if (angular.isObject(promise) && promise.then instanceof Function) {
+              scope.config.lazyData(scope.currentPage, scope.pagination.defaultSize, getCurrentSort()).then(function(dados) {
+                scope.showInfoProgress = false;
+                scope.collection = dados;
+              });
+            }else{
+              console.warn('A function "scope.config.lazyData" should be implemented with Promise');
+            }
           } else {
             throw new Error('Missing property, function "lazyData" property is required for grid with pagination and this property is missing in config:');
           }
@@ -336,9 +341,9 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
         scope.getCollection = function() {
           if (scope.collection) {
             if (scope.hasPagination) {
-              if(scope.collection.content.length === 0){
+              if (scope.collection.content.length === 0) {
                 scope.showEmptyRow = true;
-              }else{
+              } else {
                 scope.showEmptyRow = false;
               }
               return scope.collection.content;
@@ -348,9 +353,9 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
                 keys = Object.keys(scope.collection.content[0]._internal);
               }
               var result = $filter('angularDatagridPropsFilter')(scope.collection.content, keys, scope.filter.search, true);
-              if(result.length === 0){
+              if (result.length === 0) {
                 scope.showEmptyRow = true;
-              }else{
+              } else {
                 scope.showEmptyRow = false;
               }
               return result;
