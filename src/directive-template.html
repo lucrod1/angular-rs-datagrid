@@ -47,6 +47,7 @@
   <!--  -->
   <br style="clear: both;" />
   <!-- table -->
+  <span class="pull-right">Total: {{hasPagination ? collection.totalElements : collection.content.length}} </span>
   <table ng-class="config.classTaable || 'table table-bordered table-striped'">
     <thead>
       <tr>
