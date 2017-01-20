@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
-  .directive('datagrid', function($locale, $filter) {
+  .directive('datagrid', ['$locale', '$filter', function($locale, $filter) {
     return {
       restrict: 'AE',
       templateUrl: 'directive-template.html',
@@ -772,4 +772,4 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
         };
       }
     };
-  });
+  }]);

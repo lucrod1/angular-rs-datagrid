@@ -1,7 +1,7 @@
 /*!
  * angular.datagrid
  * 
- * Version: 0.0.1 - 2017-01-20T13:08:54.880Z
+ * Version: 0.0.1 - 2017-01-20T13:57:48.335Z
  * License: MIT
  */
 
@@ -9,7 +9,7 @@
 'use strict';
 
 angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
-  .directive('datagrid', function($locale, $filter) {
+  .directive('datagrid', ['$locale', '$filter', function($locale, $filter) {
     return {
       restrict: 'AE',
       templateUrl: 'directive-template.html',
@@ -780,7 +780,7 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
         };
       }
     };
-  });
+  }]);
 
 'use strict';
 
