@@ -1,7 +1,7 @@
 /*!
  * angular.datagrid
  * 
- * Version: 0.0.1 - 2017-01-20T14:05:14.470Z
+ * Version: 0.0.1 - 2017-01-20T14:16:44.685Z
  * License: MIT
  */
 
@@ -194,6 +194,7 @@
   height: 14px;
   margin-top: 3px;
   cursor: pointer;
+  background-position: 0px;
 }
 .icon-sort.asc-desc {
   background-image: url('assets/images/icon-arrowgroup.png');
