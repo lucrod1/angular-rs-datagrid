@@ -1,7 +1,7 @@
 /*!
  * angular.datagrid
  * 
- * Version: 0.0.1 - 2017-01-19T20:35:09.610Z
+ * Version: 0.0.1 - 2017-01-20T12:01:48.632Z
  * License: MIT
  */
 
@@ -417,7 +417,7 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
             }
           });
 
-          if (count === scope.collection.content.length) {
+          if (count === scope.collection.content.length && scope.collection.content.length > 0) {
             collumn.checkboxHeader = true;
           } else {
             collumn.checkboxHeader = false;
