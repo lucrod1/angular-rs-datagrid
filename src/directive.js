@@ -70,7 +70,7 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
               }
               setAttrInternal(row, collumn);
             });
-            if (count === scope.collection.content.length) {
+            if (count === scope.collection.content.length && scope.collection.content.length > 0) {
               collumn.checkboxHeader = true;
             } else {
               collumn.checkboxHeader = false;
