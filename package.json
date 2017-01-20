@@ -1,18 +1,15 @@
 {
   "name": "angular.datagrid",
-  "version": "0.0.1",
+  "version": "1.0.34",
   "description": "Angular directive for dataGrid with pagination in back-end and input, input-mask, chosen, combo, checkbox, multiChosen and others",
   "repository": "git@github.com:lucrod1/angular.datagrid.git",
   "main": "dist/directive.css, dist/directive.js",
-  "scripts": {
-    "test": "./node_modules/gulp/bin/gulp.js test"
-  },
   "keywords": [
     "angularjs",
     "angular",
     "datagrid"
   ],
-  "author": "Lucas Rodrigues",
+  "author": "Lucas Rodrigues <lucrod1@yahoo.com.br>",
   "license": "MIT",
   "devDependencies": {
     "angular": "~1.4.7",
