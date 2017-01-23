@@ -81,7 +81,7 @@ Use the function render to override the output
     "title": "Render",                    // title of collumn                           
     "index": "name",                      // Property that will print in the column
     "render": function(row){              // callback for override the output
-     return row.id+' - '+row.name;
+      return row.id+' - '+row.name;
     },
   }]
   ...
@@ -129,7 +129,7 @@ Defines a property type = 'checkbox' in collumn.action.type
   "collumns": [
   {
     "title": "",                                      // title of collumn                           
-    "index": "enable',                                // Property that will print in the column
+    "index": "enable",                                // Property that will print in the column
     "class": "text-center",                           // optional, class od <th> and <td>
     "sort": false,                                    // optional default: true
     "action": {
@@ -152,16 +152,16 @@ Defines a property type = 'href' in collumn.action.type
 ```
 {
   ...
-  collumns: [{
-    title: "Href",
-    index: 'github',
-    render: function(obj) { // in action href, this property is required, callback(currentRow) override collumn[index], for label the href
-     return 'open github';
+  "collumns": [{
+    "title": "Href",
+    "index": "github",
+    "render": function(obj) { // in action href, this property is required, callback(currentRow) override collumn, for label the href
+      return "open github";
     },
-    action: {
-      type: 'href',
-      onClick: function(obj) {                        // callback(currentRow) when click in href
-        window.open(row.github, '_blank');
+    "action": {
+      "type": "href",
+      "onClick: function(obj) {                        // callback(currentRow) when click in href
+        window.open(row.github, "_blank");
       }
     }
  }],
