@@ -179,7 +179,7 @@ Defines a property type = 'input' in collumn.action.type
     "title": "Input",
     "index": "nickName",
     "action": {
-      "type: "input",
+      "type": "input",
       "class": "input-rs",                // optional 
       "style": {                          // optional
        "width": "100px"
