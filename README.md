@@ -28,11 +28,13 @@ angular.datagrid
 ```
 
 ### HTML template
+
 ```
 <datagrid config="config"></datagrid>
 ```
 
 ### property config in controller
+
 ```
 $scope.config = {
   classTable: 'table table-bordered table-striped',     // optional, default: "table table-bordered table-striped"
@@ -56,6 +58,7 @@ $scope.config = {
   }
 };
 ```
+
 ## How use search
 Defines a property search in config
 
@@ -71,6 +74,7 @@ $scope.config = {
 
 ## How override output collumn
 Use the function render to override the output
+
 ```
 $scope.config = {
   ...
@@ -84,6 +88,7 @@ $scope.config = {
   ...
 };
 ```
+
 ## How disable sort in collumn
 Defines sort = false in collumn property
 
@@ -99,6 +104,7 @@ $scope.config = {
   ...
 };
 ```
+
 ## How Stylize collumn
 Defines class in collumn
 
@@ -230,6 +236,7 @@ $scope.config = {
  ...
 };
 ```
+
 ## Mask Money
 
 ```
@@ -241,6 +248,7 @@ $scope.config = {
   },
   ...
 ```
+
 ## Mask br-phone
 
 ```
@@ -250,6 +258,7 @@ $scope.config = {
   },
   ...
 ```
+
 ## Mask br-cep
 
 ```
@@ -259,6 +268,7 @@ $scope.config = {
   },
   ...
 ```
+
 ## Mask br-cpf
 It has 2 parameters, row and isValid result validation
 
@@ -276,6 +286,7 @@ It has 2 parameters, row and isValid result validation
   }
   ...
 ```
+
 ## Mask br-cnpj
 It has 2 parameters, row and isValid result validation
 
@@ -293,6 +304,7 @@ It has 2 parameters, row and isValid result validation
   }
   ...
 ```
+
 ## Mask br-cpfcnpj
 It has 2 parameters, row and isValid result validation
 
@@ -310,6 +322,7 @@ It has 2 parameters, row and isValid result validation
   }
   ...
 ```
+
 ## How render comboBox in collumn
 Defines a property type = 'combo' and mask in collumn.action
 
@@ -392,6 +405,7 @@ $scope.config = {
   ...
 };
 ```
+
 ## How render multiChosen in collumn
 Defines a property type = 'multiChosen' and mask in collumn.action
 
@@ -506,6 +520,7 @@ template-popover.html
   <p>City: {{this.popover.city.name}}</p>
 </div>
 ```
+
 ## How use pagination in component
 This version only implements pagination in backend<br/>
 Defines property pagination in config
@@ -545,5 +560,6 @@ $scope.config = {
   ...
 };
 ```
+
 ### License
 MIT
