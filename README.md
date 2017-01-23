@@ -77,10 +77,10 @@ Use the function render to override the output
 ```
 {
   ...
-  collumns: [{                          // required
-    title: 'Render',                    // title of collumn                           
-    index: 'name',                      // Property that will print in the column
-    render: function(row){              // callback for override the output
+  "collumns": [{                          // required
+    "title": "Render",                    // title of collumn                           
+    "index": "name",                      // Property that will print in the column
+    "render": function(row){              // callback for override the output
      return row.id+' - '+row.name;
     },
   }]
@@ -94,11 +94,11 @@ Defines sort = false in collumn property
 ```
 {
   ...
-  collumns: [
+  "collumns": [
   {
-    title: 'No Sort',
-    index: 'lastName',
-    sort: false
+    "title": "No Sort",
+    "index": "lastName",
+    "sort": false
   }]
   ...
 }
@@ -110,11 +110,11 @@ Defines class in collumn
 ```
 {
   ...
-  collumns: [
+  "collumns": [
   {
-    title: 'Class',
-    index: 'city',
-    class: 'text-center'
+    "title": "Class",
+    "index": "city",
+    "class": "text-center"
   }]
   ...
 }
@@ -126,19 +126,19 @@ Defines a property type = 'checkbox' in collumn.action.type
 ```
 {
   ...
-  collumns: [
+  "collumns": [
   {
-    title: '',                                      // title of collumn                           
-    index: 'enable',                                // Property that will print in the column
-    class: 'text-center',                           // optional, class od <th> and <td>
-    sort: false,                                    // optional default: true
-    action: {
-      type: 'checkbox',                             //required
-      checkInHeader: true,                          // Boolean, for render checkbox in header <th>
-      onCheckHeader: function(checked) {            // callback when clicked in checkHeader
+    "title": "",                                      // title of collumn                           
+    "index": "enable',                                // Property that will print in the column
+    "class": "text-center",                           // optional, class od <th> and <td>
+    "sort": false,                                    // optional default: true
+    "action": {
+      "type": "checkbox",                             //required
+      "checkInHeader": true,                          // Boolean, for render checkbox in header <th>
+      "onCheckHeader": function(checked) {            // callback when clicked in checkHeader
         console.log('checked: ' + checked);
       },
-      onCheck: function(obj, checked) {             // callback when clicked in check row table
+      "onCheck": function(obj, checked) {             // callback when clicked in check row table
         console.log('checked: ' + checked + ', obj:' + obj.id);
       }
   }],
