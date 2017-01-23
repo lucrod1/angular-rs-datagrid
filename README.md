@@ -36,6 +36,7 @@ angular.datagrid
 ### Defines property config in controller
 
 ```
+$scope.config =
 {
  "classTable": "table table-bordered table-striped",  // optional, default: "table table-bordered table-striped" --->
  "messageLoading": "Loading...",                      // optional, default: "loading..."
@@ -62,6 +63,7 @@ angular.datagrid
 Defines a property search inside property config
 
 ```
+$scope.config =
 {
  ...
  "search": {
@@ -75,6 +77,7 @@ Defines a property search inside property config
 Use the function render to override the output
 
 ```
+$scope.config =
 {
   ...
   "collumns": [{                          // required
@@ -92,6 +95,7 @@ Use the function render to override the output
 Defines sort = false in collumn property
 
 ```
+$scope.config =
 {
   ...
   "collumns": [
@@ -108,6 +112,7 @@ Defines sort = false in collumn property
 Defines class in collumn
 
 ```
+$scope.config =
 {
   ...
   "collumns": [
@@ -124,6 +129,7 @@ Defines class in collumn
 Defines a property type = 'checkbox' in collumn.action.type
 
 ```
+$scope.config =
 {
   ...
   "collumns": [
@@ -150,6 +156,7 @@ Defines a property type = 'checkbox' in collumn.action.type
 Defines a property type = 'href' in collumn.action.type
 
 ```
+$scope.config =
 {
   ...
   "collumns": [{
@@ -173,6 +180,7 @@ Defines a property type = 'href' in collumn.action.type
 Defines a property type = 'input' in collumn.action.type
 
 ```
+$scope.config =
 {
   ...
   "collumns": [{
@@ -206,6 +214,7 @@ Defines a property type = 'input' in collumn.action.type
 Defines a property type = 'input' and mask in collumn.action
 
 ```
+$scope.config =
 {
   ...
   "collumns": [{
@@ -239,6 +248,7 @@ Defines a property type = 'input' and mask in collumn.action
 ## Mask Money
 
 ```
+$scope.config =
 {
   ...
   mask: {
@@ -253,6 +263,7 @@ Defines a property type = 'input' and mask in collumn.action
 ## Mask br-phone
 
 ```
+$scope.config =
 {
   ...
   mask: {
@@ -265,6 +276,7 @@ Defines a property type = 'input' and mask in collumn.action
 ## Mask br-cep
 
 ```
+$scope.config =
 {
   ...
   mask: {
@@ -278,6 +290,7 @@ Defines a property type = 'input' and mask in collumn.action
 It has 2 parameters, row and isValid result validation
 
 ```
+$scope.config =
 {
   ...
   mask: {
@@ -298,6 +311,7 @@ It has 2 parameters, row and isValid result validation
 It has 2 parameters, row and isValid result validation
 
 ```
+$scope.config =
 {
   ...
   mask: {
@@ -318,6 +332,7 @@ It has 2 parameters, row and isValid result validation
 It has 2 parameters, row and isValid result validation
 
 ```
+$scope.config =
 {
   ...
   mask: {
@@ -338,6 +353,7 @@ It has 2 parameters, row and isValid result validation
 Defines a property type = 'combo' and mask in collumn.action
 
 ```
+$scope.config =
 {
   ...
   collumns: [{
@@ -371,6 +387,7 @@ Defines a property type = 'combo' and mask in collumn.action
 Defines a property type = 'chosen' and mask in collumn.action
 
 ```
+$scope.config =
 {
   ...
   collumns: [{
@@ -421,6 +438,7 @@ Defines a property type = 'chosen' and mask in collumn.action
 Defines a property type = 'multiChosen' and mask in collumn.action
 
 ```
+$scope.config =
 {
   ...
   collumns: [{
@@ -478,6 +496,7 @@ The buttons are always rendered in the last column<br/>
 Defines a property buttons in config
 
 ```
+$scope.config =
 {
   ...
   collumns: [{...}],
@@ -510,6 +529,7 @@ Defines a property buttons in config
 Defines a property popoverRow, trigger is hover in row
 
 ```
+$scope.config =
 {
   ...
   popoverRow: {                                       // optional
@@ -537,6 +557,7 @@ This version only implements pagination in backend<br/>
 Defines property pagination in config
 
 ```
+$scope.config =
 {
   ...
   pagination: {                                       // optional
@@ -551,6 +572,7 @@ Defines property pagination in config
 When using paging, you must implement a lazyData function within the configuration, this function is responsive to update or components automatically, page sorts and other
 
 ``` 
+$scope.config =
 {
   ...
   lazyData: function(page, size, sort, search) {
@@ -575,6 +597,7 @@ When using paging, you must implement a lazyData function within the configurati
 <b>Then JSON RESPONSE for pagination in back-end, this example the implementation in spring data.</b>
 
 ```
+$scope.config =
 {
   "content": [{
     ...
