@@ -63,13 +63,14 @@ $scope.config = {
 Defines a property search in config
 
 ```
-$scope.config = {
+$scope.config = 
+{
   ...
-  search: {
-    label: 'Search: ',         //optional 
+  "search": {
+    label: "Search: ",         //optional 
   },
   ...
-};
+}
 ```
 
 ## How override output collumn
