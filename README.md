@@ -37,26 +37,25 @@ angular.datagrid
 
 ```
 {
-  "classTable": "table table-bordered table-striped",     // optional, default: "table table-bordered table-striped"
-  "messageLoading": "Loading...",                         // optional, default: "loading..."
-  "sort": true,                                           // optional, default: false
-  "defaultSort": "id,asc",                                // optional, default is first "collumn.index", asc
+ "classTable": "table table-bordered table-striped",     // optional, default: "table table-bordered table-striped"
+ "messageLoading": "Loading...",                         // optional, default: "loading..."
+ "sort": true,                                           // optional, default: false
+ "defaultSort": "id,asc",                                // optional, default is first "collumn.index", asc
   
-  "collumns": [{                                          // required
-    "title": "ID",                                        // title of collumn                           
-    "index": "id",                                        // Property that will print in the column
-    "class": "text-center",                               // optional, class od <th> and <td>
-    "style": {                                            // optional
-      "width": "60px"                                     // It is possible to define some properties in html
-    },
-  }],
-  "data": function(){
-    return [{
-      "id": 1,
-      "name": "Lucas Rodrigues"
-    }]
-  }
-};
+ "collumns": [{                                          // required
+  "title": "ID",                                        // title of collumn                           
+  "index": "id",                                        // Property that will print in the column
+  "class": "text-center",                               // optional, class od <th> and <td>
+  "style": {                                            // optional
+   "width": "60px"                                     // It is possible to define some properties in html
+  },
+ }],
+ "data": function(){
+  return [{
+   "id": 1,
+   "name": "Lucas Rodrigues"
+ }]
+}
 ```
 
 ## How use search
