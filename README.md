@@ -48,13 +48,13 @@ angular.datagrid
   "class": "text-center",                             // optional, class od <th> and <td>
   "style": {                                          // optional
    "width": "60px"                                    // It is possible to define some properties in html
-  },
+  }
  }],
  "data": function(){
   return [{
    "id": 1,
    "name": "Lucas Rodrigues"
- }]
+  }];
 }
 ```
 
@@ -65,7 +65,7 @@ Defines a property search inside property config
 {
  ...
  "search": {
-   label: "Search: "         //optional 
+   "label": "Search: "         //optional 
   }
   ...
 }
@@ -81,7 +81,7 @@ Use the function render to override the output
     title: 'Render',                    // title of collumn                           
     index: 'name',                      // Property that will print in the column
     render: function(row){              // callback for override the output
-      return row.id+' - '+row.name;
+     return row.id+' - '+row.name;
     },
   }]
   ...
@@ -156,7 +156,7 @@ Defines a property type = 'href' in collumn.action.type
     title: "Href",
     index: 'github',
     render: function(obj) { // in action href, this property is required, callback(currentRow) override collumn[index], for label the href
-      return 'open github';
+     return 'open github';
     },
     action: {
       type: 'href',
@@ -181,8 +181,8 @@ Defines a property type = 'input' in collumn.action.type
     action: {
       type: 'input',
       class: 'input-rs',                // optional 
-      ng-style: {                       // optional
-        width: '100px'
+      style: {                       // optional
+       width: '100px'
       },
       maxlength: 10,                    // optional
       trigger: 'blur',                  // required, default: 'blur', avaliables Triggers  'blur', 'change'
@@ -194,7 +194,7 @@ Defines a property type = 'input' in collumn.action.type
         }
       },
       onChange: function(row) {         // callback when exec trigger 
-        console.log('Row actual: '+row);
+       console.log('Row actual: '+row);
       }
     }
   }],
@@ -228,7 +228,7 @@ Defines a property type = 'input' and mask in collumn.action
         }
       },
       onChange: function(row) {         // callback when exec trigger 
-        console.log('Row actual: '+row);
+       console.log('Row actual: '+row);
       }
     }
   }],
@@ -287,7 +287,7 @@ It has 2 parameters, row and isValid result validation
     if(isValid){
       console.log('execute action here');
     }else{
-      console.log('CPF inválido');
+     console.log('CPF inválido');
     }
   }
   ...
@@ -307,7 +307,7 @@ It has 2 parameters, row and isValid result validation
     if(isValid){
       console.log('execute action here');
     }else{
-      console.log('CPF inválido');
+     console.log('CNPJ inválido');
     }
   }
   ...
@@ -327,7 +327,7 @@ It has 2 parameters, row and isValid result validation
     if(isValid){
       console.log('execute action here');
     }else{
-      console.log('CPF inválido');
+     console.log('Campo inválido');
     }
   }
   ...
@@ -345,12 +345,12 @@ Defines a property type = 'combo' and mask in collumn.action
     index: 'status',
     action: {
       type: 'combo',
-      class: '',                                     // optional
-      ng-style: {                                    // optional
-        width: '100px'
+      class: '',                                     // optional
+      style: {                                    // optional
+       width: '100px'
       },
-      avaliablesChoises: ["ACTIVE","INACTIVE"], // required, Collection for populate combo, not use array of object for this use "chosen
-      labelChoose: 'Select...',                      // optional, if defined, create a empty option
+      avaliablesChoises: ["ACTIVE","INACTIVE"], // required, Collection for populate combo, not use array of object for this use "chosen
+      labelChoose: 'Select...',                      // optional, if defined, create a empty option
       isDisabled: function(obj) {                    // optional, callback for disable the combo
         if (obj.id === 1) {
           return true;
@@ -379,9 +379,9 @@ Defines a property type = 'chosen' and mask in collumn.action
     action: {
       type: 'chosen',
       placeholder: 'Selecione um tag...',  
-      class: '',                            // optional
-      ng-style: {                           // optional
-        width: '100px'
+      class: '',                            // optional
+      style: {                           // optional
+       width: '100px'
       },
       theme: 'select2',
       searchIn: ['id','nome'],              // property the object for search
