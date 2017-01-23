@@ -63,7 +63,6 @@ $scope.config = {
 Defines a property search in config
 
 ```
-$scope.config = 
 {
  ...
  "search": {
