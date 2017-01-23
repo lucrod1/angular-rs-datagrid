@@ -22,13 +22,16 @@ This component works with two dependencies, angular-input-mask and angular-ui-se
 
 ## How to use
 include module into app
+
+``` 
+angular.datagrid
 ```
-'angular.datagrid'
-```
+
 ### HTML template
 ```
 <datagrid config="config"></datagrid>
 ```
+
 ### property config in controller
 ```
 $scope.config = {
