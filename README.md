@@ -540,7 +540,8 @@ $scope.config = {
 When using paging, you must implement a lazyData function within the configuration, this function is responsive to update or components automatically, page sorts and other
 
 ```
-$scope.config = {
+$scope.config = 
+{
   ...
   lazyData: function(page, size, sort, search) {
     var params = {
