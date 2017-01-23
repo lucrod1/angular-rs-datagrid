@@ -14,7 +14,7 @@ With npm:
 ```
 npm install --save angular-rs-datagrid
 ```
-Datagrid component that supports several types of value editing. It is possible to set up columns of type, checkbox, href, html content, combobox, chosen, multi-chosen, input fields with mask (string, number, money, br-phone, br-cpf, br- cnpj) and unmasked.
+Datagrid component that supports several types of value editing. It is possible to set up columns of type, checkbox, href, html content, combobox, chosen, multi-chosen, popover, input fields with mask (string, number, money, br-phone, br-cpf, br- cnpj) and unmasked.
 
 `In this version this only implemented pagination in the backend.`
 
@@ -175,25 +175,25 @@ Defines a property type = 'input' in collumn.action.type
 ```
 {
   ...
-  collumns: [{
-    title: 'Input',
-    index: 'nickName',
-    action: {
-      type: 'input',
-      class: 'input-rs',                // optional 
-      style: {                       // optional
-       width: '100px'
+  "collumns": [{
+    "title": "Input",
+    "index": "nickName",
+    "action": {
+      "type: "input",
+      "class": "input-rs",                // optional 
+      "style": {                          // optional
+       "width": "100px"
       },
-      maxlength: 10,                    // optional
-      trigger: 'blur',                  // required, default: 'blur', avaliables Triggers  'blur', 'change'
-      isDisabled: function(obj) {       // callback
+      "maxlength": 10,                    // optional
+      "trigger": "blur",                  // required, default: 'blur', avaliables Triggers  'blur', 'change'
+      "isDisabled": function(obj) {       // callback
         if (obj.id === 1) {
           return true;
         } else {
           return false;
         }
       },
-      onChange: function(row) {         // callback when exec trigger 
+      "onChange": function(row) {         // callback when exec trigger 
        console.log('Row actual: '+row);
       }
     }
@@ -208,27 +208,27 @@ Defines a property type = 'input' and mask in collumn.action
 ```
 {
   ...
-  collumns: [{
-    title: 'Input',
-    index: 'nickName',
-    action: {
-      type: 'input',
-      trigger: 'blur',                  // required, default: 'blur', avaliables Triggers  'blur', 'change'
-      mask: {                     
-        use: 'number',                  // avaliables uses: 'number', 'money', 'br-phone','br-cep','br-cpf','br-cpfcnpj'
-        decimalPlace: 2,                // number of decimals 
-        maxlength: 11,
-        negative: true                  // optional, default false
+  "collumns": [{
+    "title": "Input",
+    "index": "nickName",
+    "action": {
+      "type": "input",
+      "trigger": "blur",                  // required, default: 'blur', avaliables Triggers  'blur', 'change'
+      "mask": {                     
+        "use": "number",                  // avaliables uses: 'number', 'money', 'br-phone','br-cep','br-cpf','br-cpfcnpj'
+        "decimalPlace": 2,                // number of decimals 
+        "maxlength": 11,
+        "negative": true                  // optional, default false
       },
-      isDisabled: function(obj) {       // callback
+      "isDisabled": function(obj) {       // callback
         if (obj.id === 1) {
           return true;
         } else {
           return false;
         }
       },
-      onChange: function(row) {         // callback when exec trigger 
-       console.log('Row actual: '+row);
+      "onChange": function(row) {         // callback when exec trigger 
+       console.log("Row actual: "+row);
       }
     }
   }],
