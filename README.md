@@ -86,6 +86,7 @@ $scope.config = {
 ```
 ## How disable sort in collumn
 Defines sort = false in collumn property
+
 ```
 $scope.config = {
   ...
@@ -100,6 +101,7 @@ $scope.config = {
 ```
 ## How Stylize collumn
 Defines class in collumn
+
 ```
 $scope.config = {
   ...
@@ -115,6 +117,7 @@ $scope.config = {
 
 ## How render checkbox in collumn
 Defines a property type = 'checkbox' in collumn.action.type
+
 ```
 $scope.config = {
   ...
@@ -140,6 +143,7 @@ $scope.config = {
 
 ## How render href in collumn
 Defines a property type = 'href' in collumn.action.type
+
 ```
 $scope.config = {
   ...
@@ -162,6 +166,7 @@ $scope.config = {
 
 ## How render input in collumn
 Defines a property type = 'input' in collumn.action.type
+
 ```
 $scope.config = {
   ...
@@ -194,6 +199,7 @@ $scope.config = {
 
 ## How render input with mask 'Number' in collumn
 Defines a property type = 'input' and mask in collumn.action
+
 ```
 $scope.config = {
   ...
