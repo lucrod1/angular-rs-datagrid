@@ -231,6 +231,7 @@ $scope.config = {
 };
 ```
 ## Mask Money
+
 ```
   ...
   mask: {
@@ -241,6 +242,7 @@ $scope.config = {
   ...
 ```
 ## Mask br-phone
+
 ```
   ...
   mask: {
@@ -249,6 +251,7 @@ $scope.config = {
   ...
 ```
 ## Mask br-cep
+
 ```
   ...
   mask: {
@@ -258,6 +261,7 @@ $scope.config = {
 ```
 ## Mask br-cpf
 It has 2 parameters, row and isValid result validation
+
 ```
   ...
   mask: {
@@ -274,6 +278,7 @@ It has 2 parameters, row and isValid result validation
 ```
 ## Mask br-cnpj
 It has 2 parameters, row and isValid result validation
+
 ```
   ...
   mask: {
@@ -290,6 +295,7 @@ It has 2 parameters, row and isValid result validation
 ```
 ## Mask br-cpfcnpj
 It has 2 parameters, row and isValid result validation
+
 ```
   ...
   mask: {
@@ -339,6 +345,7 @@ $scope.config = {
 
 ## How render chosen in collumn
 Defines a property type = 'chosen' and mask in collumn.action
+
 ```
 $scope.config = {
   ...
@@ -387,6 +394,7 @@ $scope.config = {
 ```
 ## How render multiChosen in collumn
 Defines a property type = 'multiChosen' and mask in collumn.action
+
 ```
 $scope.config = {
   ...
@@ -443,6 +451,7 @@ $scope.config = {
 ## How render buttons
 The buttons are always rendered in the last column<br/>
 Defines a property buttons in config
+
 ```
 $scope.config = {
   ...
@@ -474,6 +483,7 @@ $scope.config = {
 
 ## Render popover for Row
 Defines a property popoverRow, trigger is hover in row
+
 ```
 $scope.config = {
   ...
@@ -497,6 +507,7 @@ template-popover.html
 ## How use pagination in component
 This version only implements pagination in backend<br/>
 Defines property pagination in config
+
 ```
 $scope.config = {
   ...
@@ -508,7 +519,9 @@ $scope.config = {
   ...
 };
 ```
+
 When using paging, you must implement a lazyData function within the configuration, this function is responsive to update or components automatically, page sorts and other
+
 ```
 $scope.config = {
   ...
