@@ -59,21 +59,23 @@ angular.datagrid
 ```
 
 ## How use search
-Defines a property search in config
+Defines a property search inside property config
 
 ```
+{
  ...
  "search": {
    label: "Search: "         //optional 
   }
   ...
+}
 ```
 
 ## How override output collumn
 Use the function render to override the output
 
 ```
-$scope.config = {
+{
   ...
   collumns: [{                          // required
     title: 'Render',                    // title of collumn                           
@@ -83,14 +85,14 @@ $scope.config = {
     },
   }]
   ...
-};
+}
 ```
 
 ## How disable sort in collumn
 Defines sort = false in collumn property
 
 ```
-$scope.config = {
+{
   ...
   collumns: [
   {
@@ -99,14 +101,14 @@ $scope.config = {
     sort: false
   }]
   ...
-};
+}
 ```
 
 ## How Stylize collumn
 Defines class in collumn
 
 ```
-$scope.config = {
+{
   ...
   collumns: [
   {
@@ -115,14 +117,14 @@ $scope.config = {
     class: 'text-center'
   }]
   ...
-};
+}
 ```
 
 ## How render checkbox in collumn
 Defines a property type = 'checkbox' in collumn.action.type
 
 ```
-$scope.config = {
+{
   ...
   collumns: [
   {
@@ -141,14 +143,14 @@ $scope.config = {
       }
   }],
   ...
-};
+}
 ```
 
 ## How render href in collumn
 Defines a property type = 'href' in collumn.action.type
 
 ```
-$scope.config = {
+{
   ...
   collumns: [{
     title: "Href",
@@ -164,14 +166,14 @@ $scope.config = {
     }
  }],
  ...
-};
+}
 ```
 
 ## How render input in collumn
 Defines a property type = 'input' in collumn.action.type
 
 ```
-$scope.config = {
+{
   ...
   collumns: [{
     title: 'Input',
@@ -197,14 +199,14 @@ $scope.config = {
     }
   }],
  ...
-};
+}
 ```
 
 ## How render input with mask 'Number' in collumn
 Defines a property type = 'input' and mask in collumn.action
 
 ```
-$scope.config = {
+{
   ...
   collumns: [{
     title: 'Input',
@@ -231,12 +233,13 @@ $scope.config = {
     }
   }],
  ...
-};
+}
 ```
 
 ## Mask Money
 
 ```
+{
   ...
   mask: {
     use: 'money',    
@@ -244,32 +247,38 @@ $scope.config = {
     maxlength: 11
   },
   ...
+}
 ```
 
 ## Mask br-phone
 
 ```
+{
   ...
   mask: {
     use: 'br-phone'
   },
   ...
+}
 ```
 
 ## Mask br-cep
 
 ```
+{
   ...
   mask: {
     use: 'br-cep'
   },
   ...
+}
 ```
 
 ## Mask br-cpf
 It has 2 parameters, row and isValid result validation
 
 ```
+{
   ...
   mask: {
     use: 'br-cpf'
@@ -282,12 +291,14 @@ It has 2 parameters, row and isValid result validation
     }
   }
   ...
+}
 ```
 
 ## Mask br-cnpj
 It has 2 parameters, row and isValid result validation
 
 ```
+{
   ...
   mask: {
     use: 'br-cnpj'
@@ -300,12 +311,14 @@ It has 2 parameters, row and isValid result validation
     }
   }
   ...
+}
 ```
 
 ## Mask br-cpfcnpj
 It has 2 parameters, row and isValid result validation
 
 ```
+{
   ...
   mask: {
     use: 'br-cpfcnpj'
@@ -318,13 +331,14 @@ It has 2 parameters, row and isValid result validation
     }
   }
   ...
+}
 ```
 
 ## How render comboBox in collumn
 Defines a property type = 'combo' and mask in collumn.action
 
 ```
-$scope.config = {
+{
   ...
   collumns: [{
     title: "Combo",
@@ -350,14 +364,14 @@ $scope.config = {
     }
   }],
  ...
-};
+}
 ```
 
 ## How render chosen in collumn
 Defines a property type = 'chosen' and mask in collumn.action
 
 ```
-$scope.config = {
+{
   ...
   collumns: [{
     title: 'Chosen',
@@ -400,14 +414,14 @@ $scope.config = {
       }
    }],
   ...
-};
+}
 ```
 
 ## How render multiChosen in collumn
 Defines a property type = 'multiChosen' and mask in collumn.action
 
 ```
-$scope.config = {
+{
   ...
   collumns: [{
     title: 'Multi-Chosen',
@@ -456,7 +470,7 @@ $scope.config = {
       }
   }],
   ...
-};
+}
 ```
 
 ## How render buttons
@@ -464,7 +478,7 @@ The buttons are always rendered in the last column<br/>
 Defines a property buttons in config
 
 ```
-$scope.config = {
+{
   ...
   collumns: [{...}],
   buttons: [
@@ -489,14 +503,14 @@ $scope.config = {
     }
   ]
   ...
-};
+}
 ```
 
 ## Render popover for Row
 Defines a property popoverRow, trigger is hover in row
 
 ```
-$scope.config = {
+{
   ...
   popoverRow: {                                       // optional
     titleRender: function (row){                      // optional, callback(currentRow) for render title in popover
@@ -506,7 +520,7 @@ $scope.config = {
     ngModel: 'popover'                                // required type: String (that presents the model in popover template)
   },
   ...
-};
+}
 ```
 
 template-popover.html
@@ -523,7 +537,7 @@ This version only implements pagination in backend<br/>
 Defines property pagination in config
 
 ```
-$scope.config = {
+{
   ...
   pagination: {                                       // optional
     labelSize: 'Registros por página: ',              // optional, default "Page size: ""
@@ -531,13 +545,12 @@ $scope.config = {
     avaliableSizes: [10, 25, 50, 100, 500]            // optional, default [10,25,50,100]
   },
   ...
-};
+}
 ```
 
 When using paging, you must implement a lazyData function within the configuration, this function is responsive to update or components automatically, page sorts and other
 
-```
-$scope.config = 
+``` 
 {
   ...
   lazyData: function(page, size, sort, search) {
@@ -559,7 +572,7 @@ $scope.config =
 };
 ```
 
-<b>Then JSON RESPONSE for pagination in back-end, this example the implementation in spring data.<b>
+<b>Then JSON RESPONSE for pagination in back-end, this example the implementation in spring data.</b>
 
 ```
 {
