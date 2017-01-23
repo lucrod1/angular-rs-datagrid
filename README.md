@@ -497,7 +497,9 @@ $scope.config = {
   ...
 };
 ```
+
 template-popover.html
+
 ```
 <div>
   <p>Nick Name: {{this.popover.nickName}}</p>
