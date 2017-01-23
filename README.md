@@ -560,6 +560,27 @@ $scope.config = {
   ...
 };
 ```
+Then JSON RESPONSE for pagination in back-end, this example the implementation in spring data.
+```
+{
+  "content": [{
+    ...
+    ...
+  }],
+  "totalElements": 10,
+  "last": false,
+  "totalPages": 1,
+  "first": true,
+  "sort": [{
+    "direction": "ASC",
+    "property": "id"
+  }],
+  "numberOfElements": 10,
+  "size": 10,
+  "number": 0
+}
+
+```
 
 ### License
 MIT
