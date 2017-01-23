@@ -560,7 +560,9 @@ $scope.config = {
   ...
 };
 ```
-Then JSON RESPONSE for pagination in back-end, this example the implementation in spring data.
+
+`Then JSON RESPONSE for pagination in back-end, this example the implementation in spring data.`
+
 ```
 {
   "content": [{
@@ -579,7 +581,6 @@ Then JSON RESPONSE for pagination in back-end, this example the implementation i
   "size": 10,
   "number": 0
 }
-
 ```
 
 ### License
