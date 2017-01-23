@@ -36,7 +36,7 @@ angular.datagrid
 ### property config in controller
 
 ```
-$scope.config = {
+{
   "classTable": "table table-bordered table-striped",     // optional, default: "table table-bordered table-striped"
   "messageLoading": "Loading...",                         // optional, default: "loading..."
   "sort": true,                                           // optional, default: false
