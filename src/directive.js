@@ -244,7 +244,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
             scope.showInfoProgress = true; //CALL WHEN INIT COMPONENT
             var promise = scope.config.lazyData(scope.currentPage, scope.pagination.defaultSize, getCurrentSort());
             if (angular.isObject(promise) && promise.then instanceof Function) {
-              scope.config.lazyData(scope.currentPage, scope.pagination.defaultSize, getCurrentSort()).then(function(dados) {
+              promise.then(function(dados) {
                 scope.showInfoProgress = false;
                 scope.collection = dados;
               });

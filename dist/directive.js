@@ -1,7 +1,7 @@
 /*!
  * angular-rs-datagrid
  * 
- * Version: 1.0.36 - 2017-01-24T18:05:40.707Z
+ * Version: 1.0.36 - 2017-01-24T18:10:47.401Z
  * License: MIT
  */
 
@@ -252,7 +252,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
             scope.showInfoProgress = true; //CALL WHEN INIT COMPONENT
             var promise = scope.config.lazyData(scope.currentPage, scope.pagination.defaultSize, getCurrentSort());
             if (angular.isObject(promise) && promise.then instanceof Function) {
-              scope.config.lazyData(scope.currentPage, scope.pagination.defaultSize, getCurrentSort()).then(function(dados) {
+              promise.then(function(dados) {
                 scope.showInfoProgress = false;
                 scope.collection = dados;
               });
