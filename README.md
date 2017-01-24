@@ -287,7 +287,7 @@ $scope.config =
 ```
 
 ## Mask br-cpf
-It has 2 parameters, row and isValid result validation
+Callback has two parameters, row and isValid, isValid is result validation cpf
 
 ```
 $scope.config =
@@ -308,7 +308,7 @@ $scope.config =
 ```
 
 ## Mask br-cnpj
-It has 2 parameters, row and isValid result validation
+Callback has two parameters, row and isValid, isValid is result validation cnpj
 
 ```
 $scope.config =
@@ -329,7 +329,7 @@ $scope.config =
 ```
 
 ## Mask br-cpfcnpj
-It has 2 parameters, row and isValid result validation
+Callback has two parameters, row and isValid, isValid is result validation 
 
 ```
 $scope.config =
