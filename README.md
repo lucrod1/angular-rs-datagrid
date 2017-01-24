@@ -24,7 +24,7 @@ This component works with two dependencies, angular-input-mask and angular-ui-se
 include module into app
 
 ``` 
-angular.datagrid
+rs.datagrid
 ```
 
 ### HTML template
