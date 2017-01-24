@@ -30,7 +30,7 @@ rs.datagrid
 ### HTML template
 
 ```
-<datagrid config="config"></datagrid>
+<rs-datagrid config="config"></rs-datagrid>
 ```
 
 ### Defines property config in controller
@@ -142,6 +142,13 @@ $scope.config =
     "action": {
       "type": "checkbox",                             //required
       "checkInHeader": true,                          // Boolean, for render checkbox in header <th>
+      isDisabled: function(row){                      // callback
+        if (expression){
+          return true;
+        }else{
+          return false;
+        }
+      },
       "onCheckHeader": function(checked) {            // callback when clicked in checkHeader
         console.log('checked: ' + checked);
       },

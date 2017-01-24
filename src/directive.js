@@ -248,7 +248,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
                 scope.showInfoProgress = false;
                 scope.collection = dados;
               });
-            }else{
+            } else {
               console.warn('A function "scope.config.lazyData" should be implemented with Promise');
             }
           } else {
@@ -405,6 +405,13 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           return false;
         }
 
+        scope.isDisabledCheckbox = function(row, collumn) {
+          if (angular.isFunction(collumn.action.isDisabled)) {
+            return collumn.action.isDisabled(row);
+          }
+          return false;
+        };
+
         scope.clickCheckbox = function(row, indexCollumn, checked) {
           var collumn = scope.collumns[indexCollumn];
           var count = 0;
@@ -427,7 +434,9 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
 
         scope.clickCheckboxHeader = function(collumn, checked) {
           angular.forEach(scope.collection.content, function(row) {
-            row[collumn.index] = checked;
+            if(!scope.isDisabledCheckbox(row,collumn)){
+              row[collumn.index] = checked;
+            }
           });
 
           if (angular.isFunction(collumn.action.onCheckHeader)) {

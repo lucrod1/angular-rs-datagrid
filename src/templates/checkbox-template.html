@@ -2,6 +2,7 @@
 	type="checkbox" 
 	ng-click="clickCheckbox(row, $index, row[collumn.index])" 
 	ng-model="row[collumn.index]" 
+	ng-disabled="isDisabledCheckbox(row, collumn)" 
 	ng-class="collumn.action.class"
 	ng-style="collumn.action.style"
 	name="checkbox_{{$index}}"

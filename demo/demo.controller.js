@@ -12,13 +12,13 @@ app.controller('demoController', function($scope, $http) {
       label: 'Filtrar por: ',
     },
 
-    popoverRow: {                                       // optional
-      titleRender: function (row){                      // optional, callback(currentRow) for render title in popover
-        return row.name+' '+row.lastName;
-      },
-      templateUrl: 'template-popover.html',             // required type: String "popover-template.html"
-      ngModel: 'popover'                                // required type: String (that presents the model in popover template)
-    },
+    // popoverRow: {                                       // optional
+    //   titleRender: function (row){                      // optional, callback(currentRow) for render title in popover
+    //     return row.name+' '+row.lastName;
+    //   },
+    //   templateUrl: 'template-popover.html',             // required type: String "popover-template.html"
+    //   ngModel: 'popover'                                // required type: String (that presents the model in popover template)
+    // },
 
     collumns: [{
         title: '',
@@ -29,6 +29,9 @@ app.controller('demoController', function($scope, $http) {
           type: 'checkbox',
           class: 'checkboxClass',
           checkInHeader: true,
+          isDisabled: function(row){
+            return row.id == 1;
+          },
           onCheckHeader: function(checked) {
             console.log('checked: ' + checked);
           },
