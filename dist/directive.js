@@ -1,7 +1,7 @@
 /*!
  * angular-rs-datagrid
  * 
- * Version: 1.0.35 - 2017-01-24T13:38:30.519Z
+ * Version: 1.0.35 - 2017-01-24T16:20:59.359Z
  * License: MIT
  */
 
@@ -9,7 +9,7 @@
 'use strict';
 
 angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
-  .directive('datagrid', ['$locale', '$filter', function($locale, $filter) {
+  .directive('rsDatagrid', ['$locale', '$filter', function($locale, $filter) {
     return {
       restrict: 'AE',
       templateUrl: 'directive-template.html',

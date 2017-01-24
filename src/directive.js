@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
-  .directive('datagrid', ['$locale', '$filter', function($locale, $filter) {
+  .directive('rsDatagrid', ['$locale', '$filter', function($locale, $filter) {
     return {
       restrict: 'AE',
       templateUrl: 'directive-template.html',
