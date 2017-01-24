@@ -1,7 +1,7 @@
 /*!
  * angular-rs-datagrid
  * 
- * Version: 1.0.36 - 2017-01-24T17:41:59.355Z
+ * Version: 1.0.36 - 2017-01-24T18:05:40.686Z
  * License: MIT
  */
 
@@ -1136,6 +1136,9 @@ disabled look for disabled choices in the results dropdown
 }
 .select2-display-none {
   display: none;
+}
+.text-center {
+  text-align: center;
 }
 .select2-measure-scrollbar {
   position: absolute;

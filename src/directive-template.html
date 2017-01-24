@@ -104,8 +104,8 @@
           </div>
         </td>
       </tr>
-      <tr ng-if="showEmptyRow" class="text-center">
-        <td colspan="{{collumns.length}}">{{config.messageEmpty}}</td>
+      <tr ng-if="showEmptyRow">
+        <td class="text-center" colspan="{{collumns.length}}">{{config.messageEmpty}}</td>
       </tr>
       <tr>
         <td ng-if="showInfoProgress" colspan="{{collumns.length}}">{{messageLoading || 'loading...'}}</td>
