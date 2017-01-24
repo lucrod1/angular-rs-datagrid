@@ -39,7 +39,8 @@ rs.datagrid
 $scope.config =
 {
  "classTable": "table table-bordered table-striped",  // optional, default: "table table-bordered table-striped" --->
- "messageLoading": "Loading...",                      // optional, default: "loading..."
+ "messageLoading": "Loading...",                      // optional, default: "loading..."
+ "messageEmpty"  : "No results", 
  "sort": true,                                        // optional, default: false
  "defaultSort": "id,asc",                             // optional, default is first "collumn.index", asc
   
