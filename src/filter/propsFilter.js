@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module("angular.datagrid")
-  .filter("angularDatagridPropsFilter", function() {
+angular.module("rs.datagrid")
+  .filter("rsPropsFilter", function() {
     var removeAccents;
     removeAccents = function(strValAccents) {
       var accents, accentsOut, strAccents, strAccentsLen, strAccentsOut, y;

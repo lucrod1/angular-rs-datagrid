@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
+angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
   .directive('datagrid', ['$locale', '$filter', function($locale, $filter) {
     return {
       restrict: 'AE',
@@ -352,7 +352,7 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
               if (scope.collection.content[0]._internal) {
                 keys = Object.keys(scope.collection.content[0]._internal);
               }
-              var result = $filter('angularDatagridPropsFilter')(scope.collection.content, keys, scope.filter.search, true);
+              var result = $filter('rsPropsFilter')(scope.collection.content, keys, scope.filter.search, true);
               if (result.length === 0) {
                 scope.showEmptyRow = true;
               } else {
@@ -582,7 +582,7 @@ angular.module('angular.datagrid', ['ui.utils.masks', 'ui.select'])
         // VARIABLES AND METHODS ASSIST CHOSEN AND MULTI-CHOSEN
         ///////////////////////////////////////////////////////////////////////////////////////////////
         scope.getAvaliablesChoises = function(array, collumn, search) {
-          return $filter('angularDatagridPropsFilter')(array, getKeysForSearch(collumn), search, false);
+          return $filter('rsPropsFilter')(array, getKeysForSearch(collumn), search, false);
         };
 
 
