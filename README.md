@@ -6,7 +6,7 @@
 With Bower:
 
 ```
-bower install --save angular.datagrid
+bower install --save angular-rs-datagrid
 ```
 
 With npm:
@@ -14,7 +14,7 @@ With npm:
 ```
 npm install --save angular-rs-datagrid
 ```
-Datagrid component that supports several types of value editing. It is possible to set up columns of type, checkbox, href, html content, combobox, chosen, multi-chosen, input fields with mask (string, number, money, br-phone, br-cpf, br- cnpj) and unmasked.
+Datagrid component that supports several types of value editing. It is possible to set up columns of type, checkbox, href, html content, combobox, chosen, multi-chosen, popover, input fields with mask (string, number, money, br-phone, br-cpf, br- cnpj) and unmasked.
 
 `In this version this only implemented pagination in the backend.`
 
@@ -22,207 +22,234 @@ This component works with two dependencies, angular-input-mask and angular-ui-se
 
 ## How to use
 include module into app
+
+``` 
+angular.datagrid
 ```
-'angular.datagrid'
-```
+
 ### HTML template
+
 ```
 <datagrid config="config"></datagrid>
 ```
-### property config in controller
-```
-$scope.config = {
-  classTable: 'table table-bordered table-striped',     // optional, default: "table table-bordered table-striped"
-  messageLoading: 'Loading...',                         // optional, default: "loading..."
-  sort: true,                                           // optional, default: false
-  defaultSort: 'id,asc',                                // optional, default is first "collumn.index", asc
-  
-  collumns: [{                                          // required
-    title: 'ID',                                        // title of collumn                           
-    index: 'id',                                        // Property that will print in the column
-    class: 'text-center',                               // optional, class od <th> and <td>
-    style: {                                            // optional
-      width: '60px'                                     // It is possible to define some properties in html
-    },
-  }],
-  data: function(){
-    return [{
-      id: 1,
-      name: 'Lucas Rodrigues'
-    }]
-  }
-};
-```
-## How use search
-Defines a property search in config
+
+### Defines property config in controller
 
 ```
-$scope.config = {
+$scope.config =
+{
+ "classTable": "table table-bordered table-striped",  // optional, default: "table table-bordered table-striped" --->
+ "messageLoading": "Loading...",                      // optional, default: "loading..."
+ "sort": true,                                        // optional, default: false
+ "defaultSort": "id,asc",                             // optional, default is first "collumn.index", asc
+  
+ "collumns": [{                                       // required
+  "title": "ID",                                      // title of collumn                           
+  "index": "id",                                      // Property that will print in the column
+  "class": "text-center",                             // optional, class od <th> and <td>
+  "style": {                                          // optional
+   "width": "60px"                                    // It is possible to define some properties in html
+  }
+ }],
+ "data": function(){
+   return [{
+    "id": 1,
+    "name": "Lucas Rodrigues"
+   }];
+}
+```
+
+## How use search
+Defines a property search inside property config
+
+```
+$scope.config =
+{
+ ...
+ "search": {
+   "label": "Search: "         //optional 
+  }
   ...
-  search: {
-    label: 'Search: ',         //optional 
-  },
-  ...
-};
+}
 ```
 
 ## How override output collumn
 Use the function render to override the output
+
 ```
-$scope.config = {
+$scope.config =
+{
   ...
-  collumns: [{                          // required
-    title: 'Render',                    // title of collumn                           
-    index: 'name',                      // Property that will print in the column
-    render: function(row){              // callback for override the output
-      return row.id+' - '+row.name;
+  "collumns": [{                          // required
+    "title": "Render",                    // title of collumn                           
+    "index": "name",                      // Property that will print in the column
+    "render": function(row){              // callback for override the output
+      return row.id+' - '+row.name;
     },
   }]
   ...
-};
+}
 ```
+
 ## How disable sort in collumn
 Defines sort = false in collumn property
+
 ```
-$scope.config = {
+$scope.config =
+{
   ...
-  collumns: [
+  "collumns": [
   {
-    title: 'No Sort',
-    index: 'lastName',
-    sort: false
+    "title": "No Sort",
+    "index": "lastName",
+    "sort": false
   }]
   ...
-};
+}
 ```
+
 ## How Stylize collumn
 Defines class in collumn
+
 ```
-$scope.config = {
+$scope.config =
+{
   ...
-  collumns: [
+  "collumns": [
   {
-    title: 'Class',
-    index: 'city',
-    class: 'text-center'
+    "title": "Class",
+    "index": "city",
+    "class": "text-center"
   }]
   ...
-};
+}
 ```
 
 ## How render checkbox in collumn
 Defines a property type = 'checkbox' in collumn.action.type
+
 ```
-$scope.config = {
+$scope.config =
+{
   ...
-  collumns: [
+  "collumns": [
   {
-    title: '',                                      // title of collumn                           
-    index: 'enable',                                // Property that will print in the column
-    class: 'text-center',                           // optional, class od <th> and <td>
-    sort: false,                                    // optional default: true
-    action: {
-      type: 'checkbox',                             //required
-      checkInHeader: true,                          // Boolean, for render checkbox in header <th>
-      onCheckHeader: function(checked) {            // callback when clicked in checkHeader
+    "title": "",                                      // title of collumn                           
+    "index": "enable",                                // Property that will print in the column
+    "class": "text-center",                           // optional, class od <th> and <td>
+    "sort": false,                                    // optional default: true
+    "action": {
+      "type": "checkbox",                             //required
+      "checkInHeader": true,                          // Boolean, for render checkbox in header <th>
+      "onCheckHeader": function(checked) {            // callback when clicked in checkHeader
         console.log('checked: ' + checked);
       },
-      onCheck: function(obj, checked) {             // callback when clicked in check row table
+      "onCheck": function(obj, checked) {             // callback when clicked in check row table
         console.log('checked: ' + checked + ', obj:' + obj.id);
       }
   }],
   ...
-};
+}
 ```
 
 ## How render href in collumn
 Defines a property type = 'href' in collumn.action.type
+
 ```
-$scope.config = {
+$scope.config =
+{
   ...
-  collumns: [{
-    title: "Href",
-    index: 'github',
-    render: function(obj) { // in action href, this property is required, callback(currentRow) override collumn[index], for label the href
-      return 'open github';
+  "collumns": [{
+    "title": "Href",
+    "index": "github",
+    "render": function(obj) { // in action href, this property is required, callback(currentRow) override collumn, for label the href
+      return "open github";
     },
-    action: {
-      type: 'href',
-      onClick: function(obj) {                        // callback(currentRow) when click in href
-        window.open(row.github, '_blank');
+    "action": {
+      "type": "href",
+      "onClick: function(obj) {                        // callback(currentRow) when click in href
+        window.open(row.github, "_blank");
       }
     }
  }],
  ...
-};
+}
 ```
 
 ## How render input in collumn
 Defines a property type = 'input' in collumn.action.type
+
 ```
-$scope.config = {
+$scope.config =
+{
   ...
-  collumns: [{
-    title: 'Input',
-    index: 'nickName',
-    action: {
-      type: 'input',
-      class: 'input-rs',                // optional 
-      ng-style: {                       // optional
-        width: '100px'
+  "collumns": [{
+    "title": "Input",
+    "index": "nickName",
+    "action": {
+      "type": "input",
+      "class": "input-rs",                // optional 
+      "style": {                          // optional
+       "width": "100px"
       },
-      maxlength: 10,                    // optional
-      trigger: 'blur',                  // required, default: 'blur', avaliables Triggers  'blur', 'change'
-      isDisabled: function(obj) {       // callback
+      "maxlength": 10,                    // optional
+      "trigger": "blur",                  // required, default: 'blur', avaliables Triggers  'blur', 'change'
+      "isDisabled": function(obj) {       // callback
         if (obj.id === 1) {
           return true;
         } else {
           return false;
         }
       },
-      onChange: function(row) {         // callback when exec trigger 
-        console.log('Row actual: '+row);
+      "onChange": function(row) {         // callback when exec trigger 
+       console.log('Row actual: '+row);
       }
     }
   }],
  ...
-};
+}
 ```
 
 ## How render input with mask 'Number' in collumn
 Defines a property type = 'input' and mask in collumn.action
+
 ```
-$scope.config = {
+$scope.config =
+{
   ...
-  collumns: [{
-    title: 'Input',
-    index: 'nickName',
-    action: {
-      type: 'input',
-      trigger: 'blur',                  // required, default: 'blur', avaliables Triggers  'blur', 'change'
-      mask: {                     
-        use: 'number',                  // avaliables uses: 'number', 'money', 'br-phone','br-cep','br-cpf','br-cpfcnpj'
-        decimalPlace: 2,                // number of decimals 
-        maxlength: 11,
-        negative: true                  // optional, default false
+  "collumns": [{
+    "title": "Input",
+    "index": "nickName",
+    "action": {
+      "type": "input",
+      "trigger": "blur",                  // required, default: 'blur', avaliables Triggers  'blur', 'change'
+      "mask": {                     
+        "use": "number",                  // avaliables uses: 'number', 'money', 'br-phone','br-cep','br-cpf','br-cpfcnpj'
+        "decimalPlace": 2,                // number of decimals 
+        "maxlength": 11,
+        "negative": true                  // optional, default false
       },
-      isDisabled: function(obj) {       // callback
+      "isDisabled": function(obj) {       // callback
         if (obj.id === 1) {
           return true;
         } else {
           return false;
         }
       },
-      onChange: function(row) {         // callback when exec trigger 
-        console.log('Row actual: '+row);
+      "onChange": function(row) {         // callback when exec trigger 
+       console.log("Row actual: "+row);
       }
     }
   }],
  ...
-};
+}
 ```
+
 ## Mask Money
+
 ```
+$scope.config =
+{
   ...
   mask: {
     use: 'money',    
@@ -230,26 +257,41 @@ $scope.config = {
     maxlength: 11
   },
   ...
+}
 ```
+
 ## Mask br-phone
+
 ```
+$scope.config =
+{
   ...
   mask: {
     use: 'br-phone'
   },
   ...
+}
 ```
+
 ## Mask br-cep
+
 ```
+$scope.config =
+{
   ...
   mask: {
     use: 'br-cep'
   },
   ...
+}
 ```
+
 ## Mask br-cpf
-It has 2 parameters, row and isValid result validation
+Callback has two parameters, row and isValid, isValid is result validation cpf
+
 ```
+$scope.config =
+{
   ...
   mask: {
     use: 'br-cpf'
@@ -258,14 +300,19 @@ It has 2 parameters, row and isValid result validation
     if(isValid){
       console.log('execute action here');
     }else{
-      console.log('CPF inválido');
+     console.log('CPF inválido');
     }
   }
   ...
+}
 ```
+
 ## Mask br-cnpj
-It has 2 parameters, row and isValid result validation
+Callback has two parameters, row and isValid, isValid is result validation cnpj
+
 ```
+$scope.config =
+{
   ...
   mask: {
     use: 'br-cnpj'
@@ -274,14 +321,19 @@ It has 2 parameters, row and isValid result validation
     if(isValid){
       console.log('execute action here');
     }else{
-      console.log('CPF inválido');
+     console.log('CNPJ inválido');
     }
   }
   ...
+}
 ```
+
 ## Mask br-cpfcnpj
-It has 2 parameters, row and isValid result validation
+Callback has two parameters, row and isValid, isValid is result validation 
+
 ```
+$scope.config =
+{
   ...
   mask: {
     use: 'br-cpfcnpj'
@@ -290,28 +342,31 @@ It has 2 parameters, row and isValid result validation
     if(isValid){
       console.log('execute action here');
     }else{
-      console.log('CPF inválido');
+     console.log('Campo inválido');
     }
   }
   ...
+}
 ```
+
 ## How render comboBox in collumn
 Defines a property type = 'combo' and mask in collumn.action
 
 ```
-$scope.config = {
+$scope.config =
+{
   ...
   collumns: [{
     title: "Combo",
     index: 'status',
     action: {
       type: 'combo',
-      class: '',                                     // optional
-      ng-style: {                                    // optional
-        width: '100px'
+      class: '',                                     // optional
+      style: {                                    // optional
+       width: '100px'
       },
-      avaliablesChoises: ["ACTIVE","INACTIVE"], // required, Collection for populate combo, not use array of object for this use "chosen
-      labelChoose: 'Select...',                      // optional, if defined, create a empty option
+      avaliablesChoises: ["ACTIVE","INACTIVE"], // required, Collection for populate combo, not use array of object for this use "chosen
+      labelChoose: 'Select...',                      // optional, if defined, create a empty option
       isDisabled: function(obj) {                    // optional, callback for disable the combo
         if (obj.id === 1) {
           return true;
@@ -325,13 +380,15 @@ $scope.config = {
     }
   }],
  ...
-};
+}
 ```
 
 ## How render chosen in collumn
 Defines a property type = 'chosen' and mask in collumn.action
+
 ```
-$scope.config = {
+$scope.config =
+{
   ...
   collumns: [{
     title: 'Chosen',
@@ -339,9 +396,9 @@ $scope.config = {
     action: {
       type: 'chosen',
       placeholder: 'Selecione um tag...',  
-      class: '',                            // optional
-      ng-style: {                           // optional
-        width: '100px'
+      class: '',                            // optional
+      style: {                           // optional
+       width: '100px'
       },
       theme: 'select2',
       searchIn: ['id','nome'],              // property the object for search
@@ -374,12 +431,15 @@ $scope.config = {
       }
    }],
   ...
-};
+}
 ```
+
 ## How render multiChosen in collumn
 Defines a property type = 'multiChosen' and mask in collumn.action
+
 ```
-$scope.config = {
+$scope.config =
+{
   ...
   collumns: [{
     title: 'Multi-Chosen',
@@ -428,14 +488,16 @@ $scope.config = {
       }
   }],
   ...
-};
+}
 ```
 
 ## How render buttons
 The buttons are always rendered in the last column<br/>
 Defines a property buttons in config
+
 ```
-$scope.config = {
+$scope.config =
+{
   ...
   collumns: [{...}],
   buttons: [
@@ -460,13 +522,15 @@ $scope.config = {
     }
   ]
   ...
-};
+}
 ```
 
 ## Render popover for Row
 Defines a property popoverRow, trigger is hover in row
+
 ```
-$scope.config = {
+$scope.config =
+{
   ...
   popoverRow: {                                       // optional
     titleRender: function (row){                      // optional, callback(currentRow) for render title in popover
@@ -476,20 +540,25 @@ $scope.config = {
     ngModel: 'popover'                                // required type: String (that presents the model in popover template)
   },
   ...
-};
+}
 ```
+
 template-popover.html
+
 ```
 <div>
   <p>Nick Name: {{this.popover.nickName}}</p>
   <p>City: {{this.popover.city.name}}</p>
 </div>
 ```
+
 ## How use pagination in component
 This version only implements pagination in backend<br/>
 Defines property pagination in config
+
 ```
-$scope.config = {
+$scope.config =
+{
   ...
   pagination: {                                       // optional
     labelSize: 'Registros por página: ',              // optional, default "Page size: ""
@@ -497,11 +566,14 @@ $scope.config = {
     avaliableSizes: [10, 25, 50, 100, 500]            // optional, default [10,25,50,100]
   },
   ...
-};
+}
 ```
+
 When using paging, you must implement a lazyData function within the configuration, this function is responsive to update or components automatically, page sorts and other
-```
-$scope.config = {
+
+``` 
+$scope.config =
+{
   ...
   lazyData: function(page, size, sort, search) {
     var params = {
@@ -521,5 +593,28 @@ $scope.config = {
   ...
 };
 ```
+
+<b>Then JSON RESPONSE for pagination in back-end, this example the implementation in spring data.</b>
+
+```
+{
+  "content": [{
+    ...
+    ...
+  }],
+  "totalElements": 10,
+  "last": false,
+  "totalPages": 1,
+  "first": true,
+  "sort": [{
+    "direction": "ASC",
+    "property": "id"
+  }],
+  "numberOfElements": 10,
+  "size": 10,
+  "number": 0
+}
+```
+
 ### License
 MIT
