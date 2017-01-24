@@ -6,13 +6,13 @@
 With Bower:
 
 ```
-bower install --save angular.datagrid
+bower install --save angular-rs-datagrid
 ```
 
 With npm:
 
 ```
-npm install --save angular.datagrid
+npm install --save angular-rs-datagrid
 ```
 Datagrid component that supports several types of value editing. It is possible to set up columns of type, checkbox, href, html content, combobox, chosen, multi-chosen, popover, input fields with mask (string, number, money, br-phone, br-cpf, br- cnpj) and unmasked.
 
