@@ -91,6 +91,23 @@ $scope.config =
   ...
 }
 ```
+Is possible render html content, for this defines property isHtml 
+
+```
+$scope.config =
+{
+  ...
+  "collumns": [{                          // required
+    "title": "Render",                    // title of collumn                           
+    "index": "name",                      // Property that will print in the column
+    "isHtml": true,
+    "render": function(row){              // callback for override the output
+      return "<b>"+row.id+' - '+row.name+"</b>";
+    },
+  }]
+  ...
+}
+```
 
 ## How disable sort in collumn
 Defines sort = false in collumn property
