@@ -555,9 +555,16 @@ template-popover.html
 
 ```
 <div>
-  <p>Nick Name: {{this.popover.nickName}}</p>
-  <p>City: {{this.popover.city.name}}</p>
+  <p>Nick Name: `{{this.popover.nickName}}</p>
+  <p>City: `{{this.popover.city.name}}`</p>
 </div>
+```
+
+## How force refresh datagrid
+Call broadcast
+
+```
+$scope.$broadcast("rsDatagrid:refresh");
 ```
 
 ## How use pagination in component
