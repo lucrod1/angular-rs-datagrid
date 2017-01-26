@@ -1,7 +1,7 @@
 /*!
  * angular-rs-datagrid
  * 
- * Version: 1.0.41 - 2017-01-26T12:19:44.500Z
+ * Version: 1.0.41 - 2017-01-26T12:23:42.803Z
  * License: MIT
  */
 
@@ -120,7 +120,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // REFRESH TABLE
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        scope.$on('rsDatagrid.refresh', function(event, args) {
+        scope.$on('rsDatagrid:refresh', function(event, args) {
           refresh(scope.currentPage);
         });
         function refresh(page) {
