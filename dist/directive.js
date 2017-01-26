@@ -1,7 +1,7 @@
 /*!
  * angular-rs-datagrid
  * 
- * Version: 1.0.41 - 2017-01-26T12:23:42.803Z
+ * Version: 1.0.41 - 2017-01-26T13:13:42.001Z
  * License: MIT
  */
 
@@ -123,6 +123,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         scope.$on('rsDatagrid:refresh', function(event, args) {
           refresh(scope.currentPage);
         });
+        
         function refresh(page) {
           if (scope.hasPagination) {
             scope.showProgress = true;
