@@ -112,6 +112,9 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // REFRESH TABLE
         ///////////////////////////////////////////////////////////////////////////////////////////////
+        scope.$on('rsDatagrid.refresh', function(event, args) {
+          refresh(scope.currentPage);
+        });
         function refresh(page) {
           if (scope.hasPagination) {
             scope.showProgress = true;
