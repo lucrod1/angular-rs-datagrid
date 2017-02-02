@@ -452,7 +452,7 @@ $scope.config =
         nome: 'tag 2'
       }],
       onChange: function(obj, newValue) {
-        console.log('execute action here: ' + newValue.id);
+        console.log('execute action here: ' + obj.id);
       }
    }],
   ...
