@@ -451,8 +451,8 @@ $scope.config =
         id: 2,
         nome: 'tag 2'
       }],
-      onChange: function(obj, newValue) {
-        console.log('execute action here: ' + newValue.id);
+      onChange: function(obj) {
+        console.log('execute action here: ' + obj.id);
       }
    }],
   ...
