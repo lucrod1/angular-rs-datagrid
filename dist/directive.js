@@ -1,7 +1,7 @@
 /*!
  * angular-rs-datagrid
  * 
- * Version: 1.0.44 - 2017-02-02T22:39:13.743Z
+ * Version: 1.0.44 - 2017-02-02T22:41:13.437Z
  * License: MIT
  */
 

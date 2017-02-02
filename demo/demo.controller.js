@@ -212,7 +212,7 @@ app.controller('demoController', function($scope, $http) {
       // }, 
       {
         title: 'Buttons',
-        index: 'buttons',
+        index: 'id',
         sort: false
       }
     ],
