@@ -1,7 +1,7 @@
 /*!
  * angular-rs-datagrid
  * 
- * Version: 1.0.44 - 2017-02-02T17:46:15.347Z
+ * Version: 1.0.44 - 2017-02-02T18:02:07.292Z
  * License: MIT
  */
 
@@ -1137,6 +1137,9 @@ disabled look for disabled choices in the results dropdown
 }
 .select2-display-none {
   display: none;
+}
+td:last-child div {
+  display: inline-block;
 }
 .text-center {
   text-align: center;
