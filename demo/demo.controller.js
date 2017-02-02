@@ -295,4 +295,5 @@ app.controller('demoController', function($scope, $http) {
       }
     }]
   }
+  console.log('finish')
 });
