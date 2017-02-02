@@ -87,22 +87,32 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           }
           if (angular.isFunction(collumn.render)) {
             row._internal[collumn.index] = collumn.render(row);
-          } else if (collumn.action && collumn.action.type === 'input' && collumn.action.mask) {
-            row._internal[collumn.index] = undefined;
-            switch (collumn.action.mask.use) {
-              case 'number':
-                if (row[collumn.index]) {
-                  row._internal[collumn.index] = row[collumn.index].toString().replace('.', $locale.NUMBER_FORMATS.DECIMAL_SEP);
-                }
-                break;
-              case 'money':
-                if (row[collumn.index]) {
-                  row._internal[collumn.index] = $locale.NUMBER_FORMATS.CURRENCY_SYM + ' ' + row[collumn.index].toString().replace('.', $locale.NUMBER_FORMATS.DECIMAL_SEP);
-                }
-                break;
-              default:
-                row._internal[collumn.index] = row[collumn.index];
-                break;
+          } else if (collumn.action) {
+            if (collumn.action.type === 'input' && collumn.action.mask) {
+              row._internal[collumn.index] = undefined;
+              switch (collumn.action.mask.use) {
+                case 'number':
+                  if (row[collumn.index]) {
+                    row._internal[collumn.index] = row[collumn.index].toString().replace('.', $locale.NUMBER_FORMATS.DECIMAL_SEP);
+                  }
+                  break;
+                case 'money':
+                  if (row[collumn.index]) {
+                    row._internal[collumn.index] = $locale.NUMBER_FORMATS.CURRENCY_SYM + ' ' + row[collumn.index].toString().replace('.', $locale.NUMBER_FORMATS.DECIMAL_SEP);
+                  }
+                  break;
+                default:
+                  row._internal[collumn.index] = row[collumn.index];
+                  break;
+              }
+            } else if (collumn.action.type === 'chosen'){
+              if (angular.isFunction(collumn.action.selectedRender)) {
+                row._internal[collumn.index] = collumn.action.selectedRender(row[collumn.index]);
+              } else if (angular.isFunction(collumn.action.itemRender)) {
+                row._internal[collumn.index] = collumn.action.itemRender(row[collumn.index]);
+              }
+            }else if (collumn.action.type === 'combo'){
+              row._internal[collumn.index] = row[collumn.index];
             }
           } else {
             row._internal[collumn.index] = row[collumn.index];
