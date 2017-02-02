@@ -67,7 +67,7 @@
           <!-- print static text -->
           <div ng-if="!collumn.isHtml && !collumn.action" ng-bind="row._internal[collumn.index]"></div>
           <!-- print action href -->
-          <a ng-click="clickLink(row, $index)" ng-if="collumn.isLink" ng-bind="row.textLink"></a>
+          <a ng-click="clickLink(row, $index)" ng-if="collumn.isLink" ng-bind="row._internal[collumn.index]"></a>
           <!-- print action checkbox -->
           <ng-include src="'templates/checkbox-template.html'" ng-if="collumn.isCheckBox"></ng-include>
           <!-- print action input without mask-->

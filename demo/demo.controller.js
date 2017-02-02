@@ -12,13 +12,13 @@ app.controller('demoController', function($scope, $http) {
       label: 'Filtrar por: ',
     },
 
-    // popoverRow: {                                       // optional
-    //   titleRender: function (row){                      // optional, callback(currentRow) for render title in popover
-    //     return row.name+' '+row.lastName;
-    //   },
-    //   templateUrl: 'template-popover.html',             // required type: String "popover-template.html"
-    //   ngModel: 'popover'                                // required type: String (that presents the model in popover template)
-    // },
+    popoverRow: {                                       // optional
+      titleRender: function (row){                      // optional, callback(currentRow) for render title in popover
+        return row.name+' '+row.lastName;
+      },
+      templateUrl: 'template-popover.html',             // required type: String "popover-template.html"
+      ngModel: 'popover'                                // required type: String (that presents the model in popover template)
+    },
 
     collumns: [{
         title: '',
@@ -132,7 +132,7 @@ app.controller('demoController', function($scope, $http) {
         action: {
           type: 'chosen',
           placeholder: 'Selecione um tag...',
-          theme: 'selectize',
+          theme: 'select2',
           searchIn: ['id', 'nome'],
           allowClear: false, // [x] button clear - default is false
           selectedRender: function(item) { // optional
