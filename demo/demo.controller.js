@@ -9,16 +9,21 @@ app.controller('demoController', function($scope, $http) {
     defaultSort: 'id,asc',
 
     search: {
-      label: 'Filtrar por: ',
+      label: 'filter in: ',
     },
+    // pagination: {                                       // optional
+    //   labelSize: 'Registros por página: ',              // optional, default "Page size: ""
+    //   defaultSize: 10,                                  // optional, default first item in avaliableSizes
+    //   avaliableSizes: [10, 25, 50, 100, 500, 2000]            // optional, default [10,25,50,100]
+    // },
 
-    popoverRow: {                                       // optional
-      titleRender: function (row){                      // optional, callback(currentRow) for render title in popover
-        return row.name+' '+row.lastName;
-      },
-      templateUrl: 'template-popover.html',             // required type: String "popover-template.html"
-      ngModel: 'popover'                                // required type: String (that presents the model in popover template)
-    },
+    // popoverRow: {                                       // optional
+    //   titleRender: function (row){                      // optional, callback(currentRow) for render title in popover
+    //     return row.name+' '+row.lastName;
+    //   },
+    //   templateUrl: 'template-popover.html',             // required type: String "popover-template.html"
+    //   ngModel: 'cliente'                                // required type: String (that presents the model in popover template)
+    // },
 
     collumns: [{
         title: '',
@@ -43,31 +48,35 @@ app.controller('demoController', function($scope, $http) {
         title: 'ID',
         index: 'id',
         class: 'text-center'
-      }, {
+      }, 
+      {
         title: 'Render',
         index: 'name',
         render: function(row) {
           return row.id + " - " + row.name;
         }
-      }, {
+      }, 
+      {
         title: 'No Sort',
         index: 'noSort',
         sort: false,
         render: function(row) {
           return row.id + " - " + row.name;
         }
-      }, {
+      }, 
+      {
         title: 'Class',
         index: 'city',
         class: 'text-center',
         render: function(row) {
           return row.city.name;
         },
-      }, {
+      }, 
+      {
         title: 'Href',
         index: 'github',
         render: function(row) {
-          return 'open github'
+          return row.name
         },
         action: {
           type: 'href',
@@ -76,19 +85,31 @@ app.controller('demoController', function($scope, $http) {
           }
         }
       },
-      // {
-      //   title: 'Input',
-      //   index: 'nickName',
-      //   action: {
-      //     type: 'input',
-      //     class: 'input-rs',
-      //     maxlength: 10,
-      //     trigger: 'blur',
-      //     onChange: function(row) {
-      //       alert('blur action input and maxlength 10, newValue is:' + row.nickName);
-      //     }
-      //   }
-      // }, 
+      {
+        title: 'Combo',
+        index: 'status',
+        action: {
+          type: 'combo',
+          placeholder: 'Selecione ....',
+          avaliablesChoises: ["ATIVO", "INATIVO","PUBLICADO"],
+          onChange: function(row){
+            console.log('teste');
+          }
+        }
+      },
+      {
+        title: 'Input',
+        index: 'nickName',
+        action: {
+          type: 'input',
+          // class: 'input-rs',
+          maxlength: 10,
+          trigger: 'blur',
+          onChange: function(row) {
+            alert('blur action input and maxlength 10, newValue is:' + row.nickName);
+          }
+        }
+      }, 
       {
         title: 'CPF',
         index: 'cpf',
@@ -100,77 +121,64 @@ app.controller('demoController', function($scope, $http) {
             width: '100px'
           },
           mask: {
-            use: 'br-cpf',
+            use: 'br-cpfcnpj',
           },
           onChange: function(row, isValid) {
             alert('blur action input and maxlength 10, newValue is:' + row.value);
           }
         }
-      }, {
-        title: 'Combo',
-        index: 'status',
-        action: {
-          type: 'combo',
-          class: '',
-          avaliablesChoises: ["ATIVO", "INATIVO"],
-          labelChoose: 'Selecione...',
-          isDisabled: function(obj) {
-            if (obj.id === 1) {
-              return true;
-            } else {
-              return false;
-            }
-          },
-          onChange: function(obj) {
-            console.log('execute action here: ' + obj.status);
-          }
-        }
-
-      }, {
-        title: 'Chosen',
-        index: 'tag',
-        action: {
-          type: 'chosen',
-          placeholder: 'Selecione um tag...',
-          theme: 'select2',
-          searchIn: ['id', 'nome'],
-          allowClear: false, // [x] button clear - default is false
-          selectedRender: function(item) { // optional
-            return item.nome;
-          },
-          itemRender: function(item) {
-            var ret = '<small>';
-            ret += 'id:' + item.id + '<br/>';
-            ret += 'nome: ' + item.nome + '<br/>';
-            ret += '</small>';
-            return ret; // is possible return html content
-          },
-          isDisabled: function(obj) {
-            if (obj.id == 1) {
-              return true;
-            }
-            return false;
-          },
-          avaliablesChoises: [{
-            id: 1,
-            nome: 'tag 1'
-          }, {
-            id: 2,
-            nome: 'tag 2'
-          }],
-          onChange: function(obj, newValue) {
-            console.log('execute action here: ' + newValue.id);
-          }
-        }
       }, 
+      // {
+      //   title: 'Chosen',
+      //   index: 'tag',
+      //   action: {
+      //     type: 'chosen',
+      //     placeholder: 'Selecione um tag...',
+      //     theme: 'select2',
+      //     searchIn: ['id', 'nome'],
+      //     allowClear: true, // [x] button clear - default is false
+      //     selectedRender: function(item) { // optional
+      //       return item.id + '-' +item.nome;
+      //     },
+      //     itemRender: function(item) {
+      //       var ret = '<small>';
+      //       ret += 'id:' + item.id + '<br/>';
+      //       ret += 'nome: ' + item.nome + '<br/>';
+      //       ret += '</small>';
+      //       return ret; // is possible return html content
+      //     },
+      //     isDisabled: function(obj) {
+      //       if (obj.id == 1) {
+      //         return true;
+      //       }
+      //       return false;
+      //     },
+      //     avaliablesChoises: [{
+      //       id: 1,
+      //       nome: 'tag 1'
+      //     }, {
+      //       id: 2,
+      //       nome: 'tag 2'
+      //     }],
+      //     onChange: function(obj, newValue) {
+      //       console.log('execute action here: ' + newValue.id);
+      //     }
+      //   }
+      // }, 
       // {
       //   title: 'Multi-Chosen',
       //   index: 'nome',
+      //   style: {
+      //     width: '200px',
+      //   },
       //   action: {
       //     type: 'multiChosen',
       //     placeholder: 'Selecione um tag...',
       //     theme: 'select2',
       //     searchIn: ['id', 'nome'],
+      //     style: {
+      //       width: '200px',
+      //     },
       //     selectedsRender: function(item) {
       //       return item.nome;
       //     },
@@ -210,11 +218,11 @@ app.controller('demoController', function($scope, $http) {
       //     }
       //   }
       // }, 
-      {
-        title: 'Buttons',
-        index: 'id',
-        sort: false
-      }
+      // {
+      //   title: 'Buttons',
+      //   index: 'id',
+      //   sort: false
+      // }
     ],
     data: function() {
       return [{
@@ -244,7 +252,8 @@ app.controller('demoController', function($scope, $http) {
         github: 'https://github.com',
         enable: false,
         value: '100',
-        status: "INATIVO"
+        status: "INATIVO",
+        cpf: '50304377000102'
       }, {
         id: 3,
         name: 'Erick',
@@ -273,27 +282,30 @@ app.controller('demoController', function($scope, $http) {
         status: null
       }]
     },
-    buttons: [{
-      text: 'Excluir',
-      classButton: 'btn btn-xs btn-primary',
-      onClick: function(obj) {
-        console.log('Execute action here obj clicked:' + obj.id);
-      }
-    }, {
-      tooltip: 'Tooltip',
-      classIcon: 'glyphicon glyphicon-remove',
-      classButton: 'btn btn-xs btn-danger',
-      isVisible: function(obj) {
-        if (obj.id == 2) {
-          return false;
-        } else {
-          return true;
-        }
-      },
-      onClick: function(obj) {
-        console.log('Execute action here obj clicked:' + obj.id);
-      }
-    }]
+    // buttons: [{
+    //   text: 'Excluir',
+    //   classButton: 'btn btn-xs btn-primary',
+    //   onClick: function(obj) {
+    //     console.log('Execute action here obj clicked:' + obj.id);
+    //   }
+    // }, {
+    //   tooltip: 'Tooltip',
+    //   classIcon: 'glyphicon glyphicon-remove',
+    //   classButton: 'btn btn-xs btn-danger',
+    //   isVisible: function(obj) {
+    //     return obj.id == 2
+    //   },
+    //   onClick: function(obj) {
+    //     console.log('Execute action here obj clicked:' + obj.id);
+    //   }
+    // },{
+    //   tooltip: 'Quick talk',
+    //   classIcon: 'glyphicon glyphicon-remove',
+    //   classButton: 'btn btn-primary',
+    //   onClick: function() {
+    //     alert('teste')
+    //   }
+    // }]
   }
   console.log('finish')
 });

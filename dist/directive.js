@@ -1,7 +1,7 @@
 /*!
  * angular-rs-datagrid
  * 
- * Version: 1.0.44 - 2017-02-02T23:43:42.579Z
+ * Version: 1.0.44 - 2017-02-06T18:10:26.836Z
  * License: MIT
  */
 
@@ -94,8 +94,10 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
             throw new Error('Missing property, "index" property is required for column');
           }
           if (angular.isFunction(collumn.render)) {
-            row._internal[collumn.index] = collumn.render(row);
-          } else if (collumn.action) {
+            return row._internal[collumn.index] = collumn.render(row);
+          }
+
+          if (collumn.action) {
             if (collumn.action.type === 'input' && collumn.action.mask) {
               row._internal[collumn.index] = undefined;
               switch (collumn.action.mask.use) {
@@ -109,21 +111,32 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
                     row._internal[collumn.index] = $locale.NUMBER_FORMATS.CURRENCY_SYM + ' ' + row[collumn.index].toString().replace('.', $locale.NUMBER_FORMATS.DECIMAL_SEP);
                   }
                   break;
+                case 'br-cpf':
+                case 'br-cnpj':
+                case 'br-cpfcnpj':
+                  if (row[collumn.index]) {
+                    row._internal[collumn.index] = $filter('rsCpfCnpjFilter')(row[collumn.index]);
+                  }
+                  break;
                 default:
                   row._internal[collumn.index] = row[collumn.index];
                   break;
               }
-            } else if (collumn.action.type === 'chosen'){
-              if (angular.isFunction(collumn.action.selectedRender)) {
-                row._internal[collumn.index] = collumn.action.selectedRender(row[collumn.index]);
-              } else if (angular.isFunction(collumn.action.itemRender)) {
-                row._internal[collumn.index] = collumn.action.itemRender(row[collumn.index]);
+              if (collumn.action.type === 'chosen') {
+                if (angular.isFunction(collumn.action.selectedRender)) {
+                  return row._internal[collumn.index] = collumn.action.selectedRender(row[collumn.index]);
+                }
+                if (angular.isFunction(collumn.action.itemRender)) {
+                  return row._internal[collumn.index] = collumn.action.itemRender(row[collumn.index]);
+                }
               }
-            }else if (collumn.action.type === 'combo'){
-              row._internal[collumn.index] = row[collumn.index];
+              if (collumn.action.type === 'combo') {
+                return row._internal[collumn.index] = row[collumn.index];
+              }
             }
-          } else {
-            row._internal[collumn.index] = row[collumn.index];
+          }
+          if (angular.isDefined(row[collumn.index]) && row[collumn.index] !== null) {
+            return row._internal[collumn.index] = row[collumn.index].toString();
           }
         }
 
@@ -133,7 +146,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         scope.$on('rsDatagrid:refresh', function(event, args) {
           refresh(scope.currentPage);
         });
-        
+
         function refresh(page) {
           if (scope.hasPagination) {
             scope.showProgress = true;
@@ -456,7 +469,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
 
         scope.clickCheckboxHeader = function(collumn, checked) {
           angular.forEach(scope.collection.content, function(row) {
-            if(!scope.isDisabledCheckbox(row,collumn)){
+            if (!scope.isDisabledCheckbox(row, collumn)) {
               row[collumn.index] = checked;
             }
           });
@@ -863,6 +876,28 @@ angular.module("rs.datagrid")
         out = items;
       }
       return out;
+    };
+  });
+
+'use strict';
+
+angular.module("rs.datagrid")
+  .filter("rsCpfCnpjFilter", function() {
+    return function(input) {
+      var str = input + '';
+      if (str.length > 11) {
+        str = str.replace(/\D/g, '');
+        str = str.replace(/^(\d{2})(\d)/, '$1.$2');
+        str = str.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+        str = str.replace(/\.(\d{3})(\d)/, '.$1/$2');
+        str = str.replace(/(\d{4})(\d)/, '$1-$2');
+      } else {
+        str = str.replace(/\D/g, '');
+        str = str.replace(/(\d{3})(\d)/, "$1.$2");
+        str = str.replace(/(\d{3})(\d)/, "$1.$2");
+        str = str.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+      }
+      return str;
     };
   });
 

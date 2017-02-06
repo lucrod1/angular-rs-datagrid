@@ -84,7 +84,7 @@ gulp.task('scripts', ['clean'], function() {
   };
 
   function buildFilterJS() {
-    return gulp.src('src/filter/propsFilter.js')
+    return gulp.src('src/filter/*.js')
       .pipe(plumber({
         errorHandler: handleError
       }))
