@@ -130,7 +130,7 @@
       <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(330deg) translate(0,-50px);transform:rotate(330deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
     </div>
     <!-- buttons page -->
-    <ul ng-if="hasPagination && !showProgress">
+    <ul ng-if="hasPagination && collection.content.length > 0 && !showProgress">
       <li class="prev" ng-class="{'disabled': collection.first}">
         <a ng-click="prevPage()">← Anterior</a>
       </li>

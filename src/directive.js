@@ -95,23 +95,23 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
               switch (collumn.action.mask.use) {
                 case 'number':
                   if (row[collumn.index]) {
-                    row._internal[collumn.index] = row[collumn.index].toString().replace('.', $locale.NUMBER_FORMATS.DECIMAL_SEP);
+                    return row._internal[collumn.index] = row[collumn.index].toString().replace('.', $locale.NUMBER_FORMATS.DECIMAL_SEP);
                   }
                   break;
                 case 'money':
                   if (row[collumn.index]) {
-                    row._internal[collumn.index] = $locale.NUMBER_FORMATS.CURRENCY_SYM + ' ' + row[collumn.index].toString().replace('.', $locale.NUMBER_FORMATS.DECIMAL_SEP);
+                    return row._internal[collumn.index] = $locale.NUMBER_FORMATS.CURRENCY_SYM + ' ' + row[collumn.index].toString().replace('.', $locale.NUMBER_FORMATS.DECIMAL_SEP);
                   }
                   break;
                 case 'br-cpf':
                 case 'br-cnpj':
                 case 'br-cpfcnpj':
                   if (row[collumn.index]) {
-                    row._internal[collumn.index] = $filter('rsCpfCnpjFilter')(row[collumn.index]);
+                    return row._internal[collumn.index] = $filter('rsCpfCnpjFilter')(row[collumn.index]);
                   }
                   break;
                 default:
-                  row._internal[collumn.index] = row[collumn.index];
+                  return row._internal[collumn.index] = row[collumn.index];
                   break;
               }
               if (collumn.action.type === 'chosen') {
@@ -308,7 +308,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           var totalPages = scope.collection.totalPages;
           var start = angular.copy(scope.currentPage);
 
-          if (start - 2 >= 1) {
+          if ( (start - 2 ) >= 1) {
             start = start - 2;
           } else {
             start = 0;
@@ -316,11 +316,15 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
 
           //reajustando o start quando pagina for ultima ou penultima
           if (totalPages > 2) {
-            if (scope.currentPage === totalPages - 2) {
+            if (scope.currentPage === (totalPages - 2 )) {
               start--;
-            } else if (scope.currentPage === totalPages - 1) {
+            } else if (scope.currentPage === ( totalPages - 1) ) {
               start = start - 2;
             }
+          }
+
+          if(start < 0){
+            start = 0;
           }
 
           var count = 0;
