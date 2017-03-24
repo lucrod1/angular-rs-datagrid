@@ -10,11 +10,5 @@
     "datagrid"
   ],
   "author": "Lucas Rodrigues <lucrod1@yahoo.com.br>",
-  "license": "MIT",
-  "devDependencies": {
-    "angular": "~1.4.7",
-    "angular-sanitize": "~1.4.14",
-    "angular-mocks": "~1.4.14",
-    "angular-bootstrap": "0.13.4"
-  }
+  "license": "MIT"
 }
