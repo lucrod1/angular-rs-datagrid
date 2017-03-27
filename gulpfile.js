@@ -1,7 +1,7 @@
 var fs = require('fs');
 var connect = require('gulp-connect');
 var gulp = require('gulp');
-var karma = require('karma').server;
+// var karma = require('karma').server;
 var concat = require('gulp-concat');
 var jshint = require('gulp-jshint');
 var header = require('gulp-header');
