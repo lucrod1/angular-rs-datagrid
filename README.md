@@ -563,8 +563,7 @@ $scope.config =
     },
     templateUrl: 'template-popover.html',             // required type: String "popover-template.html"
     ngModel: 'popover',                               // required type: String (that presents the model in popover template)
-    getModel: function(row){                          // 
-Callback must return an object, this object will be sent to the popover template, if it is not defined a callback will be sent the object of row
+    getModel: function(row){                          // Callback must return an object, this object will be sent to the popover template, if it is not defined a callback will be sent the object of row
       return row;
     }
   },
