@@ -778,7 +778,12 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         scope.hoverTr = function(ev, row) {
           if (scope.containPopover) {
             scope.currentTr = ev.currentTarget;
-            scope[scope.config.popoverRow.ngModel] = row;
+            if(angular.isFunction(scope.config.popoverRow.getModel)){
+              var value = scope.config.popoverRow.getModel(row);
+              scope[scope.config.popoverRow.ngModel] = value;  
+            }else{
+              scope[scope.config.popoverRow.ngModel] = row;
+            }
           }
         };
 

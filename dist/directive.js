@@ -1,7 +1,7 @@
 /*!
  * angular-rs-datagrid
  * 
- * Version: 1.0.44 - 2017-03-27T20:39:01.291Z
+ * Version: 1.0.56 - 2017-03-27T21:58:41.327Z
  * License: MIT
  */
 
@@ -786,7 +786,12 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         scope.hoverTr = function(ev, row) {
           if (scope.containPopover) {
             scope.currentTr = ev.currentTarget;
-            scope[scope.config.popoverRow.ngModel] = row;
+            if(angular.isFunction(scope.config.popoverRow.getModel)){
+              var value = scope.config.popoverRow.getModel(row);
+              scope[scope.config.popoverRow.ngModel] = value;  
+            }else{
+              scope[scope.config.popoverRow.ngModel] = row;
+            }
           }
         };
 

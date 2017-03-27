@@ -17,13 +17,16 @@ app.controller('demoController', function($scope, $http) {
     //   avaliableSizes: [10, 25, 50, 100, 500, 2000]            // optional, default [10,25,50,100]
     // },
 
-    // popoverRow: {                                       // optional
-    //   titleRender: function (row){                      // optional, callback(currentRow) for render title in popover
-    //     return row.name+' '+row.lastName;
-    //   },
-    //   templateUrl: 'template-popover.html',             // required type: String "popover-template.html"
-    //   ngModel: 'cliente'                                // required type: String (that presents the model in popover template)
-    // },
+    popoverRow: {                                       // optional
+      titleRender: function (row){                      // optional, callback(currentRow) for render title in popover
+        return row.name+' '+row.lastName;
+      },
+      templateUrl: 'template-popover.html',             // required type: String "popover-template.html"
+      ngModel: 'cliente',                               // required type: String (that presents the model in popover template)
+      getModel: function(row){
+        return row;
+      }
+    },
 
     collumns: [{
         title: '',
