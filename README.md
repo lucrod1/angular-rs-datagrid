@@ -562,7 +562,10 @@ $scope.config =
       return row.name+' '+row.lastName;
     },
     templateUrl: 'template-popover.html',             // required type: String "popover-template.html"
-    ngModel: 'popover'                                // required type: String (that presents the model in popover template)
+    ngModel: 'popover',                               // required type: String (that presents the model in popover template)
+    getModel: function(row){                          // option, callback(currentRow) for return object for popover template render
+      return row;
+    }
   },
   ...
 }
