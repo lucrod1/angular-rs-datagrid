@@ -74,6 +74,13 @@ $scope.config =
 }
 ```
 
+## How to set a value in the search field
+Use the auxiliary method "_setSearch" specifying the value
+
+```
+$scope.config._setSearch(yourValue)
+```
+
 ## How override output collumn
 Use the function render to override the output
 
@@ -649,6 +656,13 @@ $scope.config =
   "size": 10,
   "number": 0
 }
+```
+
+## How to set the current page
+Use the auxiliary method "_setCurrentPage" specifying the value
+
+```
+$scope.config._setCurrentPage(yourValue)
 ```
 
 ### License
