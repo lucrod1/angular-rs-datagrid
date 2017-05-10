@@ -1,7 +1,7 @@
 /*!
  * angular-rs-datagrid
  * 
- * Version: 1.0.56 - 2017-03-27T21:58:41.327Z
+ * Version: 1.0.56 - 2017-05-10T14:00:00.926Z
  * License: MIT
  */
 
@@ -143,6 +143,12 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // REFRESH TABLE
         ///////////////////////////////////////////////////////////////////////////////////////////////
+
+        //Auxiliary method to set "model" the current page
+        scope.config._setCurrentPage = function(page) {
+          scope.currentPage = page;
+        };
+
         scope.$on('rsDatagrid:refresh', function(event, args) {
           refresh(scope.currentPage);
         });
@@ -161,6 +167,12 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // VARIABLES AND METHODS FOR SEARCH IN TABLE
         ///////////////////////////////////////////////////////////////////////////////////////////////
+
+        //Auxiliary method for setting a search value in the search field
+        scope.config._setSearch = function(search){
+          scope.filter.search = search;
+        };
+
         if (scope.config.search) {
           scope.hasSearch = true;
           scope.search = scope.config.search; //EXPOSE SEARCH IN SCOPE
