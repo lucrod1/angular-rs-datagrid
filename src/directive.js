@@ -309,16 +309,19 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           if (dados) {
             // console.log('watch collection');
             if (scope.hasPagination) {
-              makePagination();
+                if(scope.avaliablesPages.length === 0){
+                    makePagination();
+                }
+              defineStartEnd();
             }
             setValuesInternal(dados);
           }
         });
 
-        function makePagination() {
-          scope.avaliablesPages = [];
-          var totalPages = scope.collection.totalPages;
-          var start = angular.copy(scope.currentPage);
+        function defineStartEnd(){
+          var start       = angular.copy(scope.currentPage);
+          var totalPages  = scope.collection.totalPages;
+          var newAvaliablePages = angular.copy(scope.avaliablesPages);
 
           if ( (start - 2 ) >= 1) {
             start = start - 2;
@@ -338,19 +341,21 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           if(start < 0){
             start = 0;
           }
+          scope.start = start;
+          scope.end   = angular.copy(start+4);
+        }
 
-          var count = 0;
-
-          while (count < 5) {
-            var index = start + count;
-            var label = start + count + 1;
-            if (label <= totalPages) {
+        function makePagination() {
+          scope.avaliablesPages = [];
+          var totalPages        = scope.collection.totalPages;
+          var i                 = 0;
+          
+          while(i < totalPages){
               scope.avaliablesPages.push({
-                index: index,
-                label: label
+                index: i,
+                label: i + 1
               });
-            }
-            count++;
+            i++;
           }
         }
 
