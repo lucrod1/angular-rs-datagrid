@@ -81,6 +81,20 @@ Use the auxiliary method "_setSearch" specifying the value
 $scope.config._setSearch(yourValue)
 ```
 
+## How listener click in row
+Defines onClickRow callback function
+```
+$scope.config =
+{
+...
+"collumns:"[],
+"onClickRow": function(row){
+
+}
+...
+}
+```
+
 ## How override output collumn
 Use the function render to override the output
 
