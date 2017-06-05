@@ -832,6 +832,16 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           }
           return true;
         };
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        // CALLBACK CLICK ROW
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        scope.clickRow = function(row){
+          if (scope.config.onClickRow && angular.isFunction(scope.config.onClickRow)){
+            return scope.config.onClickRow(row);
+          }
+        }
+
       }
     };
   }]);
