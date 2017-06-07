@@ -1,7 +1,7 @@
 /*!
  * angular-rs-datagrid
  * 
- * Version: 1.0.56 - 2017-06-05T18:07:01.216Z
+ * Version: 1.0.56 - 2017-06-07T15:11:19.042Z
  * License: MIT
  */
 
@@ -350,7 +350,11 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
             start = 0;
           }
           scope.start = start;
-          scope.end   = angular.copy(start+4);
+          if((start+4) <= totalPages){
+            scope.end   = angular.copy(start+4);
+          }else{
+              scope.end   = angular.copy(totalPages-1);
+          }
         }
 
         function makePagination() {
