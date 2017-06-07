@@ -342,7 +342,11 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
             start = 0;
           }
           scope.start = start;
-          scope.end   = angular.copy(start+4);
+          if((start+4) <= totalPages){
+            scope.end   = angular.copy(start+4);
+          }else{
+              scope.end   = angular.copy(totalPages-1);
+          }
         }
 
         function makePagination() {
