@@ -153,6 +153,10 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
               scope.currentPage = page;
               scope.collection = result;
             });
+          } else {
+            scope.collection = {
+              content: scope.config.data()
+            };
           }
         }
 
