@@ -60,7 +60,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-if="!showInfoProgress" ng-mouseover="hoverTr($event, row)" ng-mouseout="outTr()" ng-repeat="row in getCollection() track by $index">
+      <tr ng-if="!showInfoProgress" ng-click="clickRow(row)" ng-mouseover="hoverTr($event, row)" ng-mouseout="outTr()" ng-repeat="row in getCollection() track by $index">
         <td ng-class="collumn.class" ng-style="collumn.style" ng-repeat="collumn in collumns track by $index">
           <!-- print html text-->
           <div style="display: inline-block;" ng-if="collumn.isHtml && !collumn.action" ng-bind-html="row._internal[collumn.index]"></div>
@@ -130,11 +130,11 @@
       <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(330deg) translate(0,-50px);transform:rotate(330deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
     </div>
     <!-- buttons page -->
-    <ul ng-if="hasPagination && collection.content.length > 0 && !showProgress">
+    <ul ng-if="hasPagination && collection.content.length > 0">
       <li class="prev" ng-class="{'disabled': collection.first}">
         <a ng-click="prevPage()">← Anterior</a>
       </li>
-      <li ng-class="{'active' : currentPage == page.index}" ng-repeat="page in avaliablesPages">
+      <li ng-class="{'active' : currentPage == page.index}" ng-if="page.index >= start && page.index <= end" ng-repeat="page in avaliablesPages">
         <a ng-click="goToPage(page.index)">{{page.label}}</a>
       </li>
       <li class="next" ng-class="{'disabled': collection.last}">

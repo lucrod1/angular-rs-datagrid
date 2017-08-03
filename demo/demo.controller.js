@@ -227,6 +227,9 @@ app.controller('demoController', function($scope, $http) {
       //   sort: false
       // }
     ],
+    onClickRow: function(row){
+      alert(row.id);
+    },
     data: function() {
       return [{
         id: 1,
