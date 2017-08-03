@@ -1,7 +1,7 @@
 /*!
  * angular-rs-datagrid
  * 
- * Version: 1.0.56 - 2017-05-10T14:00:00.926Z
+ * Version: 1.0.56 - 2017-08-03T13:16:53.775Z
  * License: MIT
  */
 
@@ -161,6 +161,10 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
               scope.currentPage = page;
               scope.collection = result;
             });
+          } else {
+            scope.collection = {
+              content: scope.config.data()
+            };
           }
         }
 
