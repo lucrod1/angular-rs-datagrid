@@ -396,6 +396,10 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
 
         scope.getCollection = function() {
           if (scope.collection) {
+            if(scope.collection.content.length === 0){
+              scope.showEmptyRow = true;
+              return [];
+            }
             if (scope.hasPagination) {
               if (scope.collection.content.length === 0) {
                 scope.showEmptyRow = true;
