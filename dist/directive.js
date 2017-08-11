@@ -1,7 +1,7 @@
 /*!
  * angular-rs-datagrid
  * 
- * Version: 1.0.56 - 2017-08-03T13:16:53.775Z
+ * Version: 1.0.64 - 2017-08-11T15:16:31.512Z
  * License: MIT
  */
 
@@ -404,6 +404,10 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
 
         scope.getCollection = function() {
           if (scope.collection) {
+            if(scope.collection.content.length === 0){
+              scope.showEmptyRow = true;
+              return [];
+            }
             if (scope.hasPagination) {
               if (scope.collection.content.length === 0) {
                 scope.showEmptyRow = true;
