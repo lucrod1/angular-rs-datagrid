@@ -1,10 +1,10 @@
 <div>
   <!-- popover -->
-  <div 
-    class="popover top fade in" 
+  <div
+    class="popover top fade in"
     title="Tile"
-    placement="top" 
-    html="true" 
+    placement="top"
+    html="true"
     ng-style="getStylePopover()">
       <div class="arrow"></div>
       <div class="popover-inner">
@@ -63,7 +63,7 @@
       <tr ng-if="!showInfoProgress" ng-click="clickRow(row)" ng-mouseover="hoverTr($event, row)" ng-mouseout="outTr()" ng-repeat="row in getCollection() track by $index">
         <td ng-class="collumn.class" ng-style="collumn.style" ng-repeat="collumn in collumns track by $index">
           <!-- print html text-->
-          <div style="display: inline-block;" ng-if="collumn.isHtml && !collumn.action" ng-bind-html="row._internal[collumn.index]"></div>
+          <div style="display: inline-block;" ng-if="collumn.isHtml && !collumn.action" ng-bind-html-compile="row._internal[collumn.index] | unsafe"></div>
           <!-- print static text -->
           <div style="display: inline-block;" ng-if="!collumn.isHtml && !collumn.action" ng-bind="row._internal[collumn.index]"></div>
           <!-- print action href -->
