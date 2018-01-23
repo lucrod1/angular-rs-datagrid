@@ -357,7 +357,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           scope.avaliablesPages = [];
           var totalPages        = scope.collection.totalPages;
           var i                 = 0;
-          
+
           while(i < totalPages){
               scope.avaliablesPages.push({
                 index: i,
@@ -771,7 +771,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         };
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        // VARIABLES AND METHODS POPOVER 
+        // VARIABLES AND METHODS POPOVER
         ///////////////////////////////////////////////////////////////////////////////////////////////
         var topTable, topTr, leftTable, popover, heightPopover, widthTr, widthPopover;
         scope.getStylePopover = function() {
@@ -809,7 +809,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
             scope.currentTr = ev.currentTarget;
             if(angular.isFunction(scope.config.popoverRow.getModel)){
               var value = scope.config.popoverRow.getModel(row);
-              scope[scope.config.popoverRow.ngModel] = value;  
+              scope[scope.config.popoverRow.ngModel] = value;
             }else{
               scope[scope.config.popoverRow.ngModel] = row;
             }
@@ -830,7 +830,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         };
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        // VARIABLES AND METHODS BUTTONS 
+        // VARIABLES AND METHODS BUTTONS
         ///////////////////////////////////////////////////////////////////////////////////////////////
         scope.isVisibleButton = function(instanceButton, currentObject, indexCollumn) {
           if (angular.isFunction(instanceButton.isVisible)) {
@@ -856,4 +856,17 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
 
       }
     };
-  }]);
+  }])
+  .directive("ngBindHtmlCompile", function ($compile, $sce) {
+    return {
+      restrict: "A",
+      link: function (scope, element, attrs) {
+        scope.$watch($sce.parseAsHtml(attrs.ngBindHtmlCompile), function (html) {
+          var el = angular.element("<div>").html(html);
+          element.empty();
+          element.append(el.children());
+          $compile(element.contents())(scope);
+        })
+      }
+    };
+  });;

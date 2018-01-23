@@ -5,3 +5,4 @@ node_modules/
 test/
 tests/coverage
 .DS_Store
+yarn.lock
