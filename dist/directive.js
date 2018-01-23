@@ -1,7 +1,7 @@
 /*!
  * angular-rs-datagrid
  * 
- * Version: 1.0.64 - 2018-01-23T18:11:20.557Z
+ * Version: 1.0.64 - 2018-01-23T18:30:01.673Z
  * License: MIT
  */
 
@@ -865,7 +865,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
       }
     };
   }])
-  .directive("ngBindHtmlCompile", function ($compile, $sce) {
+  .directive("ngBindHtmlCompile", ['$compile', '$sce', function ($compile, $sce) {
     return {
       restrict: "A",
       link: function (scope, element, attrs) {
@@ -877,8 +877,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         })
       }
     };
-  });;
-
+  }]);
 'use strict';
 
 angular.module("rs.datagrid")
@@ -980,8 +979,8 @@ $templateCache.put("templates/select-template.html","<select ng-model=\"row[coll
 'use strict';
 
 angular.module("rs.datagrid")
-  .filter('unsafe', function ($sce) {
+  .filter('unsafe', ['$sce', function ($sce) {
     return function (val) {
       return $sce.trustAsHtml(val);
     };
-  });
+  }]);

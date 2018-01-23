@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module("rs.datagrid")
-  .filter('unsafe', function ($sce) {
+  .filter('unsafe', ['$sce', function ($sce) {
     return function (val) {
       return $sce.trustAsHtml(val);
     };
-  });
+  }]);

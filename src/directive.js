@@ -857,7 +857,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
       }
     };
   }])
-  .directive("ngBindHtmlCompile", function ($compile, $sce) {
+  .directive("ngBindHtmlCompile", ['$compile', '$sce', function ($compile, $sce) {
     return {
       restrict: "A",
       link: function (scope, element, attrs) {
@@ -869,4 +869,4 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         })
       }
     };
-  });;
+  }]);
