@@ -95,6 +95,21 @@ $scope.config =
 }
 ```
 
+## How listener click in cell
+#### Atention: You can not use onClickCell along with onClickRow, choose which one is best for you.
+Defines onClickCell callback function
+```
+$scope.config =
+{
+...
+"collumns:"[],
+"onClickCell": function(row, index){
+
+}
+...
+}
+```
+
 ## How override output collumn
 Use the function render to override the output
 
