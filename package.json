@@ -1,6 +1,6 @@
 {
   "name": "angular-rs-datagrid",
-  "version": "1.0.64",
+  "version": "1.0.67",
   "description": "Angular directive for dataGrid with pagination in back-end and input, input-mask, chosen, combo, checkbox, multiChosen and others",
   "repository": "git@github.com:lucrod1/angular-rs-datagrid.git",
   "main": "dist/directive.css, dist/directive.js",

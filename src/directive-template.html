@@ -61,7 +61,7 @@
     </thead>
     <tbody>
       <tr ng-if="!showInfoProgress" ng-click="clickRow(row)" ng-mouseover="hoverTr($event, row)" ng-mouseout="outTr()" ng-repeat="row in getCollection() track by $index">
-        <td ng-class="collumn.class" ng-style="collumn.style" ng-repeat="collumn in collumns track by $index">
+        <td ng-class="collumn.class" ng-click="clickCell($event, row, collumn.index)" ng-style="collumn.style" ng-repeat="collumn in collumns track by $index">
           <!-- print html text-->
           <div style="display: inline-block;" ng-if="collumn.isHtml && !collumn.action" ng-bind-html-compile="row._internal[collumn.index] | unsafe"></div>
           <!-- print static text -->
