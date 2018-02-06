@@ -17,12 +17,9 @@
       </div>
   </div>
   <!-- fim popover -->
-  <!-- pagination size -->
-  <div ng-if="hasPagination" class="pagination_header">
-    <span ng-bind="pagination.labelSize"></span>
-    <select class="pagination_select" ng-change="changePaginationSize()" ng-model="pagination.defaultSize" ng-options="size for size in pagination.avaliableSizes">
-    </select>
-  </div>
+  <!-- pagination size - top -->
+  <ng-include src="'templates/pagination-size-template.html'" ng-if="hasPagination && !pagination.positionBottom"></ng-include>
+
   <!-- loading -->
   <div id="loading" class='uil-default-css' ng-if="showProgress" style='transform:scale(0.14);'>
     <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(0deg) translate(0,-50px);transform:rotate(0deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
@@ -129,6 +126,10 @@
       <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(300deg) translate(0,-50px);transform:rotate(300deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
       <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(330deg) translate(0,-50px);transform:rotate(330deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
     </div>
+    
+    <!-- pagination size - top -->
+    <ng-include src="'templates/pagination-size-template.html'" ng-if="hasPagination && pagination.positionBottom"></ng-include>
+
     <!-- buttons page -->
     <ul ng-if="hasPagination && collection.content.length > 0">
       <li class="prev" ng-class="{'disabled': collection.first}">
