@@ -11,11 +11,12 @@ app.controller('demoController', function($scope, $http) {
     search: {
       label: 'filter in: ',
     },
-    // pagination: {                                       // optional
-    //   labelSize: 'Registros por página: ',              // optional, default "Page size: ""
-    //   defaultSize: 10,                                  // optional, default first item in avaliableSizes
-    //   avaliableSizes: [10, 25, 50, 100, 500, 2000]            // optional, default [10,25,50,100]
-    // },
+    pagination: {                                       // optional
+      labelSize: 'Registros por página: ',              // optional, default "Page size: ""
+      defaultSize: 10,                                  // optional, default first item in avaliableSizes
+      avaliableSizes: [10, 25, 50, 100, 500, 2000]      // optional, default [10,25,50,100]
+      // positionBottom: true                           // optional, default is position top    
+    },
 
     popoverRow: {                                       // optional
       titleRender: function (row){                      // optional, callback(currentRow) for render title in popover

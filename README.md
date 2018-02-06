@@ -634,7 +634,8 @@ $scope.config =
   pagination: {                                       // optional
     labelSize: 'Registros por página: ',              // optional, default "Page size: ""
     defaultSize: 10,                                  // optional, default first item in avaliableSizes
-    avaliableSizes: [10, 25, 50, 100, 500]            // optional, default [10,25,50,100]
+    avaliableSizes: [10, 25, 50, 100, 500],           // optional, default [10,25,50,100]
+    positionBottom: true                              // optional, default is position top 
   },
   ...
 }
