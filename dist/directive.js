@@ -1,7 +1,7 @@
 /*!
  * angular-rs-datagrid
  * 
- * Version: 1.0.68 - 2018-02-15T19:19:11.970Z
+ * Version: 1.0.68 - 2018-02-15T20:04:41.953Z
  * License: MIT
  */
 
@@ -875,8 +875,8 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         ///////////////////////////////////////////////////////////////////////////////////////////////
 
         scope.clickCell = function (event, row, index) {
-          event.stopImmediatePropagation();
           if (scope.config.onClickCell && angular.isFunction(scope.config.onClickCell)) {
+            event.stopImmediatePropagation();
             return scope.config.onClickCell(row, index);
           }
         };
