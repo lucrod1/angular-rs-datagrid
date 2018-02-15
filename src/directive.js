@@ -867,8 +867,8 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         ///////////////////////////////////////////////////////////////////////////////////////////////
 
         scope.clickCell = function (event, row, index) {
-          event.stopImmediatePropagation();
           if (scope.config.onClickCell && angular.isFunction(scope.config.onClickCell)) {
+            event.stopImmediatePropagation();
             return scope.config.onClickCell(row, index);
           }
         };
