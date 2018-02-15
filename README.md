@@ -47,7 +47,7 @@ $scope.config =
  "collumns": [{                                       // required
   "title": "ID",                                      // title of collumn                           
   "index": "id",                                      // Property that will print in the column
-  "class": "text-center",                             // optional, class od <th> and <td>
+  "class": "text-center" || function(row){},                             // optional, class od <th> and <td> is Possible used calback function(row)
   "style": {                                          // optional
    "width": "60px"                                    // It is possible to define some properties in html
   }

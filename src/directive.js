@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
-  .directive('rsDatagrid', ['$locale', '$filter', function($locale, $filter) {
+  .directive('rsDatagrid', ['$locale', '$filter', function ($locale, $filter) {
     return {
       restrict: 'AE',
       templateUrl: 'directive-template.html',
@@ -9,7 +9,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         config: "="
       },
       replace: true,
-      link: function(scope, elem, attrs, ctrl) {
+      link: function (scope, elem, attrs, ctrl) {
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // VARIABLES OF SCOPE
         ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -35,7 +35,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // INIT SET PROPERT SHOW ACTIONS
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        angular.forEach(scope.collumns, function(collumn) {
+        angular.forEach(scope.collumns, function (collumn) {
           collumn.isHtml = collumn.isHtml || false;
           collumn.isLink = showLink(collumn);
           collumn.isCheckBox = showCheckbox(collumn);
@@ -63,7 +63,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           for (var i = 0; i < scope.collumns.length; i++) {
             var collumn = scope.collumns[i];
             var count = 0;
-            angular.forEach(collection.content, function(row) {
+            angular.forEach(collection.content, function (row) {
               //checkboxHeader
               if (collumn.action && collumn.action === 'checkbox' && row[collumn.index]) {
                 count++;
@@ -137,18 +137,18 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         ///////////////////////////////////////////////////////////////////////////////////////////////
 
         //Auxiliary method to set "model" the current page
-        scope.config._setCurrentPage = function(page) {
+        scope.config._setCurrentPage = function (page) {
           scope.currentPage = page;
         };
 
-        scope.$on('rsDatagrid:refresh', function(event, args) {
+        scope.$on('rsDatagrid:refresh', function (event, args) {
           refresh(scope.currentPage);
         });
 
         function refresh(page) {
           if (scope.hasPagination) {
             scope.showProgress = true;
-            scope.config.lazyData(page, scope.pagination.defaultSize, getCurrentSort(), scope.filter.search).then(function(result) {
+            scope.config.lazyData(page, scope.pagination.defaultSize, getCurrentSort(), scope.filter.search).then(function (result) {
               scope.showProgress = false;
               scope.currentPage = page;
               scope.collection = result;
@@ -165,7 +165,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         ///////////////////////////////////////////////////////////////////////////////////////////////
 
         //Auxiliary method for setting a search value in the search field
-        scope.config._setSearch = function(search){
+        scope.config._setSearch = function (search) {
           scope.filter.search = search;
         };
 
@@ -174,7 +174,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           scope.search = scope.config.search; //EXPOSE SEARCH IN SCOPE
         }
 
-        scope.$watch('filter.search', function(newValue, oldValue) {
+        scope.$watch('filter.search', function (newValue, oldValue) {
           if (newValue !== oldValue) {
             if (scope.hasPagination) {
               refresh(0);
@@ -218,7 +218,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           }
         }
 
-        scope.getCursorCollumn = function(collumn) {
+        scope.getCursorCollumn = function (collumn) {
           if (hasSortCollumn(collumn)) {
             return 'pointer';
           } else {
@@ -226,7 +226,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           }
         };
 
-        scope.sortCollumn = function(collumn) {
+        scope.sortCollumn = function (collumn) {
           var ordernar = hasSortCollumn(collumn);
 
           if (ordernar) {
@@ -245,7 +245,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           }
         };
 
-        scope.hasSortCollumnDirection = function(collumn, direction) {
+        scope.hasSortCollumnDirection = function (collumn, direction) {
           var col = collumn.sortCollumn || collumn.index;
           if (direction === 'all' && collumSort !== col) {
             return hasSortCollumn(collumn);
@@ -287,7 +287,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
             scope.showInfoProgress = true; //CALL WHEN INIT COMPONENT
             var promise = scope.config.lazyData(scope.currentPage, scope.pagination.defaultSize, getCurrentSort());
             if (angular.isObject(promise) && promise.then instanceof Function) {
-              promise.then(function(dados) {
+              promise.then(function (dados) {
                 scope.showInfoProgress = false;
                 scope.collection = dados;
               });
@@ -309,25 +309,25 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           }
         }
 
-        scope.$watchCollection('collection', function(dados) {
+        scope.$watchCollection('collection', function (dados) {
           if (dados) {
             // console.log('watch collection');
             if (scope.hasPagination) {
-                if(scope.avaliablesPages.length === 0){
-                    makePagination();
-                }
+              if (scope.avaliablesPages.length === 0) {
+                makePagination();
+              }
               defineStartEnd();
             }
             setValuesInternal(dados);
           }
         });
 
-        function defineStartEnd(){
-          var start       = angular.copy(scope.currentPage);
-          var totalPages  = scope.collection.totalPages;
+        function defineStartEnd() {
+          var start = angular.copy(scope.currentPage);
+          var totalPages = scope.collection.totalPages;
           var newAvaliablePages = angular.copy(scope.avaliablesPages);
 
-          if ( (start - 2 ) >= 1) {
+          if ((start - 2) >= 1) {
             start = start - 2;
           } else {
             start = 0;
@@ -335,68 +335,76 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
 
           //reajustando o start quando pagina for ultima ou penultima
           if (totalPages > 2) {
-            if (scope.currentPage === (totalPages - 2 )) {
+            if (scope.currentPage === (totalPages - 2)) {
               start--;
-            } else if (scope.currentPage === ( totalPages - 1) ) {
+            } else if (scope.currentPage === (totalPages - 1)) {
               start = start - 2;
             }
           }
 
-          if(start < 0){
+          if (start < 0) {
             start = 0;
           }
           scope.start = start;
-          if((start+4) <= totalPages){
-            scope.end   = angular.copy(start+4);
-          }else{
-              scope.end   = angular.copy(totalPages-1);
+          if ((start + 4) <= totalPages) {
+            scope.end = angular.copy(start + 4);
+          } else {
+            scope.end = angular.copy(totalPages - 1);
           }
         }
 
         function makePagination() {
           scope.avaliablesPages = [];
-          var totalPages        = scope.collection.totalPages;
-          var i                 = 0;
+          var totalPages = scope.collection.totalPages;
+          var i = 0;
 
-          while(i < totalPages){
-              scope.avaliablesPages.push({
-                index: i,
-                label: i + 1
-              });
+          while (i < totalPages) {
+            scope.avaliablesPages.push({
+              index: i,
+              label: i + 1
+            });
             i++;
           }
         }
 
-        scope.prevPage = function() {
+        scope.prevPage = function () {
           if (scope.currentPage !== 0) {
             refresh(scope.currentPage - 1);
           }
         };
 
-        scope.nextPage = function() {
+        scope.nextPage = function () {
           if (scope.currentPage !== scope.collection.totalPages - 1) {
             refresh(scope.currentPage + 1);
           }
         };
 
-        scope.goToPage = function(page) {
+        scope.goToPage = function (page) {
           refresh(page);
         };
 
-        scope.changePaginationSize = function() {
+        scope.changePaginationSize = function () {
           refresh(0);
         };
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // VARIABLES AND METHODS FOR PRINT CONTENT CELL
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        angular.isUndefinedOrNull = function(val) {
+        angular.isUndefinedOrNull = function (val) {
           return angular.isUndefined(val) || val === null;
         };
 
-        scope.getCollection = function() {
+        scope.getClass = function(collumn, row) {
+          if (angular.isFunction(collumn.class)) {
+            return collumn.class(row);
+          } else if (angular.isDefined(collumn.class)) {
+            return collumn.class;
+          }
+        };
+
+        scope.getCollection = function () {
           if (scope.collection) {
-            if(scope.collection.content.length === 0){
+            if (scope.collection.content.length === 0) {
               scope.showEmptyRow = true;
               return [];
             }
@@ -441,7 +449,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           return false;
         }
 
-        scope.clickLink = function(currentObject, indexCollumn) {
+        scope.clickLink = function (currentObject, indexCollumn) {
           if (angular.isFunction(scope.collumns[indexCollumn].action.onClick)) {
             scope.collumns[indexCollumn].action.onClick(currentObject);
           } else {
@@ -465,17 +473,17 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           return false;
         }
 
-        scope.isDisabledCheckbox = function(row, collumn) {
+        scope.isDisabledCheckbox = function (row, collumn) {
           if (angular.isFunction(collumn.action.isDisabled)) {
             return collumn.action.isDisabled(row);
           }
           return false;
         };
 
-        scope.clickCheckbox = function(row, indexCollumn, checked) {
+        scope.clickCheckbox = function (row, indexCollumn, checked) {
           var collumn = scope.collumns[indexCollumn];
           var count = 0;
-          angular.forEach(scope.collection.content, function(row) {
+          angular.forEach(scope.collection.content, function (row) {
             if (row[collumn.index]) {
               count++;
             }
@@ -492,8 +500,8 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           }
         };
 
-        scope.clickCheckboxHeader = function(collumn, checked) {
-          angular.forEach(scope.collection.content, function(row) {
+        scope.clickCheckboxHeader = function (collumn, checked) {
+          angular.forEach(scope.collection.content, function (row) {
             if (!scope.isDisabledCheckbox(row, collumn)) {
               row[collumn.index] = checked;
             }
@@ -553,20 +561,20 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           return showInputWithMask(collumn, 'number') && collumn.action.mask.negative;
         }
 
-        scope.isDisabledInput = function(row, collumn) {
+        scope.isDisabledInput = function (row, collumn) {
           if (angular.isFunction(collumn.action.isDisabled)) {
             return collumn.action.isDisabled(row);
           }
           return false;
         };
 
-        scope.blurInput = function(row, collumn) {
+        scope.blurInput = function (row, collumn) {
           if (angular.isFunction(collumn.action.onChange) && (collumn.action.trigger === 'blur' || !collumn.action.trigger)) {
             collumn.action.onChange(row);
           }
         };
 
-        scope.blurInputCpfCnpj = function(event, row, collumn) {
+        scope.blurInputCpfCnpj = function (event, row, collumn) {
           if (angular.isFunction(collumn.action.onChange) && (collumn.action.trigger === 'blur' || !collumn.action.trigger)) {
             var valid = true;
             if (event.target.classList.contains('ng-invalid-cpf') || event.target.classList.contains('ng-invalid-cnpj')) {
@@ -576,13 +584,13 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           }
         };
 
-        scope.changeInput = function(row, collumn, value) {
+        scope.changeInput = function (row, collumn, value) {
           if (angular.isFunction(collumn.action.onChange) && (collumn.action.trigger === 'change')) {
             collumn.action.onChange(row, value);
           }
         };
 
-        scope.changeInputCpfCnpj = function(event, row, collumn) {
+        scope.changeInputCpfCnpj = function (event, row, collumn) {
           if (angular.isFunction(collumn.action.onChange) && (collumn.action.trigger === 'change')) {
             var valid = true;
             if (event.target.classList.contains('ng-invalid-cpf') || event.target.classList.contains('ng-invalid-cnpj')) {
@@ -595,7 +603,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // VARIABLES AND METHODS ACTION COMBO
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        scope.getLabelCombo = function(row, collumn, item) {
+        scope.getLabelCombo = function (row, collumn, item) {
           if (collumn.action.type === 'combo' && angular.isFunction(collumn.action.labelRender)) {
             return collumn.action.labelRender(item);
           } else {
@@ -603,7 +611,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           }
         };
 
-        scope.getValueCombo = function(row, collumn, item) {
+        scope.getValueCombo = function (row, collumn, item) {
           if (collumn.action.type === 'combo' && angular.isFunction(collumn.action.valueRender)) {
             var value = collumn.action.valueRender(item);
             if (row[collumn.index].toString() === value) {
@@ -617,7 +625,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           }
         };
 
-        scope.isDisabledCombo = function(row, collumn) {
+        scope.isDisabledCombo = function (row, collumn) {
           if (angular.isFunction(collumn.action.isDisabled)) {
             return collumn.action.isDisabled(row);
           }
@@ -641,7 +649,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           return ret;
         }
 
-        scope.changeCombo = function(row, collumn, value) {
+        scope.changeCombo = function (row, collumn, value) {
           if (angular.isFunction(collumn.action.onChange) && (collumn.action.type === 'combo')) {
             collumn.action.onChange(row, value);
           }
@@ -650,7 +658,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // VARIABLES AND METHODS ASSIST CHOSEN AND MULTI-CHOSEN
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        scope.getAvaliablesChoises = function(array, collumn, search) {
+        scope.getAvaliablesChoises = function (array, collumn, search) {
           return $filter('rsPropsFilter')(array, getKeysForSearch(collumn), search, false);
         };
 
@@ -675,7 +683,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           return ret;
         }
 
-        scope.getItemRender = function(item, collumn) {
+        scope.getItemRender = function (item, collumn) {
           if (angular.isFunction(collumn.action.itemRender) && (collumn.action.type === 'chosen')) {
             return collumn.action.itemRender(item);
           }
@@ -690,7 +698,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           return [];
         }
 
-        scope.getItemSelected = function(item, collumn) {
+        scope.getItemSelected = function (item, collumn) {
           if (angular.isFunction(collumn.action.selectedRender) && (collumn.action.type === 'chosen')) {
             if (item) {
               return collumn.action.selectedRender(item);
@@ -702,13 +710,13 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           }
         };
 
-        scope.changeChosen = function(row, collumn, value) {
+        scope.changeChosen = function (row, collumn, value) {
           if (angular.isFunction(collumn.action.onChange) && (collumn.action.type === 'chosen')) {
             collumn.action.onChange(row, value);
           }
         };
 
-        scope.isDisabledChosen = function(row, collumn) {
+        scope.isDisabledChosen = function (row, collumn) {
           if (angular.isFunction(collumn.action.isDisabled)) {
             return collumn.action.isDisabled(row);
           }
@@ -735,32 +743,32 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           return ret;
         }
 
-        scope.isDisabledMultiChosen = function(row, collumn) {
+        scope.isDisabledMultiChosen = function (row, collumn) {
           if (angular.isFunction(collumn.action.isDisabled)) {
             return collumn.action.isDisabled(row);
           }
           return false;
         };
 
-        scope.getMultiItemRender = function(item, collumn) {
+        scope.getMultiItemRender = function (item, collumn) {
           if (angular.isFunction(collumn.action.itemRender) && (collumn.action.type === 'multiChosen')) {
             return collumn.action.itemRender(item);
           }
         };
 
-        scope.onRemove = function(row, collumn, item, model) {
+        scope.onRemove = function (row, collumn, item, model) {
           if (angular.isFunction(collumn.action.onRemove)) {
             return collumn.action.onRemove(row, item, model);
           }
         };
 
-        scope.onSelect = function(row, collumn, item, model) {
+        scope.onSelect = function (row, collumn, item, model) {
           if (angular.isFunction(collumn.action.onSelect)) {
             return collumn.action.onSelect(row, item, model);
           }
         };
 
-        scope.selectedsMultiChosen = function(item, collumn) {
+        scope.selectedsMultiChosen = function (item, collumn) {
           if (angular.isFunction(collumn.action.selectedsRender) && (collumn.action.type === 'multiChosen')) {
             return collumn.action.selectedsRender(item);
           } else if (angular.isFunction(collumn.action.itemRender) && (collumn.action.type === 'multiChosen')) {
@@ -774,7 +782,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         // VARIABLES AND METHODS POPOVER
         ///////////////////////////////////////////////////////////////////////////////////////////////
         var topTable, topTr, leftTable, popover, heightPopover, widthTr, widthPopover;
-        scope.getStylePopover = function() {
+        scope.getStylePopover = function () {
           popover = angular.element(document.getElementsByClassName('popover'));
           if (scope.currentTr && popover) {
             popover.css('display', 'block');
@@ -804,26 +812,26 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           return false;
         }
 
-        scope.hoverTr = function(ev, row) {
+        scope.hoverTr = function (ev, row) {
           if (scope.containPopover) {
             scope.currentTr = ev.currentTarget;
-            if(angular.isFunction(scope.config.popoverRow.getModel)){
+            if (angular.isFunction(scope.config.popoverRow.getModel)) {
               var value = scope.config.popoverRow.getModel(row);
               scope[scope.config.popoverRow.ngModel] = value;
-            }else{
+            } else {
               scope[scope.config.popoverRow.ngModel] = row;
             }
           }
         };
 
-        scope.outTr = function() {
+        scope.outTr = function () {
           if (scope.containPopover) {
             scope.currentTr = null;
             scope[scope.config.popoverRow.ngModel] = null;
           }
         };
 
-        scope.getTitlePopover = function() {
+        scope.getTitlePopover = function () {
           if (scope.containPopover && scope.config.popoverRow.titleRender && scope.currentTr) {
             return scope.config.popoverRow.titleRender(scope[scope.config.popoverRow.ngModel]);
           }
@@ -832,7 +840,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // VARIABLES AND METHODS BUTTONS
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        scope.isVisibleButton = function(instanceButton, currentObject, indexCollumn) {
+        scope.isVisibleButton = function (instanceButton, currentObject, indexCollumn) {
           if (angular.isFunction(instanceButton.isVisible)) {
             var isVisible = instanceButton.isVisible(currentObject);
 
@@ -848,19 +856,19 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // CALLBACK CLICK ROW
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        scope.clickRow = function(row){
-          if (scope.config.onClickRow && angular.isFunction(scope.config.onClickRow)){
+        scope.clickRow = function (row) {
+          if (scope.config.onClickRow && angular.isFunction(scope.config.onClickRow)) {
             return scope.config.onClickRow(row);
           }
-        }
+        };
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // CALLBACK CLICK CELL
         ///////////////////////////////////////////////////////////////////////////////////////////////
 
-        scope.clickCell = function(event, row, index) {
+        scope.clickCell = function (event, row, index) {
           event.stopImmediatePropagation();
-          if (scope.config.onClickCell && angular.isFunction(scope.config.onClickCell)){
+          if (scope.config.onClickCell && angular.isFunction(scope.config.onClickCell)) {
             return scope.config.onClickCell(row, index);
           }
         };
@@ -877,7 +885,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           element.empty();
           element.append(el.children());
           $compile(element.contents())(scope);
-        })
+        });
       }
     };
   }]);
