@@ -17,6 +17,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         scope.buttons = scope.config.buttons;
         scope.hasPagination = false;
         scope.messageLoading = scope.config.messageLoading || 'loading...';
+        scope.sumLabel = scope.config.sumLabel ?  scope.config.sumLabel : 'Total:';
         scope.hasSearch = false;
         scope.currentPage = 0;
         scope.avaliablesPages = [];

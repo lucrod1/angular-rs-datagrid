@@ -5,6 +5,7 @@ app.controller('demoController', function($scope, $http) {
     classTable: 'table table-bordered table-striped',
     messageLoading: 'Loading...',
     messageEmpty:   'No results',
+    // sumLabel: 'Total de registros:',
     sort: true,
     defaultSort: 'id,asc',
 

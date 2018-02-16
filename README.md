@@ -41,6 +41,7 @@ $scope.config =
  "classTable": "table table-bordered table-striped",  // optional, default: "table table-bordered table-striped" --->
  "messageLoading": "Loading...",                      // optional, default: "loading..."
  "messageEmpty"  : "No results", 
+ "sumLabel"  : "Total: ",                             // optional, default: "Total: "
  "sort": true,                                        // optional, default: false
  "defaultSort": "id,asc",                             // optional, default is first "collumn.index", asc
   
@@ -635,7 +636,7 @@ $scope.config =
     labelSize: 'Registros por página: ',              // optional, default "Page size: ""
     defaultSize: 10,                                  // optional, default first item in avaliableSizes
     avaliableSizes: [10, 25, 50, 100, 500],           // optional, default [10,25,50,100]
-    positionBottom: true                              // optional, default is position top 
+    positionBottom: true                              // optional, default is true, position over top 
   },
   ...
 }
