@@ -5,6 +5,7 @@ app.controller('demoController', function($scope, $http) {
     classTable: 'table table-bordered table-striped',
     messageLoading: 'Loading...',
     messageEmpty:   'No results',
+    // sumLabel: 'Total de registros:',
     sort: true,
     defaultSort: 'id,asc',
 
@@ -14,7 +15,8 @@ app.controller('demoController', function($scope, $http) {
     // pagination: {                                       // optional
     //   labelSize: 'Registros por página: ',              // optional, default "Page size: ""
     //   defaultSize: 10,                                  // optional, default first item in avaliableSizes
-    //   avaliableSizes: [10, 25, 50, 100, 500, 2000]            // optional, default [10,25,50,100]
+    //   avaliableSizes: [10, 25, 50, 100, 500, 2000]      // optional, default [10,25,50,100]
+    //   // positionBottom: true                           // optional, default is position top    
     // },
 
     popoverRow: {                                       // optional
@@ -28,26 +30,28 @@ app.controller('demoController', function($scope, $http) {
       }
     },
 
-    collumns: [{
-      title: '',
-      index: 'enable',
-      class: 'text-center',
-      sort: false,
-      action: {
-        type: 'checkbox',
-        class: 'checkboxClass',
-        checkInHeader: true,
-        isDisabled: function(row){
-          return row.id == 1;
-        },
-        onCheckHeader: function(checked) {
-          console.log('checked: ' + checked);
-        },
-        onCheck: function(obj, checked) {
-          console.log('checked: ' + checked + ', obj:' + obj.id);
-        }
-      }
-    }, {
+    collumns: [
+    //   {
+    //   title: '',
+    //   index: 'enable',
+    //   class: 'text-center',
+    //   sort: false,
+    //   action: {
+    //     type: 'checkbox',
+    //     class: 'checkboxClass',
+    //     checkInHeader: true,
+    //     isDisabled: function(row){
+    //       return row.id == 1;
+    //     },
+    //     onCheckHeader: function(checked) {
+    //       console.log('checked: ' + checked);
+    //     },
+    //     onCheck: function(obj, checked) {
+    //       console.log('checked: ' + checked + ', obj:' + obj.id);
+    //     }
+    //   }
+    // }, 
+    {
       title: 'ID',
       index: 'id',
       class: 'text-center'

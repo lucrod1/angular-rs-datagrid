@@ -1,0 +1,5 @@
+<div class="pagination_header">
+    <span ng-bind="pagination.labelSize"></span>
+    <select class="pagination_select" ng-change="changePaginationSize()" ng-model="pagination.defaultSize" ng-options="size for size in pagination.avaliableSizes">
+    </select>
+</div>

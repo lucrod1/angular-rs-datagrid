@@ -1,7 +1,7 @@
 /*!
  * angular-rs-datagrid
  * 
- * Version: 1.0.64 - 2018-01-23T18:30:01.673Z
+ * Version: 1.0.68 - 2018-02-19T17:19:04.986Z
  * License: MIT
  */
 
@@ -9,7 +9,7 @@
 'use strict';
 
 angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
-  .directive('rsDatagrid', ['$locale', '$filter', function($locale, $filter) {
+  .directive('rsDatagrid', ['$locale', '$filter', function ($locale, $filter) {
     return {
       restrict: 'AE',
       templateUrl: 'directive-template.html',
@@ -17,7 +17,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         config: "="
       },
       replace: true,
-      link: function(scope, elem, attrs, ctrl) {
+      link: function (scope, elem, attrs, ctrl) {
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // VARIABLES OF SCOPE
         ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -25,6 +25,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         scope.buttons = scope.config.buttons;
         scope.hasPagination = false;
         scope.messageLoading = scope.config.messageLoading || 'loading...';
+        scope.sumLabel = scope.config.sumLabel ?  scope.config.sumLabel : 'Total:';
         scope.hasSearch = false;
         scope.currentPage = 0;
         scope.avaliablesPages = [];
@@ -43,7 +44,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // INIT SET PROPERT SHOW ACTIONS
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        angular.forEach(scope.collumns, function(collumn) {
+        angular.forEach(scope.collumns, function (collumn) {
           collumn.isHtml = collumn.isHtml || false;
           collumn.isLink = showLink(collumn);
           collumn.isCheckBox = showCheckbox(collumn);
@@ -71,7 +72,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           for (var i = 0; i < scope.collumns.length; i++) {
             var collumn = scope.collumns[i];
             var count = 0;
-            angular.forEach(collection.content, function(row) {
+            angular.forEach(collection.content, function (row) {
               //checkboxHeader
               if (collumn.action && collumn.action === 'checkbox' && row[collumn.index]) {
                 count++;
@@ -145,18 +146,18 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         ///////////////////////////////////////////////////////////////////////////////////////////////
 
         //Auxiliary method to set "model" the current page
-        scope.config._setCurrentPage = function(page) {
+        scope.config._setCurrentPage = function (page) {
           scope.currentPage = page;
         };
 
-        scope.$on('rsDatagrid:refresh', function(event, args) {
+        scope.$on('rsDatagrid:refresh', function (event, args) {
           refresh(scope.currentPage);
         });
 
         function refresh(page) {
           if (scope.hasPagination) {
             scope.showProgress = true;
-            scope.config.lazyData(page, scope.pagination.defaultSize, getCurrentSort(), scope.filter.search).then(function(result) {
+            scope.config.lazyData(page, scope.pagination.defaultSize, getCurrentSort(), scope.filter.search).then(function (result) {
               scope.showProgress = false;
               scope.currentPage = page;
               scope.collection = result;
@@ -173,7 +174,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         ///////////////////////////////////////////////////////////////////////////////////////////////
 
         //Auxiliary method for setting a search value in the search field
-        scope.config._setSearch = function(search){
+        scope.config._setSearch = function (search) {
           scope.filter.search = search;
         };
 
@@ -182,7 +183,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           scope.search = scope.config.search; //EXPOSE SEARCH IN SCOPE
         }
 
-        scope.$watch('filter.search', function(newValue, oldValue) {
+        scope.$watch('filter.search', function (newValue, oldValue) {
           if (newValue !== oldValue) {
             if (scope.hasPagination) {
               refresh(0);
@@ -226,7 +227,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           }
         }
 
-        scope.getCursorCollumn = function(collumn) {
+        scope.getCursorCollumn = function (collumn) {
           if (hasSortCollumn(collumn)) {
             return 'pointer';
           } else {
@@ -234,7 +235,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           }
         };
 
-        scope.sortCollumn = function(collumn) {
+        scope.sortCollumn = function (collumn) {
           var ordernar = hasSortCollumn(collumn);
 
           if (ordernar) {
@@ -253,7 +254,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           }
         };
 
-        scope.hasSortCollumnDirection = function(collumn, direction) {
+        scope.hasSortCollumnDirection = function (collumn, direction) {
           var col = collumn.sortCollumn || collumn.index;
           if (direction === 'all' && collumSort !== col) {
             return hasSortCollumn(collumn);
@@ -295,7 +296,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
             scope.showInfoProgress = true; //CALL WHEN INIT COMPONENT
             var promise = scope.config.lazyData(scope.currentPage, scope.pagination.defaultSize, getCurrentSort());
             if (angular.isObject(promise) && promise.then instanceof Function) {
-              promise.then(function(dados) {
+              promise.then(function (dados) {
                 scope.showInfoProgress = false;
                 scope.collection = dados;
               });
@@ -317,25 +318,25 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           }
         }
 
-        scope.$watchCollection('collection', function(dados) {
+        scope.$watchCollection('collection', function (dados) {
           if (dados) {
             // console.log('watch collection');
             if (scope.hasPagination) {
-                if(scope.avaliablesPages.length === 0){
-                    makePagination();
-                }
+              if (scope.avaliablesPages.length === 0) {
+                makePagination();
+              }
               defineStartEnd();
             }
             setValuesInternal(dados);
           }
         });
 
-        function defineStartEnd(){
-          var start       = angular.copy(scope.currentPage);
-          var totalPages  = scope.collection.totalPages;
+        function defineStartEnd() {
+          var start = angular.copy(scope.currentPage);
+          var totalPages = scope.collection.totalPages;
           var newAvaliablePages = angular.copy(scope.avaliablesPages);
 
-          if ( (start - 2 ) >= 1) {
+          if ((start - 2) >= 1) {
             start = start - 2;
           } else {
             start = 0;
@@ -343,68 +344,76 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
 
           //reajustando o start quando pagina for ultima ou penultima
           if (totalPages > 2) {
-            if (scope.currentPage === (totalPages - 2 )) {
+            if (scope.currentPage === (totalPages - 2)) {
               start--;
-            } else if (scope.currentPage === ( totalPages - 1) ) {
+            } else if (scope.currentPage === (totalPages - 1)) {
               start = start - 2;
             }
           }
 
-          if(start < 0){
+          if (start < 0) {
             start = 0;
           }
           scope.start = start;
-          if((start+4) <= totalPages){
-            scope.end   = angular.copy(start+4);
-          }else{
-              scope.end   = angular.copy(totalPages-1);
+          if ((start + 4) <= totalPages) {
+            scope.end = angular.copy(start + 4);
+          } else {
+            scope.end = angular.copy(totalPages - 1);
           }
         }
 
         function makePagination() {
           scope.avaliablesPages = [];
-          var totalPages        = scope.collection.totalPages;
-          var i                 = 0;
+          var totalPages = scope.collection.totalPages;
+          var i = 0;
 
-          while(i < totalPages){
-              scope.avaliablesPages.push({
-                index: i,
-                label: i + 1
-              });
+          while (i < totalPages) {
+            scope.avaliablesPages.push({
+              index: i,
+              label: i + 1
+            });
             i++;
           }
         }
 
-        scope.prevPage = function() {
+        scope.prevPage = function () {
           if (scope.currentPage !== 0) {
             refresh(scope.currentPage - 1);
           }
         };
 
-        scope.nextPage = function() {
+        scope.nextPage = function () {
           if (scope.currentPage !== scope.collection.totalPages - 1) {
             refresh(scope.currentPage + 1);
           }
         };
 
-        scope.goToPage = function(page) {
+        scope.goToPage = function (page) {
           refresh(page);
         };
 
-        scope.changePaginationSize = function() {
+        scope.changePaginationSize = function () {
           refresh(0);
         };
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // VARIABLES AND METHODS FOR PRINT CONTENT CELL
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        angular.isUndefinedOrNull = function(val) {
+        angular.isUndefinedOrNull = function (val) {
           return angular.isUndefined(val) || val === null;
         };
 
-        scope.getCollection = function() {
+        scope.getClass = function(collumn, row) {
+          if (angular.isFunction(collumn.class)) {
+            return collumn.class(row);
+          } else if (angular.isDefined(collumn.class)) {
+            return collumn.class;
+          }
+        };
+
+        scope.getCollection = function () {
           if (scope.collection) {
-            if(scope.collection.content.length === 0){
+            if (scope.collection.content.length === 0) {
               scope.showEmptyRow = true;
               return [];
             }
@@ -449,7 +458,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           return false;
         }
 
-        scope.clickLink = function(currentObject, indexCollumn) {
+        scope.clickLink = function (currentObject, indexCollumn) {
           if (angular.isFunction(scope.collumns[indexCollumn].action.onClick)) {
             scope.collumns[indexCollumn].action.onClick(currentObject);
           } else {
@@ -473,17 +482,17 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           return false;
         }
 
-        scope.isDisabledCheckbox = function(row, collumn) {
+        scope.isDisabledCheckbox = function (row, collumn) {
           if (angular.isFunction(collumn.action.isDisabled)) {
             return collumn.action.isDisabled(row);
           }
           return false;
         };
 
-        scope.clickCheckbox = function(row, indexCollumn, checked) {
+        scope.clickCheckbox = function (row, indexCollumn, checked) {
           var collumn = scope.collumns[indexCollumn];
           var count = 0;
-          angular.forEach(scope.collection.content, function(row) {
+          angular.forEach(scope.collection.content, function (row) {
             if (row[collumn.index]) {
               count++;
             }
@@ -500,8 +509,8 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           }
         };
 
-        scope.clickCheckboxHeader = function(collumn, checked) {
-          angular.forEach(scope.collection.content, function(row) {
+        scope.clickCheckboxHeader = function (collumn, checked) {
+          angular.forEach(scope.collection.content, function (row) {
             if (!scope.isDisabledCheckbox(row, collumn)) {
               row[collumn.index] = checked;
             }
@@ -561,20 +570,20 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           return showInputWithMask(collumn, 'number') && collumn.action.mask.negative;
         }
 
-        scope.isDisabledInput = function(row, collumn) {
+        scope.isDisabledInput = function (row, collumn) {
           if (angular.isFunction(collumn.action.isDisabled)) {
             return collumn.action.isDisabled(row);
           }
           return false;
         };
 
-        scope.blurInput = function(row, collumn) {
+        scope.blurInput = function (row, collumn) {
           if (angular.isFunction(collumn.action.onChange) && (collumn.action.trigger === 'blur' || !collumn.action.trigger)) {
             collumn.action.onChange(row);
           }
         };
 
-        scope.blurInputCpfCnpj = function(event, row, collumn) {
+        scope.blurInputCpfCnpj = function (event, row, collumn) {
           if (angular.isFunction(collumn.action.onChange) && (collumn.action.trigger === 'blur' || !collumn.action.trigger)) {
             var valid = true;
             if (event.target.classList.contains('ng-invalid-cpf') || event.target.classList.contains('ng-invalid-cnpj')) {
@@ -584,13 +593,13 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           }
         };
 
-        scope.changeInput = function(row, collumn, value) {
+        scope.changeInput = function (row, collumn, value) {
           if (angular.isFunction(collumn.action.onChange) && (collumn.action.trigger === 'change')) {
             collumn.action.onChange(row, value);
           }
         };
 
-        scope.changeInputCpfCnpj = function(event, row, collumn) {
+        scope.changeInputCpfCnpj = function (event, row, collumn) {
           if (angular.isFunction(collumn.action.onChange) && (collumn.action.trigger === 'change')) {
             var valid = true;
             if (event.target.classList.contains('ng-invalid-cpf') || event.target.classList.contains('ng-invalid-cnpj')) {
@@ -603,7 +612,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // VARIABLES AND METHODS ACTION COMBO
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        scope.getLabelCombo = function(row, collumn, item) {
+        scope.getLabelCombo = function (row, collumn, item) {
           if (collumn.action.type === 'combo' && angular.isFunction(collumn.action.labelRender)) {
             return collumn.action.labelRender(item);
           } else {
@@ -611,7 +620,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           }
         };
 
-        scope.getValueCombo = function(row, collumn, item) {
+        scope.getValueCombo = function (row, collumn, item) {
           if (collumn.action.type === 'combo' && angular.isFunction(collumn.action.valueRender)) {
             var value = collumn.action.valueRender(item);
             if (row[collumn.index].toString() === value) {
@@ -625,7 +634,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           }
         };
 
-        scope.isDisabledCombo = function(row, collumn) {
+        scope.isDisabledCombo = function (row, collumn) {
           if (angular.isFunction(collumn.action.isDisabled)) {
             return collumn.action.isDisabled(row);
           }
@@ -649,7 +658,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           return ret;
         }
 
-        scope.changeCombo = function(row, collumn, value) {
+        scope.changeCombo = function (row, collumn, value) {
           if (angular.isFunction(collumn.action.onChange) && (collumn.action.type === 'combo')) {
             collumn.action.onChange(row, value);
           }
@@ -658,7 +667,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // VARIABLES AND METHODS ASSIST CHOSEN AND MULTI-CHOSEN
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        scope.getAvaliablesChoises = function(array, collumn, search) {
+        scope.getAvaliablesChoises = function (array, collumn, search) {
           return $filter('rsPropsFilter')(array, getKeysForSearch(collumn), search, false);
         };
 
@@ -683,7 +692,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           return ret;
         }
 
-        scope.getItemRender = function(item, collumn) {
+        scope.getItemRender = function (item, collumn) {
           if (angular.isFunction(collumn.action.itemRender) && (collumn.action.type === 'chosen')) {
             return collumn.action.itemRender(item);
           }
@@ -698,7 +707,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           return [];
         }
 
-        scope.getItemSelected = function(item, collumn) {
+        scope.getItemSelected = function (item, collumn) {
           if (angular.isFunction(collumn.action.selectedRender) && (collumn.action.type === 'chosen')) {
             if (item) {
               return collumn.action.selectedRender(item);
@@ -710,13 +719,13 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           }
         };
 
-        scope.changeChosen = function(row, collumn, value) {
+        scope.changeChosen = function (row, collumn, value) {
           if (angular.isFunction(collumn.action.onChange) && (collumn.action.type === 'chosen')) {
             collumn.action.onChange(row, value);
           }
         };
 
-        scope.isDisabledChosen = function(row, collumn) {
+        scope.isDisabledChosen = function (row, collumn) {
           if (angular.isFunction(collumn.action.isDisabled)) {
             return collumn.action.isDisabled(row);
           }
@@ -743,32 +752,32 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           return ret;
         }
 
-        scope.isDisabledMultiChosen = function(row, collumn) {
+        scope.isDisabledMultiChosen = function (row, collumn) {
           if (angular.isFunction(collumn.action.isDisabled)) {
             return collumn.action.isDisabled(row);
           }
           return false;
         };
 
-        scope.getMultiItemRender = function(item, collumn) {
+        scope.getMultiItemRender = function (item, collumn) {
           if (angular.isFunction(collumn.action.itemRender) && (collumn.action.type === 'multiChosen')) {
             return collumn.action.itemRender(item);
           }
         };
 
-        scope.onRemove = function(row, collumn, item, model) {
+        scope.onRemove = function (row, collumn, item, model) {
           if (angular.isFunction(collumn.action.onRemove)) {
             return collumn.action.onRemove(row, item, model);
           }
         };
 
-        scope.onSelect = function(row, collumn, item, model) {
+        scope.onSelect = function (row, collumn, item, model) {
           if (angular.isFunction(collumn.action.onSelect)) {
             return collumn.action.onSelect(row, item, model);
           }
         };
 
-        scope.selectedsMultiChosen = function(item, collumn) {
+        scope.selectedsMultiChosen = function (item, collumn) {
           if (angular.isFunction(collumn.action.selectedsRender) && (collumn.action.type === 'multiChosen')) {
             return collumn.action.selectedsRender(item);
           } else if (angular.isFunction(collumn.action.itemRender) && (collumn.action.type === 'multiChosen')) {
@@ -782,7 +791,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         // VARIABLES AND METHODS POPOVER
         ///////////////////////////////////////////////////////////////////////////////////////////////
         var topTable, topTr, leftTable, popover, heightPopover, widthTr, widthPopover;
-        scope.getStylePopover = function() {
+        scope.getStylePopover = function () {
           popover = angular.element(document.getElementsByClassName('popover'));
           if (scope.currentTr && popover) {
             popover.css('display', 'block');
@@ -812,26 +821,26 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           return false;
         }
 
-        scope.hoverTr = function(ev, row) {
+        scope.hoverTr = function (ev, row) {
           if (scope.containPopover) {
             scope.currentTr = ev.currentTarget;
-            if(angular.isFunction(scope.config.popoverRow.getModel)){
+            if (angular.isFunction(scope.config.popoverRow.getModel)) {
               var value = scope.config.popoverRow.getModel(row);
               scope[scope.config.popoverRow.ngModel] = value;
-            }else{
+            } else {
               scope[scope.config.popoverRow.ngModel] = row;
             }
           }
         };
 
-        scope.outTr = function() {
+        scope.outTr = function () {
           if (scope.containPopover) {
             scope.currentTr = null;
             scope[scope.config.popoverRow.ngModel] = null;
           }
         };
 
-        scope.getTitlePopover = function() {
+        scope.getTitlePopover = function () {
           if (scope.containPopover && scope.config.popoverRow.titleRender && scope.currentTr) {
             return scope.config.popoverRow.titleRender(scope[scope.config.popoverRow.ngModel]);
           }
@@ -840,7 +849,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // VARIABLES AND METHODS BUTTONS
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        scope.isVisibleButton = function(instanceButton, currentObject, indexCollumn) {
+        scope.isVisibleButton = function (instanceButton, currentObject, indexCollumn) {
           if (angular.isFunction(instanceButton.isVisible)) {
             var isVisible = instanceButton.isVisible(currentObject);
 
@@ -856,11 +865,22 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // CALLBACK CLICK ROW
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        scope.clickRow = function(row){
-          if (scope.config.onClickRow && angular.isFunction(scope.config.onClickRow)){
+        scope.clickRow = function (row) {
+          if (scope.config.onClickRow && angular.isFunction(scope.config.onClickRow)) {
             return scope.config.onClickRow(row);
           }
-        }
+        };
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        // CALLBACK CLICK CELL
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+
+        scope.clickCell = function (event, row, index) {
+          if (scope.config.onClickCell && angular.isFunction(scope.config.onClickCell)) {
+            event.stopImmediatePropagation();
+            return scope.config.onClickCell(row, index);
+          }
+        };
 
       }
     };
@@ -874,7 +894,7 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           element.empty();
           element.append(el.children());
           $compile(element.contents())(scope);
-        })
+        });
       }
     };
   }]);
@@ -961,7 +981,7 @@ angular.module("rs.datagrid")
     };
   });
 
-angular.module("rs.datagrid").run(["$templateCache", function($templateCache) {$templateCache.put("directive-template.html","<div><div class=\"popover top fade in\" title=\"Tile\" placement=\"top\" html=\"true\" ng-style=\"getStylePopover()\"><div class=\"arrow\"></div><div class=\"popover-inner\"><h3 class=\"popover-title\" ng-if=\"config.popoverRow.titleRender\" ng-bind-html=\"getTitlePopover()\"></h3><div class=\"popover-content\"><ng-include src=\"config.popoverRow.templateUrl\"></ng-include></div></div></div><div ng-if=\"hasPagination\" class=\"pagination_header\"><span ng-bind=\"pagination.labelSize\"></span><select class=\"pagination_select\" ng-change=\"changePaginationSize()\" ng-model=\"pagination.defaultSize\" ng-options=\"size for size in pagination.avaliableSizes\"></select></div><div id=\"loading\" class=\"uil-default-css\" ng-if=\"showProgress\" style=\"transform:scale(0.14);\"><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(0deg) translate(0,-50px);transform:rotate(0deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(30deg) translate(0,-50px);transform:rotate(30deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(60deg) translate(0,-50px);transform:rotate(60deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(90deg) translate(0,-50px);transform:rotate(90deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(120deg) translate(0,-50px);transform:rotate(120deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(150deg) translate(0,-50px);transform:rotate(150deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(180deg) translate(0,-50px);transform:rotate(180deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(210deg) translate(0,-50px);transform:rotate(210deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(240deg) translate(0,-50px);transform:rotate(240deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(270deg) translate(0,-50px);transform:rotate(270deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(300deg) translate(0,-50px);transform:rotate(300deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(330deg) translate(0,-50px);transform:rotate(330deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div></div><div ng-if=\"hasSearch\" class=\"pagination_search\"><span ng-bind=\"search.label\"></span> <input type=\"text\" name=\"search\" ng-keyup=\"keyup(filter.search)\" ng-model-options=\"{debounce: 1000 }\" ng-model=\"filter.search\" id=\"searchValue\"> {{searchValue}}</div><br style=\"clear: both;\"><span class=\"pull-right\">Total: {{hasPagination ? collection.totalElements : collection.content.length}}</span><table ng-class=\"config.classTaable || \'table table-bordered table-striped\'\"><thead><tr><th ng-class=\"collumn.class\" ng-style=\"collumn.style\" style=\"cursor: {{getCursorCollumn(collumn)}}\" ng-click=\"sortCollumn(collumn)\" ng-repeat=\"collumn in collumns track by $index\"><input ng-click=\"clickCheckboxHeader(collumn, collumn.checkboxHeader)\" ng-if=\"collumn.action.type ===\'checkbox\' && collumn.action.checkInHeader\" type=\"checkbox\" ng-model=\"collumn.checkboxHeader\" name=\"checkbox_0\" id=\"checkbox_0\"> {{collumn.title}} <i ng-if=\"hasSortCollumnDirection(collumn, \'asc\')\" class=\"icon-sort asc\"></i> <i ng-if=\"hasSortCollumnDirection(collumn, \'desc\')\" class=\"icon-sort desc\"></i> <i ng-if=\"hasSortCollumnDirection(collumn, \'all\')\" class=\"icon-sort asc-desc\"></i></th></tr></thead><tbody><tr ng-if=\"!showInfoProgress\" ng-click=\"clickRow(row)\" ng-mouseover=\"hoverTr($event, row)\" ng-mouseout=\"outTr()\" ng-repeat=\"row in getCollection() track by $index\"><td ng-class=\"collumn.class\" ng-style=\"collumn.style\" ng-repeat=\"collumn in collumns track by $index\"><div style=\"display: inline-block;\" ng-if=\"collumn.isHtml && !collumn.action\" ng-bind-html-compile=\"row._internal[collumn.index] | unsafe\"></div><div style=\"display: inline-block;\" ng-if=\"!collumn.isHtml && !collumn.action\" ng-bind=\"row._internal[collumn.index]\"></div><a ng-click=\"clickLink(row, $index)\" ng-if=\"collumn.isLink\" ng-bind=\"row._internal[collumn.index]\"></a><ng-include src=\"\'templates/checkbox-template.html\'\" ng-if=\"collumn.isCheckBox\"></ng-include><ng-include src=\"\'templates/input-template.html\'\" ng-if=\"collumn.isInputWithoutMask\"></ng-include><ng-include src=\"\'templates/input-number-template.html\'\" ng-if=\"collumn.isInputNumberMask\"></ng-include><ng-include src=\"\'templates/input-number-negative-template.html\'\" ng-if=\"collumn.isInputNumberMaskNegative\"></ng-include><ng-include src=\"\'templates/input-money-template.html\'\" ng-if=\"collumn.isInputMoneyMask\"></ng-include><ng-include src=\"\'templates/input-phone-template.html\'\" ng-if=\"collumn.isInputPhoneMask\"></ng-include><ng-include src=\"\'templates/input-cep-template.html\'\" ng-if=\"collumn.isInputCepMask\"></ng-include><ng-include src=\"\'templates/input-cpf-template.html\'\" ng-if=\"collumn.isInputCpfMask\"></ng-include><ng-include src=\"\'templates/input-cnpj-template.html\'\" ng-if=\"collumn.isInputCnpjMask\"></ng-include><ng-include src=\"\'templates/input-cpfcnpj-template.html\'\" ng-if=\"collumn.isInputCpfCnpjMask\"></ng-include><ng-include src=\"\'templates/select-template.html\'\" ng-if=\"collumn.isCombo\"></ng-include><ng-include src=\"\'templates/chosen-select2-template.html\'\" ng-if=\"collumn.isChosenSelect2\"></ng-include><ng-include src=\"\'templates/chosen-selectize-template.html\'\" ng-if=\"collumn.isChosenSelectize\"></ng-include><ng-include src=\"\'templates/multi-chosen-select2-template.html\'\" ng-if=\"collumn.isMultiChosen\"></ng-include><div class=\"actions pull-right\" ng-if=\"$last && buttons && buttons.length > 0\"><button tooltip=\"{{button.tooltip}}\" tooltip-append-to-body=\"true\" data-original-title=\"{{button.tooltip}}\" style=\"margin-left: 5px;\" tooltip-placement=\"top\" ng-if=\"isVisibleButton(button, row, $index)\" type=\"button\" ng-class=\"button.classButton\" ng-click=\"button.onClick(row)\" ng-repeat=\"button in buttons track by $index\"><span ng-class=\"button.classIcon\"></span> {{button.text}}</button></div></td></tr><tr ng-if=\"showEmptyRow\"><td class=\"text-center\" colspan=\"{{collumns.length}}\">{{config.messageEmpty}}</td></tr><tr><td ng-if=\"showInfoProgress\" colspan=\"{{collumns.length}}\">{{messageLoading || \'loading...\'}}</td></tr></tbody></table><div class=\"pagination_page\"><div id=\"loading\" class=\"uil-default-css\" ng-if=\"showProgress\" style=\"transform:scale(0.14);\"><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(0deg) translate(0,-50px);transform:rotate(0deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(30deg) translate(0,-50px);transform:rotate(30deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(60deg) translate(0,-50px);transform:rotate(60deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(90deg) translate(0,-50px);transform:rotate(90deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(120deg) translate(0,-50px);transform:rotate(120deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(150deg) translate(0,-50px);transform:rotate(150deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(180deg) translate(0,-50px);transform:rotate(180deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(210deg) translate(0,-50px);transform:rotate(210deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(240deg) translate(0,-50px);transform:rotate(240deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(270deg) translate(0,-50px);transform:rotate(270deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(300deg) translate(0,-50px);transform:rotate(300deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(330deg) translate(0,-50px);transform:rotate(330deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div></div><ul ng-if=\"hasPagination && collection.content.length > 0\"><li class=\"prev\" ng-class=\"{\'disabled\': collection.first}\"><a ng-click=\"prevPage()\">← Anterior</a></li><li ng-class=\"{\'active\' : currentPage == page.index}\" ng-if=\"page.index >= start && page.index <= end\" ng-repeat=\"page in avaliablesPages\"><a ng-click=\"goToPage(page.index)\">{{page.label}}</a></li><li class=\"next\" ng-class=\"{\'disabled\': collection.last}\"><a ng-click=\"nextPage()\">Próxima →</a></li></ul></div></div>");
+angular.module("rs.datagrid").run(["$templateCache", function($templateCache) {$templateCache.put("directive-template.html","<div><div class=\"popover top fade in\" title=\"Tile\" placement=\"top\" html=\"true\" ng-style=\"getStylePopover()\"><div class=\"arrow\"></div><div class=\"popover-inner\"><h3 class=\"popover-title\" ng-if=\"config.popoverRow.titleRender\" ng-bind-html=\"getTitlePopover()\"></h3><div class=\"popover-content\"><ng-include src=\"config.popoverRow.templateUrl\"></ng-include></div></div></div><ng-include src=\"\'templates/pagination-size-template.html\'\" ng-if=\"hasPagination && !pagination.positionBottom\"></ng-include><div id=\"loading\" class=\"uil-default-css\" ng-if=\"showProgress\" style=\"transform:scale(0.14);\"><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(0deg) translate(0,-50px);transform:rotate(0deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(30deg) translate(0,-50px);transform:rotate(30deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(60deg) translate(0,-50px);transform:rotate(60deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(90deg) translate(0,-50px);transform:rotate(90deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(120deg) translate(0,-50px);transform:rotate(120deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(150deg) translate(0,-50px);transform:rotate(150deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(180deg) translate(0,-50px);transform:rotate(180deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(210deg) translate(0,-50px);transform:rotate(210deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(240deg) translate(0,-50px);transform:rotate(240deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(270deg) translate(0,-50px);transform:rotate(270deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(300deg) translate(0,-50px);transform:rotate(300deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(330deg) translate(0,-50px);transform:rotate(330deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div></div><div ng-if=\"hasSearch\" class=\"pagination_search\"><span ng-bind=\"search.label\"></span> <input type=\"text\" name=\"search\" ng-keyup=\"keyup(filter.search)\" ng-model-options=\"{debounce: 1000 }\" ng-model=\"filter.search\" id=\"searchValue\"> {{searchValue}}</div><br style=\"clear: both;\"><span class=\"pull-right\">{{sumLabel}} {{hasPagination ? collection.totalElements : collection.content.length}}</span><table ng-class=\"config.classTaable || \'table table-bordered table-striped\'\"><thead><tr><th ng-class=\"collumn.class\" ng-style=\"collumn.style\" style=\"cursor: {{getCursorCollumn(collumn)}}\" ng-click=\"sortCollumn(collumn)\" ng-repeat=\"collumn in collumns track by $index\"><input ng-click=\"clickCheckboxHeader(collumn, collumn.checkboxHeader)\" ng-if=\"collumn.action.type ===\'checkbox\' && collumn.action.checkInHeader\" type=\"checkbox\" ng-model=\"collumn.checkboxHeader\" name=\"checkbox_0\" id=\"checkbox_0\"> {{collumn.title}} <i ng-if=\"hasSortCollumnDirection(collumn, \'asc\')\" class=\"icon-sort asc\"></i> <i ng-if=\"hasSortCollumnDirection(collumn, \'desc\')\" class=\"icon-sort desc\"></i> <i ng-if=\"hasSortCollumnDirection(collumn, \'all\')\" class=\"icon-sort asc-desc\"></i></th></tr></thead><tbody><tr ng-if=\"!showInfoProgress\" ng-click=\"clickRow(row)\" ng-mouseover=\"hoverTr($event, row)\" ng-mouseout=\"outTr()\" ng-repeat=\"row in getCollection() track by $index\"><td class=\"{{getClass(collumn, row)}}\" ng-click=\"clickCell($event, row, collumn.index)\" ng-style=\"collumn.style\" ng-repeat=\"collumn in collumns track by $index\"><div style=\"display: inline-block;\" ng-if=\"collumn.isHtml && !collumn.action\" ng-bind-html-compile=\"row._internal[collumn.index] | unsafe\"></div><div style=\"display: inline-block;\" ng-if=\"!collumn.isHtml && !collumn.action\" ng-bind=\"row._internal[collumn.index]\"></div><a ng-click=\"clickLink(row, $index)\" ng-if=\"collumn.isLink\" ng-bind=\"row._internal[collumn.index]\"></a><ng-include src=\"\'templates/checkbox-template.html\'\" ng-if=\"collumn.isCheckBox\"></ng-include><ng-include src=\"\'templates/input-template.html\'\" ng-if=\"collumn.isInputWithoutMask\"></ng-include><ng-include src=\"\'templates/input-number-template.html\'\" ng-if=\"collumn.isInputNumberMask\"></ng-include><ng-include src=\"\'templates/input-number-negative-template.html\'\" ng-if=\"collumn.isInputNumberMaskNegative\"></ng-include><ng-include src=\"\'templates/input-money-template.html\'\" ng-if=\"collumn.isInputMoneyMask\"></ng-include><ng-include src=\"\'templates/input-phone-template.html\'\" ng-if=\"collumn.isInputPhoneMask\"></ng-include><ng-include src=\"\'templates/input-cep-template.html\'\" ng-if=\"collumn.isInputCepMask\"></ng-include><ng-include src=\"\'templates/input-cpf-template.html\'\" ng-if=\"collumn.isInputCpfMask\"></ng-include><ng-include src=\"\'templates/input-cnpj-template.html\'\" ng-if=\"collumn.isInputCnpjMask\"></ng-include><ng-include src=\"\'templates/input-cpfcnpj-template.html\'\" ng-if=\"collumn.isInputCpfCnpjMask\"></ng-include><ng-include src=\"\'templates/select-template.html\'\" ng-if=\"collumn.isCombo\"></ng-include><ng-include src=\"\'templates/chosen-select2-template.html\'\" ng-if=\"collumn.isChosenSelect2\"></ng-include><ng-include src=\"\'templates/chosen-selectize-template.html\'\" ng-if=\"collumn.isChosenSelectize\"></ng-include><ng-include src=\"\'templates/multi-chosen-select2-template.html\'\" ng-if=\"collumn.isMultiChosen\"></ng-include><div class=\"actions pull-right\" ng-if=\"$last && buttons && buttons.length > 0\"><button tooltip=\"{{button.tooltip}}\" tooltip-append-to-body=\"true\" data-original-title=\"{{button.tooltip}}\" style=\"margin-left: 5px;\" tooltip-placement=\"top\" ng-if=\"isVisibleButton(button, row, $index)\" type=\"button\" ng-class=\"button.classButton\" ng-click=\"button.onClick(row)\" ng-repeat=\"button in buttons track by $index\"><span ng-class=\"button.classIcon\"></span> {{button.text}}</button></div></td></tr><tr ng-if=\"showEmptyRow\"><td class=\"text-center\" colspan=\"{{collumns.length}}\">{{config.messageEmpty}}</td></tr><tr><td ng-if=\"showInfoProgress\" colspan=\"{{collumns.length}}\">{{messageLoading || \'loading...\'}}</td></tr></tbody></table><div class=\"pagination_page\"><div id=\"loading\" class=\"uil-default-css\" ng-if=\"showProgress\" style=\"transform:scale(0.14);\"><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(0deg) translate(0,-50px);transform:rotate(0deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(30deg) translate(0,-50px);transform:rotate(30deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(60deg) translate(0,-50px);transform:rotate(60deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(90deg) translate(0,-50px);transform:rotate(90deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(120deg) translate(0,-50px);transform:rotate(120deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(150deg) translate(0,-50px);transform:rotate(150deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(180deg) translate(0,-50px);transform:rotate(180deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(210deg) translate(0,-50px);transform:rotate(210deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(240deg) translate(0,-50px);transform:rotate(240deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(270deg) translate(0,-50px);transform:rotate(270deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(300deg) translate(0,-50px);transform:rotate(300deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div><div style=\"top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(330deg) translate(0,-50px);transform:rotate(330deg) translate(0,-50px);border-radius:10px;position:absolute;\"></div></div><ng-include src=\"\'templates/pagination-size-template.html\'\" ng-if=\"hasPagination && pagination.positionBottom\"></ng-include><ul ng-if=\"hasPagination && collection.content.length > 0\"><li class=\"prev\" ng-class=\"{\'disabled\': collection.first}\"><a ng-click=\"prevPage()\">← Anterior</a></li><li ng-class=\"{\'active\' : currentPage == page.index}\" ng-if=\"page.index >= start && page.index <= end\" ng-repeat=\"page in avaliablesPages\"><a ng-click=\"goToPage(page.index)\">{{page.label}}</a></li><li class=\"next\" ng-class=\"{\'disabled\': collection.last}\"><a ng-click=\"nextPage()\">Próxima →</a></li></ul></div></div>");
 $templateCache.put("templates/checkbox-template.html","<input type=\"checkbox\" ng-click=\"clickCheckbox(row, $index, row[collumn.index])\" ng-model=\"row[collumn.index]\" ng-disabled=\"isDisabledCheckbox(row, collumn)\" ng-class=\"collumn.action.class\" ng-style=\"collumn.action.style\" name=\"checkbox_{{$index}}\"> <span>{{row.textCheckbox}}</span>");
 $templateCache.put("templates/chosen-select2-template.html","<ui-select ng-model=\"row[collumn.index]\" ng-change=\"changeChosen(row, collumn, row[collumn.index])\" theme=\"select2\" class=\"{{collumn.action.class}}\" ng-style=\"collumn.action.style\" ng-disabled=\"isDisabledChosen(row, collumn)\" name=\"chosen_{{$index}}\" id=\"chosen_{{$index}}\"><ui-select-match allow-clear=\"{{collumn.action.allowClear}}\" placeholder=\"{{collumn.action.placeholder}}\"><div ng-bind-html=\"getItemSelected($select.selected, collumn)\"></div></ui-select-match><ui-select-choices repeat=\"item in getAvaliablesChoises(collumn.action.avaliablesChoises, collumn, $select.search)\"><div ng-bind-html=\"getItemRender(item,collumn)\"></div></ui-select-choices></ui-select>");
 $templateCache.put("templates/chosen-selectize-template.html","<ui-select ng-model=\"row[collumn.index]\" ng-change=\"changeChosen(row, collumn, row[collumn.index])\" theme=\"selectize\" class=\"{{collumn.action.class}}\" ng-style=\"collumn.action.style\" ng-disabled=\"isDisabledChosen(row, collumn)\" name=\"chosen_{{$index}}\" id=\"chosen_{{$index}}\"><ui-select-match placeholder=\"{{collumn.action.placeholder}}\"><div ng-bind-html=\"getItemSelected($select.selected, collumn)\"></div></ui-select-match><ui-select-choices repeat=\"item in getAvaliablesChoises(collumn.action.avaliablesChoises, collumn, $select.search)\"><div ng-bind-html=\"getItemRender(item,collumn)\"></div></ui-select-choices></ui-select>");
@@ -975,6 +995,7 @@ $templateCache.put("templates/input-number-template.html","<input type=\"text\" 
 $templateCache.put("templates/input-phone-template.html","<input type=\"text\" ui-br-phone-number=\"\" maxlength=\"{{collumn.action.mask.maxlength}}\" ng-change=\"changeInput(row, collumn)\" ng-blur=\"blurInput(row, collumn)\" ng-model=\"row[collumn.index]\" ng-disabled=\"isDisabledInput(row, collumn)\" model-view-value=\"true\" ng-class=\"collumn.action.class\" ng-style=\"collumn.action.style\" name=\"input_phone{{$index}}\" id=\"input_phone{{$index}}\">");
 $templateCache.put("templates/input-template.html","<input type=\"text\" ng-change=\"changeInput(row, collumn)\" maxlength=\"{{collumn.action.maxlength}}\" ng-blur=\"blurInput(row, collumn)\" ng-model=\"row[collumn.index]\" ng-disabled=\"isDisabledInput(row, collumn)\" ng-class=\"collumn.action.class\" ng-style=\"collumn.action.style\" name=\"input_{{$index}}\" id=\"input_{{$index}}\">");
 $templateCache.put("templates/multi-chosen-select2-template.html","<ui-select ng-model=\"row[collumn.index]\" multiple=\"\" theme=\"select2\" class=\"{{collumn.action.class}}\" ng-style=\"collumn.action.style\" ng-disabled=\"isDisabledMultiChosen(row, collumn)\" name=\"chosen_{{$index}}\" on-remove=\"onRemove(row, collumn, $item, row[collumn.index])\" on-select=\"onSelect(row, collumn, $item, row[collumn.index])\" id=\"chosen_{{$index}}\"><ui-select-match placeholder=\"{{collumn.action.placeholder}}\"><div ng-bind-html=\"selectedsMultiChosen($item, collumn)\"></div></ui-select-match><ui-select-choices repeat=\"item in getAvaliablesChoises(collumn.action.avaliablesChoises, collumn, $select.search)\"><div ng-bind-html=\"getMultiItemRender(item,collumn)\"></div></ui-select-choices></ui-select>");
+$templateCache.put("templates/pagination-size-template.html","<div class=\"pagination_header\"><span ng-bind=\"pagination.labelSize\"></span><select class=\"pagination_select\" ng-change=\"changePaginationSize()\" ng-model=\"pagination.defaultSize\" ng-options=\"size for size in pagination.avaliableSizes\"></select></div>");
 $templateCache.put("templates/select-template.html","<select ng-model=\"row[collumn.index]\" ng-change=\"changeCombo(row, collumn, row[collumn.index])\" name=\"combo_{{$index}}\" ng-class=\"collumn.action.class\" ng-style=\"collumn.action.style\" id=\"combo_{{$index}}\" ng-disabled=\"isDisabledCombo(row, collumn)\"><option ng-if=\"collumn.action.labelChoose\" value=\"\">{{collumn.action.labelChoose}}</option><option value=\"{{item}}\" ng-repeat=\"item in avaliablesChoises\">{{item}}</option></select>");}]);
 'use strict';
 
