@@ -854,6 +854,19 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           return true;
         };
 
+        scope.isDisabledButton = function (instanceButton, currentObject, indexCollumn) {
+          if (angular.isFunction(instanceButton.isDisabled)) {
+            var isDisabled = instanceButton.isDisabled(currentObject);
+
+            if (isDisabled) {
+              return true;
+            } else {
+              return false;
+            }
+          }
+          return false;
+        };
+
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // CALLBACK CLICK ROW
         ///////////////////////////////////////////////////////////////////////////////////////////////

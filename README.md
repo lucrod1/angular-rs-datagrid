@@ -1,4 +1,4 @@
-# Directive angular-rs-datagrid 
+# Directive angular-rs-datagrid
 #### Directive is under development, version beta
 
 ## Installation
@@ -23,7 +23,7 @@ This component works with two dependencies, angular-input-mask and angular-ui-se
 ## How to use
 include module into app
 
-``` 
+```
 rs.datagrid
 ```
 
@@ -44,9 +44,9 @@ $scope.config =
  "sumLabel"  : "Total: ",                             // optional, default: "Total: "
  "sort": true,                                        // optional, default: false
  "defaultSort": "id,asc",                             // optional, default is first "collumn.index", asc
-  
+
  "collumns": [{                                       // required
-  "title": "ID",                                      // title of collumn                           
+  "title": "ID",                                      // title of collumn
   "index": "id",                                      // Property that will print in the column
   "class": "text-center" || function(row){},                             // optional, class od <th> and <td> is Possible used calback function(row)
   "style": {                                          // optional
@@ -69,7 +69,7 @@ $scope.config =
 {
  ...
  "search": {
-   "label": "Search: "         //optional 
+   "label": "Search: "         //optional
   }
   ...
 }
@@ -119,7 +119,7 @@ $scope.config =
 {
   ...
   "collumns": [{                          // required
-    "title": "Render",                    // title of collumn                           
+    "title": "Render",                    // title of collumn
     "index": "name",                      // Property that will print in the column
     "render": function(row){              // callback for override the output
       return row.id+' - '+row.name;
@@ -128,14 +128,14 @@ $scope.config =
   ...
 }
 ```
-Is possible render html content, for this defines property isHtml 
+Is possible render html content, for this defines property isHtml
 
 ```
 $scope.config =
 {
   ...
   "collumns": [{                          // required
-    "title": "Render",                    // title of collumn                           
+    "title": "Render",                    // title of collumn
     "index": "name",                      // Property that will print in the column
     "isHtml": true,
     "render": function(row){              // callback for override the output
@@ -189,7 +189,7 @@ $scope.config =
   ...
   "collumns": [
   {
-    "title": "",                                      // title of collumn                           
+    "title": "",                                      // title of collumn
     "index": "enable",                                // Property that will print in the column
     "class": "text-center",                           // optional, class od <th> and <td>
     "sort": false,                                    // optional default: true
@@ -250,7 +250,7 @@ $scope.config =
     "index": "nickName",
     "action": {
       "type": "input",
-      "class": "input-rs",                // optional 
+      "class": "input-rs",                // optional
       "style": {                          // optional
        "width": "100px"
       },
@@ -263,7 +263,7 @@ $scope.config =
           return false;
         }
       },
-      "onChange": function(row) {         // callback when exec trigger 
+      "onChange": function(row) {         // callback when exec trigger
        console.log('Row actual: '+row);
       }
     }
@@ -285,9 +285,9 @@ $scope.config =
     "action": {
       "type": "input",
       "trigger": "blur",                  // required, default: 'blur', avaliables Triggers  'blur', 'change'
-      "mask": {                     
+      "mask": {
         "use": "number",                  // avaliables uses: 'number', 'money', 'br-phone','br-cep','br-cpf','br-cpfcnpj'
-        "decimalPlace": 2,                // number of decimals 
+        "decimalPlace": 2,                // number of decimals
         "maxlength": 11,
         "negative": true                  // optional, default false
       },
@@ -298,7 +298,7 @@ $scope.config =
           return false;
         }
       },
-      "onChange": function(row) {         // callback when exec trigger 
+      "onChange": function(row) {         // callback when exec trigger
        console.log("Row actual: "+row);
       }
     }
@@ -314,8 +314,8 @@ $scope.config =
 {
   ...
   mask: {
-    use: 'money',    
-    decimalPlace: 2,          // number of decimals 
+    use: 'money',
+    decimalPlace: 2,          // number of decimals
     maxlength: 11
   },
   ...
@@ -358,7 +358,7 @@ $scope.config =
   mask: {
     use: 'br-cpf'
   },
-  onChange: function(row, isValid) {      //callback 
+  onChange: function(row, isValid) {      //callback
     if(isValid){
       console.log('execute action here');
     }else{
@@ -379,7 +379,7 @@ $scope.config =
   mask: {
     use: 'br-cnpj'
   },
-  onChange: function(row, isValid) {      //callback 
+  onChange: function(row, isValid) {      //callback
     if(isValid){
       console.log('execute action here');
     }else{
@@ -391,7 +391,7 @@ $scope.config =
 ```
 
 ## Mask br-cpfcnpj
-Callback has two parameters, row and isValid, isValid is result validation 
+Callback has two parameters, row and isValid, isValid is result validation
 
 ```
 $scope.config =
@@ -400,7 +400,7 @@ $scope.config =
   mask: {
     use: 'br-cpfcnpj'
   },
-  onChange: function(row, isValid) {      //callback 
+  onChange: function(row, isValid) {      //callback
     if(isValid){
       console.log('execute action here');
     }else{
@@ -457,7 +457,7 @@ $scope.config =
     index: 'tag',
     action: {
       type: 'chosen',
-      placeholder: 'Selecione um tag...',  
+      placeholder: 'Selecione um tag...',
       class: '',                            // optional
       style: {                           // optional
        width: '100px'
@@ -564,18 +564,25 @@ $scope.config =
   collumns: [{...}],
   buttons: [
     {
-      text: 'Excluir',                              //optional 
+      text: 'Excluir',                              //optional
       classButton: 'btn btn-xs btn-primary',        // class ex: <button class="btn btn-xs btn-primary"></button>
       onClick: function(obj) {                      // callback when clicked
         console.log('Execute action here obj clicked:' + obj.id);
       }
     },
     {
-      tooltip: 'Tooltip',                           //optional 
+      tooltip: 'Tooltip',                           //optional
       classIcon: 'glyphicon glyphicon-remove',      // class for icon in button
       classButton: 'btn btn-xs btn-danger',         // class ex: <button class="btn btn-xs btn-danger"></button>
-      isVisible: function(obj) {                    // callback for handle when the button will be rendered according a expression boolean
-        if (obj.id == 1) {                        
+      isVisible: function(obj) {                    // callback for handle when the button will be rendered according a boolean expression
+        if (obj.id == 1) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+      isDisabled: function(obj) {                    // callback for handle when the button will be disabled according a boolean expression
+        if (obj.id == 1) {
           return false;
         } else {
           return true;
@@ -636,7 +643,7 @@ $scope.config =
     labelSize: 'Registros por página: ',              // optional, default "Page size: ""
     defaultSize: 10,                                  // optional, default first item in avaliableSizes
     avaliableSizes: [10, 25, 50, 100, 500],           // optional, default [10,25,50,100]
-    positionBottom: true                              // optional, default is true, position over top 
+    positionBottom: true                              // optional, default is true, position over top
   },
   ...
 }
@@ -644,7 +651,7 @@ $scope.config =
 
 When using paging, you must implement a lazyData function within the configuration, this function is responsive to update or components automatically, page sorts and other
 
-``` 
+```
 $scope.config =
 {
   ...
