@@ -95,7 +95,7 @@
           <ng-include src="'templates/multi-chosen-select2-template.html'" ng-if="collumn.isMultiChosen"></ng-include>
           <!-- render buttons -->
           <div class="actions pull-right" ng-if="$last && buttons && buttons.length > 0">
-            <button tooltip="{{button.tooltip}}" tooltip-append-to-body="true" data-original-title="{{button.tooltip}}" style="margin-left: 5px;" tooltip-placement="top" ng-if="isVisibleButton(button, row, $index)" type="button" ng-class="button.classButton" ng-click="button.onClick(row)" ng-repeat="button in buttons track by $index" ng-disabled="isDisabledButton(button, row, $index)">
+            <button tooltip="{{button.tooltip}}" tooltip-append-to-body="true" data-original-title="{{button.tooltip}}" style="margin-left: 5px;" tooltip-placement="top" ng-if="isVisibleButton(button, row, $index)" type="button" ng-class="button.classButton" ng-click="clickButton(button, row)" ng-repeat="button in buttons track by $index" ng-disabled="isDisabledButton(button, row, $index)">
               <span ng-class="button.classIcon"></span> {{button.text}}
             </button>
           </div>

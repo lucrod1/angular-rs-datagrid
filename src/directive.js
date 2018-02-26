@@ -887,6 +887,15 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           }
         };
 
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        // CALLBACK CLICK BUTTON
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+
+        scope.clickButton = function (button, row) {
+          event.stopImmediatePropagation();
+          return button.onClick(row); // button is a reference of memory of the ng-repeat in template
+        };
+
       }
     };
   }])
