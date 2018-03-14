@@ -571,6 +571,18 @@ $scope.config =
       }
     },
     {
+      text: function(row){                          //callback for condition text
+        return row.action.name;
+      }
+      ...
+    },
+    {
+      tooltip: function(row){                          //callback for condition text tooltip
+        return row.action.name;
+      }
+      ...
+    },
+    {
       tooltip: 'Tooltip',                           //optional
       classIcon: 'glyphicon glyphicon-remove',      // class for icon in button
       classButton: 'btn btn-xs btn-danger',         // class ex: <button class="btn btn-xs btn-danger"></button>

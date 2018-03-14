@@ -312,7 +312,9 @@ app.controller("demoController", function($scope, $http) {
     },
     buttons: [
       {
-        text: "Excluir",
+        text: function(row){
+          return row.city.name;
+        },
         classButton: "btn btn-xs btn-primary",
         onClick: function(obj) {
           console.log("Execute action here obj clicked:" + obj.id);
@@ -340,7 +342,9 @@ app.controller("demoController", function($scope, $http) {
         }
       },
       {
-        tooltip: "Quick talk",
+        tooltip: function(row){
+          return row.name;
+        },
         classIcon: "glyphicon glyphicon-remove",
         classButton: "btn btn-primary",
         onClick: function() {
