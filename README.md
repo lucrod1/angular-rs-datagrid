@@ -44,11 +44,12 @@ $scope.config =
  "sumLabel"  : "Total: ",                             // optional, default: "Total: "
  "sort": true,                                        // optional, default: false
  "defaultSort": "id,asc",                             // optional, default is first "collumn.index", asc
+ "classRow": "disabled" || function(row){},           // optional, class on <tr> is possible used calback function(row)
 
  "collumns": [{                                       // required
   "title": "ID",                                      // title of collumn
   "index": "id",                                      // Property that will print in the column
-  "class": "text-center" || function(row){},                             // optional, class od <th> and <td> is Possible used calback function(row)
+  "class": "text-center" || function(row){},          // optional, class od <th> and <td> is Possible used calback function(row)
   "style": {                                          // optional
    "width": "60px"                                    // It is possible to define some properties in html
   }
