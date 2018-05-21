@@ -389,6 +389,18 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         };
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
+        // VARIABLES AND METHODS FOR SET CLASS IN TR
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+
+        scope.getClassRow = function(row) {
+          if (angular.isFunction(scope.config.classRow)) {
+            return scope.config.classRow(row);
+          } else if (scope.config.classRow) {
+            return scope.config.classRow;
+          }
+         };
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////
         // VARIABLES AND METHODS FOR PRINT CONTENT CELL
         ///////////////////////////////////////////////////////////////////////////////////////////////
         angular.isUndefinedOrNull = function (val) {
