@@ -102,7 +102,7 @@
               style="margin-left: 5px;" tooltip-placement="top" 
               ng-if="isVisibleButton(button, row, $index)" 
               type="button" ng-class="button.classButton" 
-              ng-click="clickButton(button, row)" 
+              ng-click="clickButton($event, button, row)" 
               ng-repeat="button in buttons track by $index" 
               ng-disabled="isDisabledButton(button, row, $index)">
                 <span ng-class="button.classIcon"></span> {{getLabelButton(button, row)}}
