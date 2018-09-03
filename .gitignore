@@ -6,3 +6,4 @@ test/
 tests/coverage
 .DS_Store
 yarn.lock
+.idea
