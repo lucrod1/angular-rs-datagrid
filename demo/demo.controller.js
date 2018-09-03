@@ -29,6 +29,9 @@ app.controller("demoController", function($scope, $http) {
         return row;
       }
     },
+    setupColumns: {
+        id: 'table1' // id tables with id user for persist in local storage
+    },
 
     collumns: [
       //   {

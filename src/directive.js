@@ -25,6 +25,8 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         scope.avaliablesChoisesChosen = [];
         scope.avaliablesChoisesMultiChosen = [];
         scope.currentTr = null;
+        scope.enableConfig = false;
+        scope.isPossibleConfig = false;
         scope.filter = {
           search: null
         };
@@ -33,7 +35,29 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
           scope.hasPagination = true;
         }
 
-        ///////////////////////////////////////////////////////////////////////////////////////////////
+        if (scope.config.setupColumns) {
+            if (scope.config.setupColumns.id) {
+              scope.isPossibleConfig = true;
+
+              var keyStorage = 'CONFIG_COLUMNS_'+scope.config.setupColumns.id;
+              var storage = localStorage.getItem(keyStorage);
+
+              if (storage) {
+                  scope.columnsToFilter = JSON.parse(storage);
+              } else {
+                  scope.columnsToFilter = angular.forEach(scope.config.collumns, function (col){
+                      col.show = true;
+                  });
+                  localStorage.setItem(keyStorage, JSON.stringify(scope.columnsToFilter));
+              }
+            } else {
+                scope.columnsToFilter = [];
+                throw new Error('Missing property, "id" property is required for setupColumns');
+            }
+        }
+
+
+          ///////////////////////////////////////////////////////////////////////////////////////////////
         // INIT SET PROPERT SHOW ACTIONS
         ///////////////////////////////////////////////////////////////////////////////////////////////
         angular.forEach(scope.collumns, function (collumn) {
@@ -928,6 +952,19 @@ angular.module('rs.datagrid', ['ui.utils.masks', 'ui.select'])
         scope.clickButton = function (event, button, row) {
           event.stopImmediatePropagation();
           return button.onClick(row); // button is a reference of memory of the ng-repeat in template
+        };
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        // CONFIG COLUMNS
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        scope.showConfigColumn = function(evt) {
+          var container = document.getElementsByClassName('container-columns')[0];
+          container.style.left = evt.clientX-265+'px';
+          scope.enableConfig = !scope.enableConfig;
+        };
+
+        scope.changeLocalStorageConfig = function(){
+            localStorage.setItem(keyStorage, JSON.stringify(scope.columnsToFilter));
         };
 
       }

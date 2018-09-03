@@ -35,6 +35,23 @@
     <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(300deg) translate(0,-50px);transform:rotate(300deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
     <div style='top:-10px;left:90px;width:14px;height:40px;background:#959b9e;-webkit-transform:rotate(330deg) translate(0,-50px);transform:rotate(330deg) translate(0,-50px);border-radius:10px;position:absolute;'></div>
   </div>
+
+  <!-- config show collumns -->
+  <div class="columns-config" ng-show="isPossibleConfig" ng-click="showConfigColumn($event)" tooltip="Configurar colunas">
+    <i class="glyphicon glyphicon-cog"></i>
+  </div>
+
+  <div class="container-columns" ng-show="enableConfig">
+    <i ng-click="enableConfig = false" class="pull-right glyphicon glyphicon-remove"></i>
+    <ul>
+      <li ng-repeat="column in columnsToFilter track by $index">
+        <input type="checkbox" ng-change="changeLocalStorageConfig()" ng-model="column.show">
+        {{ column.title }}
+      </li>
+    </ul>
+  </div>
+  <!-- end config show collumns -->
+
   <!-- pagination search -->
   <div ng-if="hasSearch" class="pagination_search">
     <span ng-bind="search.label"></span>
@@ -48,7 +65,7 @@
   <table ng-class="config.classTaable || 'table table-bordered table-striped'">
     <thead>
       <tr>
-        <th ng-class="collumn.class" ng-style="collumn.style" style="cursor: {{getCursorCollumn(collumn)}}" ng-click="sortCollumn(collumn)" ng-repeat="collumn in collumns track by $index">
+        <th ng-show="!isPossibleConfig || (isPossibleConfig && columnsToFilter[$index].show)" ng-class="collumn.class" ng-style="collumn.style" style="cursor: {{getCursorCollumn(collumn)}}" ng-click="sortCollumn(collumn)" ng-repeat="collumn in collumns track by $index">
           <input ng-click="clickCheckboxHeader(collumn, collumn.checkboxHeader)" ng-if="collumn.action.type ==='checkbox' && collumn.action.checkInHeader" type="checkbox" ng-model="collumn.checkboxHeader" name="checkbox_0" id="checkbox_0"> {{collumn.title}}
           <i ng-if="hasSortCollumnDirection(collumn, 'asc')" class="icon-sort asc"></i>
           <i ng-if="hasSortCollumnDirection(collumn, 'desc')" class="icon-sort desc"></i>
@@ -58,7 +75,7 @@
     </thead>
     <tbody>
       <tr class="{{getClassRow(row)}}" ng-if="!showInfoProgress" ng-click="clickRow(row)" ng-mouseover="hoverTr($event, row)" ng-mouseout="outTr()" ng-repeat="row in getCollection() track by $index">
-        <td class="{{getClass(collumn, row)}}" ng-click="clickCell($event, row, collumn.index)" ng-style="collumn.style" ng-repeat="collumn in collumns track by $index">
+        <td ng-show="!isPossibleConfig || (isPossibleConfig && columnsToFilter[$index].show)"  class="{{getClass(collumn, row)}}" ng-click="clickCell($event, row, collumn.index)" ng-style="collumn.style" ng-repeat="collumn in collumns track by $index">
           <!-- print html text-->
           <div style="display: inline-block;" ng-if="collumn.isHtml && !collumn.action" ng-bind-html-compile="row._internal[collumn.index] | unsafe"></div>
           <!-- print static text -->
