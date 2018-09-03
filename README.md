@@ -76,6 +76,20 @@ $scope.config =
 }
 ```
 
+## How configure columns show visibles
+Defines a property search inside property config
+
+```
+$scope.config =
+{
+ ...
+ "setupColumns": {
+   "id": "name_of_table_with_cod_user_logged" //id tables with id user for persist in local storage
+  }
+  ...
+}
+```
+
 ## How to set a value in the search field
 Use the auxiliary method "_setSearch" specifying the value
 
